@@ -26,6 +26,7 @@
     "graphql-tag": "^2.12.6",
     "graphql-ws": "^5.8.2",
     "pinia": "^2.0.14",
+    "string-template": "^1.0.0",
     "vue": "^3.2.37",
     "vue-cookies": "^1.8.1",
     "vue-router": "^4.0.16"
@@ -36,6 +37,7 @@
     "@types/eslint": "^8.4.3",
     "@types/node": "^18.7.1",
     "@types/shelljs": "^0.8.11",
+    "@types/string-template": "^1.0.2",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
     "@vitejs/plugin-vue": "^3.0.0",
@@ -54,6 +56,7 @@
     "unplugin-vue-components": "^0.22.4",
     "vite": "^3.0.0",
     "vite-plugin-eslint": "^1.6.1",
+    "vite-plugin-inspect": "^0.6.0",
     "vite-tsconfig-paths": "^3.5.0",
     "vue-tsc": "^0.38.4"
   }
