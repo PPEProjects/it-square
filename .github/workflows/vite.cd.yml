@@ -32,6 +32,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ../var/www/it-square
+            rm -rf .env
             git reset --hard
             git pull
 
@@ -50,6 +51,6 @@ jobs:
           port: ${{ secrets.PORT }}
           rm: true
           source: ".env"
-          target: ".env"
+          target: "../var/www/it-square"
 
 
