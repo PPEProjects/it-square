@@ -36,10 +36,12 @@ interface ImportMetaEnv {
 
           if(/^\w*=/.test(line)) {
             template += `\n  readonly ${line.split('=')[0]}: string`
-          } else {
-            // Todo: add support for comments
-            template += `\n`
+          } else if (/^#/.test(line)) {
+            // Dòng comment
+            template += `\n  // ${line.replace(/^#/, '').trim()}`
             // template += `\n  // ${line}`
+          } else {
+            template += `\n`
           }
         })
 
@@ -48,10 +50,13 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
-`
+`.trim()
         fs.writeFileSync('./types/env.d.ts', template)
       }
     },
+    /**
+     * Cập nhật env.example
+     */
     async buildEnd() {
       await shell.exec('npm run build:env')
     }

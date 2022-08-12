@@ -8,6 +8,7 @@ interface ImportMetaEnv {
   readonly VITE_SMILE_EYE_SERVER: string
   readonly VITE_SMILE_EYE_GRAPHQL: string
 
+  // Máy chủ lưu trữ
   readonly VITE_BUNNY_URL: string
   readonly VITE_BUNNY_TOKEN: string
 
@@ -16,7 +17,6 @@ interface ImportMetaEnv {
   readonly VITE_NOTIFY_API_KEY: string
 
 }
-
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
