@@ -23,20 +23,35 @@ jobs:
         node-version: [ 16.x ]
 
     steps:
-      - name: ➜  VPS
+      - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: |
-            cd ../var/www/it-square
-            git reset --hard
-            git pull
-            touch .env
-            echo "${{ secrets.ENV }}" > .env
-            npm i
-            npm run build
-            npm run restart
-          
+
+      - name: Go to the directory
+        run: |
+          cd ../var/www/it-square
+
+      - name: Pull the latest code
+        run: |
+          git reset --hard
+          git pull
+
+      - name: Create .env file
+        run: |
+          touch .env
+          echo "${{ secrets.ENV }}" > .env
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Restart the server
+        run: npm run restart
+
+
