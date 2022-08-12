@@ -33,11 +33,12 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            echo "➜  ENV: $IT_ENV"
             cd ../var/www/it-square
             git reset --hard
             git pull
             touch .env
-            echo ${IT_ENV} > .env
+            echo $IT_ENV > .env
             npm i
             npm run build
             npm run stop
