@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
+    "build:env": "sed 's/=.*/=/' .env > .env.example",
     "lint:script": "eslint --ext .ts,vue --ignore-path .gitignore .",
     "apollo:codegen": "npx apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --tagName=gql --includes=./src/apollo/smileeye/**/*.ts --globalTypesFile=__generated__/smileeyeTypes.ts",
     "apollo:download": "npx apollo client:download-schema --endpoint=https://v2-be.smileeye.edu.vn/graphql schema.graphql",
@@ -14,6 +15,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.6",
+    "@formkit/auto-animate": "^1.0.0-beta.1",
     "@nguyenshort/vue3-loading-indicator": "^0.0.7",
     "@vue/apollo-composable": "^4.0.0-alpha.17",
     "@vueuse/core": "^9.1.0",

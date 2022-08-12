@@ -1,6 +1,12 @@
 import { Plugin } from 'vite'
 import fs from 'fs'
+import shell from 'shelljs'
 
+// let cache: string[] = []
+
+/**
+ * Cache sẽ không chạy vì server sẽ luôn restart => cache memory sẽ bị reset
+ */
 export default () => {
   const content: Plugin = {
     name: 'vite:env-generator',
@@ -10,7 +16,22 @@ export default () => {
       if(envContent) {
         const lines: string[] = envContent.split('\n').map(line => line.trim())
 
-        let template = `interface ImportMetaEnv {`
+        // List env keys
+        // const _keys = lines.filter(line => /^\w*=/.test(line)).map(line => line.split('=')[0])
+        // // check cache
+        // if(_keys.length === cache.length && _keys.every(key => cache.includes(key))) {
+        //   // Không có gì thay đổi
+        //   return
+        // }
+        // Update cache
+        // cache = _keys
+
+        let template = `
+// GENERATE BY ./src/plugins/vite/env.ts
+// Author: nguyenshort@gmail.com
+// DON'T EDIT IT MANUALLY
+interface ImportMetaEnv {
+`.trim()
         lines.forEach(line => {
 
           if(/^\w*=/.test(line)) {
@@ -29,6 +50,8 @@ interface ImportMeta {
 }
 `
         fs.writeFileSync('./types/env.d.ts', template)
+
+        await shell.exec('npm run build:env')
       }
     }
   }

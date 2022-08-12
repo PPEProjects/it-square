@@ -1,7 +1,8 @@
+// GENERATE BY ./src/plugins/vite/env.ts
+// Author: nguyenshort@gmail.com
+// DON'T EDIT IT MANUALLY
 interface ImportMetaEnv {
   readonly NODE_ENV: string
-
-  readonly VITE_ISQUARE: string
 
   readonly VITE_SMILE_EYE_SERVER: string
   readonly VITE_SMILE_EYE_GRAPHQL: string
