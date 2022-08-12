@@ -33,7 +33,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            echo ➜  ENV: $IT_ENV
+            echo ➜  ENV: ${{ secrets.HOST }}
             cd ../var/www/it-square
             git reset --hard
             git pull
@@ -41,6 +41,5 @@ jobs:
             echo $IT_ENV > .env
             npm i
             npm run build
-            npm run stop
-            pm2 start
+            npm run restart
           
