@@ -81,7 +81,7 @@ export default ({ mode }) => {
           secure: true,
           rewrite: (path) => path.replace(/^\/smileeye/, '')
         }
-      }
+      },
     }
   })
 }
