@@ -39,8 +39,8 @@ jobs:
       - name: Create .env file
         uses: SpicyPizza/create-envfile@v1.3.0
         with:
-          envkey_PORT: ${{ secrets.HOST }}
-          envkey_VITE_SMILE_EYE_GRAPHQL: ${{ secrets.HOST }}
+          envkey_PORT: ${{ secrets.PORT }}
+          envkey_VITE_SMILE_EYE_GRAPHQL: ${{ secrets.VITE_SMILE_EYE_GRAPHQL }}
 
       - name: copy file via ssh password
         uses: appleboy/scp-action@master
