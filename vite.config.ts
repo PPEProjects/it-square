@@ -85,10 +85,10 @@ export default ({ mode }) => {
       }
     },
     preview: {
-      port: Number(env.PORT) || 3000,
+      port: Number(env.VITE_PORT) || 3000,
     },
     server: {
-      port: Number(env.PORT) || 3000,
+      port: Number(env.VITE_PORT) || 3000,
       proxy: {
         '/bunny': {
           // @ts-ignore

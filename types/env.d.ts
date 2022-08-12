@@ -5,7 +5,7 @@
  * DON'T EDIT IT MANUALLY
  */
 interface ImportMetaEnv {
-  readonly PORT: string
+  readonly VITE_PORT: string
 
   readonly VITE_SMILE_EYE_SERVER: string
   readonly VITE_SMILE_EYE_GRAPHQL: string
