@@ -50,9 +50,10 @@ interface ImportMeta {
 }
 `
         fs.writeFileSync('./types/env.d.ts', template)
-
-        await shell.exec('npm run build:env')
       }
+    },
+    async buildEnd() {
+      await shell.exec('npm run build:env')
     }
   }
 
