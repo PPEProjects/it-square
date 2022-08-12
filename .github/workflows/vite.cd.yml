@@ -25,8 +25,6 @@ jobs:
     steps:
       - name: ➜  VPS
         uses: appleboy/ssh-action@master
-        env:
-          IT_ENV: ${{ secrets.ENV }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
@@ -38,7 +36,7 @@ jobs:
             git reset --hard
             git pull
             touch .env
-            echo ${{ secrets.PORT }} > .env
+            echo ${{ secrets.ENV_CONTENT }} > .env
             npm i
             npm run build
             npm run restart
