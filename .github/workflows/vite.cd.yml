@@ -72,5 +72,5 @@ jobs:
             
             cp -fr nginx.conf /../../../etc/nginx/conf.d/it-square.conf
             
-            sed -i '' "s/%PORT%/${{ secrets.VITE_PORT }}/" /../../../etc/nginx/conf.d/it-square.conf
-            sed -i '' "s/%DOMAIN%/${{ secrets.VITE_PORT }}/" /../../../etc/nginx/conf.d/it-square.conf
+            sed -i "s/%PORT%/${{ secrets.VITE_PORT }}/" /../../../etc/nginx/conf.d/it-square.conf
+            sed -i "s/%DOMAIN%/${{ secrets.VITE_PORT }}/" /../../../etc/nginx/conf.d/it-square.conf
