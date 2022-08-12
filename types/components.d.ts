@@ -8,7 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     HelloWorld: typeof import('./../src/components/HelloWorld.vue')['default']
-    IIcBaselineAddReaction: typeof import('~icons/ic/baseline-add-reaction')['default']
     MasterLayout: typeof import('./../src/components/includes/MasterLayout.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
