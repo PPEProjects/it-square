@@ -7,6 +7,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import path from 'path'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import Inspect from 'vite-plugin-inspect'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
 
 // @ts-ignore
@@ -51,6 +52,9 @@ export default ({ mode }) => {
         resolvers: [
           IconsResolver({
             prefix: 'i'
+          }),
+          AntDesignVueResolver({
+            importStyle: 'less'
           })
         ],
         dts: path.resolve(__dirname, 'types/components.d.ts')
@@ -64,6 +68,22 @@ export default ({ mode }) => {
       Inspect({}),
       EnvGenerator()
     ],
+    css: {
+      preprocessorOptions: {
+        less: {
+          modifyVars: {
+            'primary-color': '#3b66f5',
+            'surface-lighter': '#f6f7fc',
+            'table-header-bg': '#fff',
+            'table-header-color': 'rgba(18,18,23,.6)',
+            'table-selected-row-bg': '#fff',
+            'font-family':
+              '"Avenir Next", Roboto, "Segoe UI", "Open Sans", "Helvetica Neue", "PingFang SC", "Songti SC", "Heiti SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif'
+          },
+          javascriptEnabled: true
+        }
+      }
+    },
     server: {
       port: Number(env.PORT) || 3000,
       proxy: {
