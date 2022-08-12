@@ -37,7 +37,7 @@ jobs:
             git reset --hard
             git pull
             touch .env
-            echo '${IT_ENV}' > .env
+            echo ${IT_ENV} > .env
             npm i
             npm run build
             npm run stop
