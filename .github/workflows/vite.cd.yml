@@ -49,7 +49,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          rm: true
           source: ".env"
           target: "../var/www/it-square"
 
