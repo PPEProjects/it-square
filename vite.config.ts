@@ -51,6 +51,8 @@ export default defineConfig({
     Icons({
       autoInstall: true
     }),
-    tsconfigPaths()
+    tsconfigPaths({
+      loose: true
+    })
   ]
 })

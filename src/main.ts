@@ -1,24 +1,29 @@
 import { createApp } from 'vue'
-import './style.css'
+import './firebase'
+import './assets/tailwind.css'
+
 import App from './App.vue'
 
 import VueCookies from 'vue-cookies'
-
-// Pinna store
+import VueLoadingIndicator from '@nguyenshort/vue3-loading-indicator'
 import { createPinia } from 'pinia'
-const pinia = createPinia()
 
 import router from './routes'
-
-
-import VueLoadingIndicator from '@nguyenshort/vue3-loading-indicator'
+import axios from './plugins/axios'
+import animejs from './plugins/animejs'
+import dayjs from './plugins/dayjs'
 
 const app = createApp(App)
 
+app.use(dayjs)
+app.use(animejs)
+app.use(axios)
 app.use(VueLoadingIndicator)
-app.use(pinia)
+app.use(createPinia())
 app.use(VueCookies)
 
 app.use(router)
 
 app.mount('#app')
+
+window.$vue = app

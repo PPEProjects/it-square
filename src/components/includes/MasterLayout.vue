@@ -38,7 +38,7 @@ const vueClientInit = async  () => {
 
 await vueClientInit()
 
-const layouts = ref<Record<string, ReturnType<typeof defineComponent>>>({})
+const layouts = shallowRef<Record<string, ReturnType<typeof defineComponent>>>({})
 
 const allowedLayouts = ['default', 'blank']
 const asyncLayout = () => {
