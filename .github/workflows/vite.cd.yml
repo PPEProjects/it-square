@@ -31,6 +31,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            echo ${{ secrets.ENV }}
             cd ../var/www/it-square
             git reset --hard
             git pull
