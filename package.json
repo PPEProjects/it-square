@@ -2,7 +2,6 @@
   "name": "it-square",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "NODE_OPTIONS=--max-old-space-size=8192 vue-tsc --noEmit && vite build",
