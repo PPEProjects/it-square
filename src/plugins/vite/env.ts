@@ -11,6 +11,10 @@ export default () => {
   const content: Plugin = {
     name: 'vite:env-generator',
     async buildStart() {
+      if(process.env.NODE_ENV === 'production') {
+        return
+      }
+
       const envContent = fs.readFileSync('.env', 'utf8')
 
       if(envContent) {
@@ -61,6 +65,9 @@ interface ImportMeta {
      * Cập nhật env.example
      */
     async buildEnd() {
+      if(process.env.NODE_ENV === 'production') {
+        return
+      }
       await shell.exec('npm run build:env')
     }
   }
