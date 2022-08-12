@@ -25,18 +25,19 @@ jobs:
     steps:
       - name: ➜  VPS
         uses: appleboy/ssh-action@master
+        env:
+          IT_ENV: ${{ secrets.ENV }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            echo ${{ secrets.ENV }}
             cd ../var/www/it-square
             git reset --hard
             git pull
             touch .env
-            echo ${{ secrets.ENV }} > .env
+            echo '${IT_ENV}' > .env
             npm i
             npm run build
             npm run stop
