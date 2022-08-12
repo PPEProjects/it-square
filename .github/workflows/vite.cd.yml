@@ -66,11 +66,17 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ../var/www/it-square
+            
+            echo "Building project"
+            
             npm i
             npm run build
             npm run restart
             
-            cp -fr nginx.conf /../../../etc/nginx/conf.d/it-square.conf
+            echo "Update nginx"
             
+            cp -fr nginx.conf /../../../etc/nginx/conf.d/it-square.conf
             sed -i "s/%PORT%/${{ secrets.VITE_PORT }}/" /../../../etc/nginx/conf.d/it-square.conf
-            sed -i "s/%DOMAIN%/${{ secrets.VITE_PORT }}/" /../../../etc/nginx/conf.d/it-square.conf
+            sed -i "s/%DOMAIN%/${{ secrets.VITE_DOMAIN }}/" /../../../etc/nginx/conf.d/it-square.conf
+            
+            nginx -s reload
