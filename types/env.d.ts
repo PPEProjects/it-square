@@ -1,6 +1,9 @@
-// GENERATE BY ./src/plugins/vite/env.ts
-// Author: nguyenshort@gmail.com
-// DON'T EDIT IT MANUALLY
+/**
+ * @description Auto created by src/plugins/vite/env.ts 
+ * @author: Yuan
+ * @link https://github.com/nguyenshort
+ * DON'T EDIT IT MANUALLY
+ */
 interface ImportMetaEnv {
   readonly NODE_ENV: string
   readonly PORT: string
