@@ -23,35 +23,32 @@ jobs:
         node-version: [ 16.x ]
 
     steps:
-      - name: executing remote ssh commands using password
+      - name: Update project dependencies
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-
-      - name: Go to the directory
-        run: |
-          cd ../var/www/it-square
-
-      - name: Pull the latest code
-        run: |
-          git reset --hard
-          git pull
+          script: |
+            cd ../var/www/it-square
+            git reset --hard
+            git pull
 
       - name: Create .env file
-        run: |
-          touch .env
-          echo "${{ secrets.ENV }}" > .env
+        uses: SpicyPizza/create-envfile@v1.3.0
+        with:
+          envkey_DEBUG: false
+          envkey_SOME_API_KEY: "123456abcdef"
 
-      - name: Install dependencies
-        run: npm i
-
-      - name: Build the project
-        run: npm run build
-
-      - name: Restart the server
-        run: npm run restart
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: ".env"
+          target: ".env"
 
 
