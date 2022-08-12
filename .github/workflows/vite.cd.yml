@@ -36,7 +36,7 @@ jobs:
             git reset --hard
             git pull
             touch .env
-            echo ${{ secrets.ENV_CONTENT }} > .env
+            echo ${{ secrets.ENV }} > .env
             npm i
             npm run build
             npm run restart
