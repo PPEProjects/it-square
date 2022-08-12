@@ -1,0 +1,54 @@
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import Components from 'unplugin-vue-components/vite'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
+import AutoImport from 'unplugin-auto-import/vite'
+import path from 'path'
+import tsconfigPaths from 'vite-tsconfig-paths'
+
+// @ts-ignore
+// import GrapHQLGenerator from './src/plugins/vite'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    vue(),
+    AutoImport({
+      imports: [
+        'vue',
+        'vue-router',
+        {
+          '@vue/apollo-composable': [
+            'useSubscription'
+          ]
+        }
+      ],
+      include: [
+        /\.[tj]sx?$/,
+        /\.vue$/, /\.vue\?vue/,
+        /\.md$/
+      ],
+      dirs: [
+        path.resolve(__dirname, 'store/**')
+      ],
+      dts: path.resolve(__dirname, 'types/auto-imports.d.ts'),
+      eslintrc: {
+        enabled: true,
+        globalsPropValue: true
+      },
+    }),
+    Components({
+      resolvers: [
+        IconsResolver({
+          prefix: 'i'
+        })
+      ],
+      dts: path.resolve(__dirname, 'types/components.d.ts')
+    }),
+    Icons({
+      autoInstall: true
+    }),
+    tsconfigPaths()
+  ]
+})
