@@ -30,7 +30,8 @@ export default defineConfig({
         /\.md$/
       ],
       dirs: [
-        path.resolve(__dirname, 'store/**')
+        'src/**/composable/*', // blob pattern
+        'src/**/store',
       ],
       dts: path.resolve(__dirname, 'types/auto-imports.d.ts'),
       eslintrc: {

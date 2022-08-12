@@ -4,70 +4,86 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, inject } from 'vue'
-import { VueCookies } from 'vue-cookies'
-import { useUserStore } from '../../store/user'
+<script lang='ts' setup>
+import { useLoadingIndicator } from '@nguyenshort/vue3-loading-indicator'
 
-export default defineComponent({
-  name: 'MasterLayout',
-  async setup() {
-    // đọc cookie
-    const cookies = inject<VueCookies>('$cookies')
-
-    // Lấy user
-    const useUser = useUserStore()
-    useUser.setToken(cookies?.get('_token'))
-
-    // kiểm tra cookie, lấy user
-    if (useUser._token) {
-      await useUser.getMe()
-    }
-
-    if(!useUser.auth) {
-      useUser.setToken('')
-      cookies?.remove('_token')
-    }
-
-    return {
-      useUser
-    }
-  },
-  computed: {
-    layout() {
-      // lấy layout từ router
-      return this.$route.meta.layout || 'default'
-    }
-  },
-  mounted() {
-    this.$loading.finish()
-  },
-  created() {
-    this.$loading.start()
-    //  hook the progress bar to start before we move router-view
-    this.$router.beforeEach((to, from, next) => {
-      //  does the page we want to go to have a meta.progress object
-      //  start the progress bar
-      this.$loading.start()
-      //  continue to next page
-      next();
-    });
-    //  hook the progress bar to finish after we've finished moving router-view
-    this.$router.afterEach(() => {
-      //  finish the progress bar
-      this.$loading.finish()
-    });
-  },
-  beforeCreate() {
-    // Không đăng nhập => /
-    if (this.useUser.auth) {
-      if (this.$route.path === '/') {
-        this.$router.replace('/dashboard')
-      }
-    } else {
-      this.$router.replace('/')
-    }
+const cookies = useCookies()
+const useUser = useUserStore()
+// Init app
+const vueClientInit = async  () => {
+  useUser.setToken(cookies?.get('_token'))
+  // kiểm tra cookie, lấy user
+  if (useUser._token) {
+    await useUser.getMe()
   }
+
+  if(!useUser.auth) {
+    useUser.setToken('')
+    cookies?.remove('_token')
+  }
+
+  // Todo: check auth
+  /**
+   * ```
+   * if (this.useUser.auth) {
+   *       if (this.$route.path === '/') {
+   *         this.$router.replace('/dashboard')
+   *       }
+   *     } else {
+   *       this.$router.replace('/')
+   *     }
+   * ```
+   */
+}
+
+await vueClientInit()
+
+const layouts = ref<Record<string, ReturnType<typeof defineComponent>>>({})
+
+const allowedLayouts = ['default', 'blank']
+const asyncLayout = () => {
+  allowedLayouts.forEach(layout => {
+    layouts.value[layout] = defineAsyncComponent(() => import(`../../layouts/${layout}.vue`))
+  })
+}
+
+asyncLayout()
+
+const route = useRoute()
+const layout = computed(() => {
+  // lấy layout từ router
+  const _name = allowedLayouts.includes(route.meta.layout || 'default') ? route.meta.layout || 'default' : 'default'
+  return layouts.value[_name]
+})
+
+// setup progress bar
+const router = useRouter()
+const $loading = useLoadingIndicator()
+const setupProgressLoading = () => {
+  $loading?.start()
+  router.beforeEach((to, from, next) => {
+    //  does the page we want to go to have a meta.progress object
+    //  start the progress bar
+    $loading?.start()
+    //  continue to next page
+    next();
+  })
+  router.afterEach(() => {
+    //  finish the progress bar
+    $loading?.finish()
+  })
+}
+
+setupProgressLoading()
+
+onMounted(() => {
+  $loading?.finish()
+})
+</script>
+
+<script lang="ts">
+export default defineComponent({
+  name: 'MasterLayout'
 })
 </script>
 
