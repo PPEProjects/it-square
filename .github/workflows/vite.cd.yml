@@ -70,7 +70,7 @@ jobs:
             npm run build
             npm run restart
             
-            cp -fr /nginx.conf /../../../etc/nginx/conf.d/it-square.conf
+            cp -fr nginx.conf /../../../etc/nginx/conf.d/it-square.conf
             
-            sed -i '' "s/%PORT%/${{ secrets.VITE_PORT }}/" nginx.conf
-            sed -i '' "s/%DOMAIN%/${{ secrets.VITE_PORT }}/" nginx.conf
+            sed -i '' "s/%PORT%/${{ secrets.VITE_PORT }}/" /../../../etc/nginx/conf.d/it-square.conf
+            sed -i '' "s/%DOMAIN%/${{ secrets.VITE_PORT }}/" /../../../etc/nginx/conf.d/it-square.conf
