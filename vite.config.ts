@@ -9,6 +9,9 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import Inspect from 'vite-plugin-inspect'
 
 
+// @ts-ignore
+import EnvGenerator from './src/plugins/vite/env'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -53,6 +56,25 @@ export default defineConfig({
     tsconfigPaths({
       loose: true
     }),
-    Inspect({})
-  ]
+    Inspect({}),
+    EnvGenerator()
+  ],
+  server: {
+    proxy: {
+      '/bunny': {
+        // @ts-ignore
+        target: 'https://sg.storage.bunnycdn.com/smileeyev2/',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/bunny/, '')
+      },
+      '/smileeye': {
+        // @ts-ignore
+        target: 'https://v2-be.smileeye.edu.vn/',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/smileeye/, '')
+      }
+    }
+  }
 })
