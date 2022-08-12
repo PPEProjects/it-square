@@ -61,6 +61,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ../var/www/it-square
-            npm run i
+            npm i
             npm run build
             npm run restart
