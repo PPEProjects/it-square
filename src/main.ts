@@ -8,6 +8,7 @@ import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import VueCookies from 'vue-cookies'
 import VueLoadingIndicator from '@nguyenshort/vue3-loading-indicator'
 import { createPinia } from 'pinia'
+import { MotionPlugin } from '@vueuse/motion'
 
 import router from './routes'
 import axios from './plugins/axios'
@@ -23,13 +24,14 @@ const app = createApp(App)
  */
 app.use(autoAnimatePlugin)
 
+app.use(apollo)
 app.use(dayjs)
 app.use(animejs)
 app.use(axios)
 app.use(VueLoadingIndicator)
 app.use(createPinia())
 app.use(VueCookies)
-app.use(apollo)
+app.use(MotionPlugin)
 
 app.use(router)
 

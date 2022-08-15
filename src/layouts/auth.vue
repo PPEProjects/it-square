@@ -2,7 +2,7 @@
   <div id='auth-layout'>
     <div class='auth-block form-wrapper'>
 
-      <div class='form-content'>
+      <div class='form-content flex flex-col items-center justify-center'>
         <div class='logo-block'>
           <router-link to='/' title='' class='logo-link'>
             <img
@@ -11,15 +11,13 @@
               alt=''
             >
           </router-link>
-          <h2>{{ title }}</h2>
+          <h2>{{ $route.meta.title }}</h2>
         </div>
 
-        <slot></slot>
+        <div class='w-full'>
+          <router-view />
+        </div>
 
-      </div>
-
-      <div class='action'>
-        <slot name='footer'></slot>
       </div>
 
     </div>
@@ -27,7 +25,7 @@
       <img
         v-motion
         class='absolute w-full h-full object-cover top-0 left-0 transition transform hover:scale-105 z-10'
-        :src='image'
+        src='/images/auth-bg.png'
         alt=''
         :initial="{
           opacity: 0,
@@ -51,18 +49,16 @@
           opacity: 1,
           y: 0,
         }"
-      >{{ description }}</p>
+      >PROJECT DESCRIPTION</p>
       </div>
     </div>
   </div>
 </template>
 
-<script lang='ts' setup>
-defineProps<{
-  image: string
-  title: string
-  description: string
-}>()
+<script lang='ts'>
+export default defineComponent({
+  name: 'AuthLayout',
+})
 </script>
 
 <style scoped>
@@ -94,16 +90,12 @@ defineProps<{
   @apply relative
 }
 
-.action {
-  @apply absolute bottom-[32px] left-0 right-0 flex items-center justify-center
-}
-
 .form-content {
-  @apply relative top-[144px] max-w-[400px] mx-auto px-4
+  @apply relative max-w-[400px] mx-auto px-4 h-full
 }
 
 .logo-block {
-  @apply flex items-center justify-center mb-[50px]
+  @apply flex items-center justify-center mb-[40px]
 }
 
 .logo-block h2 {
@@ -111,6 +103,6 @@ defineProps<{
 }
 
 .logo-link {
-  @apply w-[84px] h-[64px] block
+  @apply w-[74px] h-auto block
 }
 </style>

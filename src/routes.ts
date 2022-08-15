@@ -3,16 +3,32 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 let routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('./pages/index.vue'),
+    component: () => import('@pages/index.vue'),
     meta: { public: true }
   },
   {
-    path: '/auth/login',
-    component: () => import('./pages/auth/login/index.vue'),
+    path: '/auth',
+    redirect: '/auth/login',
     meta: {
       public: true,
-      layout: 'blank'
-    }
+      layout: 'auth'
+    },
+    children: [
+      {
+        path: '/auth/signin',
+        component: () => import('@pages/auth/signin/index.vue'),
+        meta: {
+          title: 'Đăng nhập'
+        }
+      },
+      {
+        path: '/auth/signup',
+        component: () => import('@pages/auth/signup/index.vue'),
+        meta: {
+          title: 'Đăng ký'
+        }
+      }
+    ]
   }
 ]
 

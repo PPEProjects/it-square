@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='text-gray-600'>
     <component :is="layout" :key="layout" />
   </div>
 </template>
@@ -40,7 +40,7 @@ await vueClientInit()
 
 const layouts = shallowRef<Record<string, ReturnType<typeof defineComponent>>>({})
 
-const allowedLayouts = ['default', 'blank']
+const allowedLayouts = ['default', 'blank', 'auth']
 const asyncLayout = () => {
   allowedLayouts.forEach(layout => {
     layouts.value[layout] = defineAsyncComponent(() => import(`../../layouts/${layout}.vue`))
