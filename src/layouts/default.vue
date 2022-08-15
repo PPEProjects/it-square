@@ -1,10 +1,13 @@
 <template>
   <div
-    :id="String($route.name) || ''"
     class="text-gray-600 min-h-screen"
   >
     <site-header />
-    <router-view />
+    <div
+      :id="String($route.name) || ''"
+    >
+      <router-view />
+    </div>
   </div>
 </template>
 

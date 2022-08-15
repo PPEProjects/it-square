@@ -62,7 +62,7 @@
 </template>
 
 <script lang='ts' setup>
-import { SignUpInputDto } from '@dto/auth-input.dto'
+import { SignUpInputDto } from '../../../dto/auth-input.dto'
 import { Rule } from 'ant-design-vue/es/form'
 
 const formState = reactive<SignUpInputDto>({

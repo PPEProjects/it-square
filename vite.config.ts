@@ -45,6 +45,7 @@ export default ({ mode }) => {
         dirs: [
           'src/**/composable/*', // blob pattern
           'src/**/store',
+          'src/**/dto',
         ],
         dts: path.resolve(__dirname, 'types/auto-imports.d.ts'),
         eslintrc: {

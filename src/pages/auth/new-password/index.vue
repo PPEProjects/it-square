@@ -39,7 +39,7 @@
 </template>
 
 <script lang='ts' setup>
-import { NewPasswordInputDto } from '@dto/auth-input.dto'
+import { NewPasswordInputDto } from '../../../dto/auth-input.dto'
 import { Rule } from 'ant-design-vue/es/form'
 
 const formState = reactive<NewPasswordInputDto>({

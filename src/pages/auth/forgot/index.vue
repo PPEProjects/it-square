@@ -43,7 +43,7 @@
 </template>
 
 <script lang='ts' setup>
-import { ForgotPasswordInputDto } from '@dto/auth-input.dto'
+import { ForgotPasswordInputDto } from '../../../dto/auth-input.dto'
 import { Rule } from 'ant-design-vue/es/form'
 
 const formState = reactive<ForgotPasswordInputDto>({

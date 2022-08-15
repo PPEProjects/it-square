@@ -45,7 +45,7 @@
 <script lang='ts' setup>
 import type { Rule } from 'ant-design-vue/es/form';
 
-import { LoginInputDto } from '@dto/auth-input.dto'
+import { LoginInputDto } from '../../../dto/auth-input.dto'
 
 const formState = reactive<LoginInputDto>({
   email: '',

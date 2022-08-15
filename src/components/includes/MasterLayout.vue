@@ -1,5 +1,5 @@
 <template>
-  <div class='text-gray-600'>
+  <div :id='$route.meta.layout || "default"' class='text-gray-600'>
     <component :is="layout" :key="layout" />
   </div>
 </template>
