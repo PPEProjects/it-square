@@ -3,11 +3,9 @@
 </template>
 
 <script>
-export default {
-  name: 'Index'
-}
+export default defineComponent({
+  name: 'HomePage'
+})
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

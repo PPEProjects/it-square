@@ -13,6 +13,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 // @ts-ignore
 import EnvGenerator from './src/plugins/vite/env'
 
+// @ts-ignore
 export default ({ mode }) => {
   // Load app-level env vars to node-level env vars.
   const env = loadEnv(mode, process.cwd(), '')

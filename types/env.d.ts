@@ -8,6 +8,8 @@ interface ImportMetaEnv {
   readonly VITE_PORT: string
   readonly VITE_DOMAIN: string
 
+  readonly VITE_TIEN: string
+
   readonly VITE_SMILE_EYE_SERVER: string
   readonly VITE_SMILE_EYE_GRAPHQL: string
 

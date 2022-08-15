@@ -10,7 +10,7 @@ let routes: RouteRecordRaw[] = [
     path: '/auth',
     redirect: '/auth/signin',
     meta: {
-      public: true,
+      public: false,
       layout: 'auth'
     },
     children: [

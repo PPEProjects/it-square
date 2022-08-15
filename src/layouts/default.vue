@@ -1,8 +1,9 @@
 <template>
   <div
     :id="String($route.name) || ''"
-    class="bg-primary-50 text-slate-900"
+    class="text-gray-600 min-h-screen"
   >
+    <site-header />
     <router-view />
   </div>
 </template>

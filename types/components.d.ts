@@ -15,8 +15,12 @@ declare module '@vue/runtime-core' {
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     AuthLayout: typeof import('./../src/components/auth/AuthLayout.vue')['default']
     HelloWorld: typeof import('./../src/components/HelloWorld.vue')['default']
+    IIcBaselineArrowBackIosNew: typeof import('~icons/ic/baseline-arrow-back-ios-new')['default']
+    IIonReorderThreeSharp: typeof import('~icons/ion/reorder-three-sharp')['default']
     MasterLayout: typeof import('./../src/components/includes/MasterLayout.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SiteHeader: typeof import('./../src/components/includes/SiteHeader.vue')['default']
+    TestComp: typeof import('./../src/components/TestComp.vue')['default']
   }
 }
