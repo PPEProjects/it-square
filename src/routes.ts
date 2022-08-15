@@ -6,6 +6,14 @@ let routes: RouteRecordRaw[] = [
     component: () => import('./pages/index.vue'),
     meta: { public: true }
   },
+  {
+    path: '/auth/login',
+    component: () => import('./pages/auth/login/index.vue'),
+    meta: {
+      public: true,
+      layout: 'blank'
+    }
+  }
 ]
 
 // Tạo router name, deep loop

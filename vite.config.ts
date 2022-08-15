@@ -20,6 +20,9 @@ export default ({ mode }) => {
    * @link https://vitejs.dev/config/
    */
   return defineConfig({
+    build: {
+      sourcemap: true,
+    },
     plugins: [
       vue(),
       AutoImport({

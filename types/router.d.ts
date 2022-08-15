@@ -3,7 +3,7 @@ import 'vue-router'
 
 declare module 'vue-router' {
   interface RouteMeta {
-    layout?: string
+    layout?: 'default' | 'blank' | string
     public?: boolean
   }
 }
