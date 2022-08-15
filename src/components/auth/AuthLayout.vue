@@ -9,6 +9,9 @@
           </router-link>
           <h2>{{ title }}</h2>
         </div>
+
+        <slot></slot>
+
       </div>
 
       <div class='action'>
@@ -69,11 +72,11 @@ defineProps<{
 }
 
 .form-content {
-  @apply relative top-[144px] max-w-md mx-auto px-4
+  @apply relative top-[144px] max-w-[400px] mx-auto px-4
 }
 
 .logo-block {
-  @apply flex items-center justify-center
+  @apply flex items-center justify-center mb-[50px]
 }
 
 .logo-block h2 {

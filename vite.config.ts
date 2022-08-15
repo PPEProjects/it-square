@@ -81,7 +81,7 @@ export default ({ mode }) => {
             'table-header-color': 'rgba(18,18,23,.6)',
             'table-selected-row-bg': '#fff',
             'font-family':
-              '"Avenir Next", Roboto, "Segoe UI", "Open Sans", "Helvetica Neue", "PingFang SC", "Songti SC", "Heiti SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif'
+              'Poppins, "Avenir Next", Roboto, "Segoe UI", "Open Sans", "Helvetica Neue", "PingFang SC", "Songti SC", "Heiti SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif'
           },
           javascriptEnabled: true
         }
