@@ -8,7 +8,7 @@ let routes: RouteRecordRaw[] = [
   },
   {
     path: '/auth',
-    redirect: '/auth/login',
+    redirect: '/auth/signin',
     meta: {
       public: true,
       layout: 'auth'
@@ -26,6 +26,20 @@ let routes: RouteRecordRaw[] = [
         component: () => import('@pages/auth/signup/index.vue'),
         meta: {
           title: 'Đăng ký'
+        }
+      },
+      {
+        path: '/auth/forgot',
+        component: () => import('@pages/auth/forgot/index.vue'),
+        meta: {
+          title: 'Quên mật khẩu?'
+        }
+      },
+      {
+        path: '/auth/new-password',
+        component: () => import('@pages/auth/new-password/index.vue'),
+        meta: {
+          title: 'Đặt lại mật khẩu?'
         }
       }
     ]

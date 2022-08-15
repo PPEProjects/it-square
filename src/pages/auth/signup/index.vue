@@ -1,6 +1,7 @@
 <template>
   <a-form
     :model="formState"
+    :rules='rules'
     layout='vertical'
     name="basic"
     autocomplete="off"
@@ -11,7 +12,6 @@
     <a-form-item
       label="Name"
       name="name"
-      :rules="[{ required: true, message: 'Please input your name!' }]"
     >
       <a-input v-model:value="formState.name" placeholder='User A' />
     </a-form-item>
@@ -20,7 +20,6 @@
     <a-form-item
       label="Email"
       name="email"
-      :rules="[{ required: true, message: 'Please input your email!' }]"
     >
       <a-input v-model:value="formState.email" placeholder='user@it-square.com' />
     </a-form-item>
@@ -28,7 +27,6 @@
     <a-form-item
       label="Phone"
       name="phone"
-      :rules="[{ required: true, message: 'Please input your phone!' }]"
     >
       <a-input v-model:value="formState.phone" placeholder='0123456789' />
     </a-form-item>
@@ -36,7 +34,6 @@
     <a-form-item
       label="Password"
       name="password"
-      :rules="[{ required: true, message: 'Please input your password!' }]"
     >
       <a-input-password v-model:value="formState.password" placeholder='**********' />
     </a-form-item>
@@ -48,11 +45,11 @@
       </div>
     </a-form-item>
 
-    <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+    <div class='flex justify-center'>
       <a-button type="primary" html-type="submit">
-        Submit
+        Sign Up
       </a-button>
-    </a-form-item>
+    </div>
   </a-form>
   <div class='text-center text-gray-500 action'>
     <p class='mb-0'>
@@ -65,9 +62,10 @@
 </template>
 
 <script lang='ts' setup>
-import { RegisterInputDto } from '@dto/auth-input.dto'
+import { SignUpInputDto } from '@dto/auth-input.dto'
+import { Rule } from 'ant-design-vue/es/form'
 
-const formState = reactive<RegisterInputDto>({
+const formState = reactive<SignUpInputDto>({
   name: '',
   email: '',
   phone: '',
@@ -75,7 +73,53 @@ const formState = reactive<RegisterInputDto>({
   acceptEmail: false,
 })
 
-const onFinish = (values: RegisterInputDto) => {
+const rules = ref<Record<string, Rule[]>>(
+  {
+    name: [
+      {
+        required: true,
+        message: 'Please input your name!',
+      },
+      {
+        min: 2,
+        max: 30,
+        message: 'Name must be between 2 and 10 characters!',
+      }
+    ],
+    email: [
+      {
+        required: true,
+        message: 'Please input your email!'
+      },
+      {
+        type: 'email',
+        message: 'The input is not valid E-mail!'
+      }
+    ],
+    phone: [
+      {
+        required: true,
+        message: 'Please input your phone!'
+      },
+      {
+        pattern: /^0[3456789]\d{9}$/,
+        message: 'The phone number is not valid!'
+      }
+    ],
+    password: [
+      {
+        required: true,
+        message: 'Please input your password!'
+      },
+      {
+        min: 8,
+        message: 'Password must be at least 8 characters long!'
+      }
+    ]
+  }
+)
+
+const onFinish = (values: SignUpInputDto) => {
   console.log('Success:', values);
 }
 
