@@ -13,38 +13,42 @@
       </div>
 
       <div class='menu-list h-full flex items-center flex-shrink-0 text-gray-500'>
-        <button class='block'>
-          <div class='flex items-center'>
+        <div class='menu-item _has_sub'>
+          <button class='flex items-center'>
             <i-ri-compass-3-fill class='text-[23px]' />
             <h5 class='mb-0 text-current font-semibold ml-2 text-[15px]'>
               Technology
             </h5>
-          </div>
-        </button>
+          </button>
 
-        <button class='block ml-7'>
-          <div class='flex items-center'>
+          <!-- Menu -->
+          <sub-menu />
+
+        </div>
+
+        <div class='menu-item'>
+          <button class='flex items-center'>
             <i-bx-bxs-category-alt class='text-[23px]' />
             <h5 class='mb-0 text-current font-semibold ml-2 text-[15px]'>Category</h5>
-          </div>
-        </button>
+          </button>
+        </div>
 
-        <button class='block ml-7'>
-          <div class='flex items-center'>
+        <div class='menu-item'>
+          <button class='flex items-center'>
             <i-mdi-pencil-circle class='text-[23px]' />
             <h5 class='mb-0 text-current font-semibold ml-2 text-[15px]'>Studio</h5>
-          </div>
-        </button>
+          </button>
+        </div>
 
       </div>
 
-      <div class='w-full flex justify-end h-full py-4 pr-3'>
+      <div class='w-full flex justify-end h-full py-3.5 pr-3'>
         <form class='w-[280px] h-full' action='/search'>
           <input
             type='text'
             placeholder='Search...'
             readonly
-            class='w-full rounded-full border h-full focus:outline-0 cursor-pointer pl-4'
+            class='w-full rounded-full border h-full focus:outline-0 cursor-pointer pl-4 transition hover:bg-primary-50 hover:border-primary-500 hover:placeholder-primary-500'
           />
         </form>
       </div>
@@ -89,5 +93,18 @@ export default {
 .header-user {
   @apply flex items-center flex-shrink-0
 }
+.menu-list > .menu-item {
+  @apply ml-7 first:ml-0 relative
+}
+.menu-list > .menu-item > button {
+  @apply hover:text-primary-500
+}
 
+.menu-item._has_sub .sub-menu {
+  @apply transition translate-x-[-40px] opacity-0 invisible;
+}
+
+.menu-item._has_sub:hover .sub-menu {
+  @apply translate-x-[-10px] opacity-100 visible;
+}
 </style>
