@@ -83,7 +83,7 @@
 import { computed } from 'vue'
 
 const project = ref({
-  name: 'Kẻ Theo Đuổi Ánh Sánh',
+  name: 'Kẻ Theo Đuổi Ánh Sáng',
   avatar: '/images/project1.png',
   user: {
     name: 'Yuan',

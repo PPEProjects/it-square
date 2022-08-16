@@ -8,6 +8,7 @@
 <!--    <why-us />-->
 <!--    <div class='h-7'></div>-->
     <show-case />
+    <div class='h-7'></div>
   </div>
 </template>
 <script></script>
