@@ -84,7 +84,7 @@ export default {
 
 <style scoped>
 #site-header {
-  @apply h-[70px] border-b fixed top-0 right-0 left-0 z-40
+  @apply h-[70px] border-b fixed top-0 right-0 left-0 z-40 bg-white
 }
 .header-logo .logo img {
   @apply block w-[50px]
