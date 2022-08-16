@@ -28,6 +28,7 @@ declare module '@vue/runtime-core' {
     IIonReorderThreeSharp: typeof import('~icons/ion/reorder-three-sharp')['default']
     IMaterialSymbolsAdd: typeof import('~icons/material-symbols/add')['default']
     IMaterialSymbolsArrowForwardRounded: typeof import('~icons/material-symbols/arrow-forward-rounded')['default']
+    IMaterialSymbolsBookmarkAddRounded: typeof import('~icons/material-symbols/bookmark-add-rounded')['default']
     IMaterialSymbolsShare: typeof import('~icons/material-symbols/share')['default']
     IMdiDotsVertical: typeof import('~icons/mdi/dots-vertical')['default']
     IMdiPencilCircle: typeof import('~icons/mdi/pencil-circle')['default']
@@ -36,10 +37,13 @@ declare module '@vue/runtime-core' {
     IRiFlagFill: typeof import('~icons/ri/flag-fill')['default']
     MasterLayout: typeof import('./../src/components/includes/MasterLayout.vue')['default']
     OnBoard: typeof import('./../src/components/home/OnBoard.vue')['default']
+    ProjectItem: typeof import('./../src/components/includes/ProjectItem.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ShowCase: typeof import('./../src/components/home/ShowCase.vue')['default']
     SiteHeader: typeof import('./../src/components/includes/SiteHeader.vue')['default']
     SubMenu: typeof import('./../src/components/includes/SubMenu.vue')['default']
     TestComp: typeof import('./../src/components/TestComp.vue')['default']
+    WhyUs: typeof import('./../src/components/home/WhyUs.vue')['default']
   }
 }
