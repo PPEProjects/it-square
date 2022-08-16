@@ -14,6 +14,7 @@ const layerBase: CSSProperties = {
   height: '100%',
   width: '100%',
   transition: '.3s ease-out all',
+  zIndex: 10,
 }
 
 const layer0 = computed(() => ({

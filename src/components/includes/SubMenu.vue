@@ -1,5 +1,5 @@
 <template>
-  <div class='absolute sub-menu w-[580px] h-[312px] top-full'>
+  <div class='absolute sub-menu w-[580px] h-[312px] top-full z-20'>
     <div
       class='sub-menu-content'
       @mouseleave='activeParent = parents[0]'
