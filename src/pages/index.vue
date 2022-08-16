@@ -11,4 +11,4 @@
     <div class='h-7'></div>
   </div>
 </template>
-<script></script>
+<script lang='ts' setup></script>
