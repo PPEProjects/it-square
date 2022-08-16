@@ -47,7 +47,7 @@
 
     <div class='flex justify-center'>
       <a-button type="primary" html-type="submit">
-        Sign Up
+        <p class='px-3'>Sign Up</p>
       </a-button>
     </div>
   </a-form>

@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AAvatar: typeof import('ant-design-vue/es')['Avatar']
+    ABadge: typeof import('ant-design-vue/es')['Badge']
     AButton: typeof import('ant-design-vue/es')['Button']
     AForm: typeof import('ant-design-vue/es')['Form']
     AFormItem: typeof import('ant-design-vue/es')['FormItem']
@@ -16,8 +17,14 @@ declare module '@vue/runtime-core' {
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     AuthLayout: typeof import('./../src/components/auth/AuthLayout.vue')['default']
     HelloWorld: typeof import('./../src/components/HelloWorld.vue')['default']
+    IBxBxsCategoryAlt: typeof import('~icons/bx/bxs-category-alt')['default']
     IIcBaselineArrowBackIosNew: typeof import('~icons/ic/baseline-arrow-back-ios-new')['default']
+    IIcSharpSettings: typeof import('~icons/ic/sharp-settings')['default']
     IIonReorderThreeSharp: typeof import('~icons/ion/reorder-three-sharp')['default']
+    IMaterialSymbolsAdd: typeof import('~icons/material-symbols/add')['default']
+    IMdiPencilCircle: typeof import('~icons/mdi/pencil-circle')['default']
+    IRiCompass3Fill: typeof import('~icons/ri/compass3-fill')['default']
+    IRiFlagFill: typeof import('~icons/ri/flag-fill')['default']
     MasterLayout: typeof import('./../src/components/includes/MasterLayout.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

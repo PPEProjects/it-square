@@ -23,7 +23,7 @@
 
       <div class='flex justify-center'>
         <a-button type="primary" html-type="submit">
-          Reset password
+          <p class='px-3'>Reset Password</p>
         </a-button>
       </div>
 

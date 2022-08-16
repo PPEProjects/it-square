@@ -79,7 +79,7 @@ export default ({ mode }) => {
           modifyVars: {
             'primary-color': '#3b66f5',
             'height-base': '40px',
-            'padding-md': '40px',
+            // 'padding-md': '40px',
             'border-radius-base': '6px',
             'input-padding-horizontal': '15px',
             'form-vertical-label-padding': '0 0 4px',
@@ -90,7 +90,7 @@ export default ({ mode }) => {
             'table-header-color': 'rgba(18,18,23,.6)',
             'table-selected-row-bg': '#fff',
             'font-family':
-              'Poppins, "Avenir Next", Roboto, "Segoe UI", "Open Sans", "Helvetica Neue", "PingFang SC", "Songti SC", "Heiti SC", "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei", sans-serif'
+            'Nunito Sans, SF Pro Text, SF Pro Icons, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif'
           },
           javascriptEnabled: true
         }

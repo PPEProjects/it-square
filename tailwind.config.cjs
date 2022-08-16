@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      maxWidth: {
+        bootstrap: "1100px",
+      },
       colors: {
         primary: {
           50: '#f5f7ff',

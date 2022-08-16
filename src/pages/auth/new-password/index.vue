@@ -24,7 +24,7 @@
 
     <div class='flex justify-center'>
       <a-button type="primary" html-type="submit">
-        Update Password
+        <p class='px-3'>Update Password</p>
       </a-button>
     </div>
   </a-form>
