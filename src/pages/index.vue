@@ -1,11 +1,6 @@
 <template>
-<div>Home</div>
+  <div>
+    <div class='h-7'></div>
+    <best-project></best-project>
+  </div>
 </template>
-
-<script>
-export default defineComponent({
-  name: 'HomePage'
-})
-</script>
-
-<style scoped></style>

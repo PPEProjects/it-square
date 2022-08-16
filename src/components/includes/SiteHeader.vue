@@ -101,7 +101,7 @@ export default {
 }
 
 .menu-item._has_sub .sub-menu {
-  @apply transition translate-x-[-40px] opacity-0 invisible;
+  @apply transition-all ease-in-out translate-x-[-30px] opacity-0 invisible;
 }
 
 .menu-item._has_sub:hover .sub-menu {
