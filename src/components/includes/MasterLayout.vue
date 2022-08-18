@@ -9,6 +9,7 @@ import { useLoadingIndicator } from '@nguyenshort/vue3-loading-indicator'
 
 const cookies = useCookies()
 const useUser = useUserStore()
+const router = useRouter()
 // Init app
 const vueClientInit = async  () => {
   useUser.setToken(cookies?.get('_token'))
@@ -18,22 +19,18 @@ const vueClientInit = async  () => {
   }
 
   if(!useUser.auth) {
-    useUser.setToken('')
+    useUser.logout()
     cookies?.remove('_token')
   }
 
-  // Todo: check auth
-  /**
-   * ```
-   * if (this.useUser.auth) {
-   *       if (this.$route.path === '/') {
-   *         this.$router.replace('/dashboard')
-   *       }
-   *     } else {
-   *       this.$router.replace('/')
-   *     }
-   * ```
-   */
+  router.beforeEach((to, from, next) => {
+    if (to.meta.private && !useUser.auth) {
+      sessionStorage.setItem('returnTo', to.fullPath)
+      next('/auth/signin')
+    } else {
+      next()
+    }
+  })
 }
 
 await vueClientInit()
@@ -57,7 +54,6 @@ const layout = computed(() => {
 })
 
 // setup progress bar
-const router = useRouter()
 const $loading = useLoadingIndicator()
 const setupProgressLoading = () => {
   $loading?.start()

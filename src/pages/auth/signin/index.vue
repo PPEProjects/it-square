@@ -5,7 +5,7 @@
     layout='vertical'
     name="basic"
     autocomplete="off"
-    @finish="onFinish"
+    @finish="loginHandle"
     @finish-failed="onFinishFailed"
   >
     <a-form-item
@@ -27,7 +27,7 @@
     </div>
 
     <div class='flex justify-center'>
-      <a-button type="primary" html-type="submit">
+      <a-button type="primary" html-type="submit" :loading='loading'>
         <p class='px-3'>Sign In</p>
       </a-button>
     </div>
@@ -45,11 +45,18 @@
 <script lang='ts' setup>
 import type { Rule } from 'ant-design-vue/es/form';
 
-import { LoginInputDto } from '../../../dto/auth-input.dto'
+import { LoginInputDto } from '@dto/auth-input.dto'
+import { useMutation } from '@vue/apollo-composable'
+import { SIGN_IN } from '#apollo/it/mutations/auth.mutations'
+import { SignIn, SignInVariables } from '#apollo/it/mutations/__generated__/SignIn'
+
+const userStore = useUserStore()
+const router = useRouter()
+const cookies = useCookies()
 
 const formState = reactive<LoginInputDto>({
-  email: '',
-  password: ''
+  email: 'dnstylish@gmail.com',
+  password: 'Khoi@025'
 })
 
 const rules = ref<Record<string, Rule[]>>(
@@ -77,8 +84,33 @@ const rules = ref<Record<string, Rule[]>>(
   }
 )
 
-const onFinish = (values: LoginInputDto) => {
-  console.log('Success:', values);
+const { mutate, loading } = useMutation<SignIn, SignInVariables>(SIGN_IN, {
+  variables: {
+    input: {
+      email: formState.email,
+      password: formState.password
+    }
+  }
+})
+
+/**
+ * KO nhất thiết phải tại hàm riêng chỉ cần @finish="mutate"
+ */
+const loginHandle = async () => {
+  try {
+    const result = await mutate()
+
+    if(result?.data?.log_in) {
+      const { token, user } = result.data.log_in
+      if(token && user) {
+        userStore.setUser(user)
+        userStore.setToken(token)
+        cookies?.set('_token', token)
+      }
+    }
+  } catch (e) {
+    // Todo: handle error
+  }
 }
 
 const onFinishFailed = (errorInfo: any) => {

@@ -211,7 +211,6 @@
     "useStorage": true,
     "useStorageAsync": true,
     "useStyleTag": true,
-    "useSubscription": true,
     "useSupported": true,
     "useSwipe": true,
     "useTemplateRefsList": true,

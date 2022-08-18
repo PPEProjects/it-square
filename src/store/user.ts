@@ -1,4 +1,7 @@
 import { defineStore } from 'pinia'
+import { useItSquare } from '@composable/useItSquare'
+import { GetMe } from '#apollo/it/queries/__generated__/GetMe'
+import { GET_ME } from '#apollo/it/queries/auth.queries'
 
 interface IUserStore {
   user: any
@@ -27,8 +30,17 @@ export const useUserStore = defineStore({
     },
 
     async getMe() {
-      ///
-
+      const client = useItSquare()
+      try {
+        const data = await client.query<GetMe>({
+          query: GET_ME
+        })
+        // @ts-ignore
+        this.user = data?.data?.me
+      } catch (e) {
+        // Logout
+        console.log(e)
+      }
     },
 
     logout() {
