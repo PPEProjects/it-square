@@ -127,6 +127,7 @@ const { mutate, loading } = useMutation<SignUp, SignUpVariables>(SIGN_UP, {
     input: {
       name: formState.name,
       email: formState.email,
+      phone_number: formState.phone,
       password: formState.password,
       password_confirmation: formState.password,
     }
