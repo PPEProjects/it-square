@@ -2,6 +2,7 @@
   <div :id='$route.meta.layout || "default"' class='text-gray-600'>
     <component :is="layout" :key="layout" />
   </div>
+  <vue-loading-indicator />
 </template>
 
 <script lang='ts' setup>
@@ -74,12 +75,6 @@ setupProgressLoading()
 
 onMounted(() => {
   $loading?.finish()
-})
-</script>
-
-<script lang="ts">
-export default defineComponent({
-  name: 'MasterLayout'
 })
 </script>
 
