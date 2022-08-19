@@ -163,6 +163,7 @@
     "useIntersectionObserver": true,
     "useInterval": true,
     "useIntervalFn": true,
+    "useItSquare": true,
     "useKeyModifier": true,
     "useLastChanged": true,
     "useLocalStorage": true,

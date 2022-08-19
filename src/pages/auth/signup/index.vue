@@ -47,7 +47,7 @@
 
     <div class='flex justify-center'>
       <a-button type="primary" html-type="submit" :loading='loading'>
-        <p class='px-3'>Sign Up</p>
+        <span class='px-3'>Sign Up</span>
       </a-button>
     </div>
   </a-form>
