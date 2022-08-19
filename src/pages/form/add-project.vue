@@ -1,5 +1,6 @@
 <template>
   <h2 class="mt-5 text-lg text-blue-700">Project Information</h2>
+  {{ $env('VITE_BUNNY_URL') }}
   <section class="mb-10 mt-5 rounded-lg bg-[#E0F2FE] text-base">
     <div class="mx-auto max-w-7xl">
       <div class="flex h-[62px] flex-wrap items-center justify-between px-4">

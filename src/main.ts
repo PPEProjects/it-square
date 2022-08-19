@@ -15,6 +15,7 @@ import axios from './plugins/axios'
 import animejs from './plugins/animejs'
 import dayjs from './plugins/dayjs'
 import apollo from '@plugins/apollo'
+import utils from '@plugins/utils'
 
 const app = createApp(App)
 
@@ -35,6 +36,7 @@ app.use(VueLoadingIndicator, {
 app.use(createPinia())
 app.use(VueCookies)
 app.use(MotionPlugin)
+app.use(utils)
 
 app.use(router)
 
