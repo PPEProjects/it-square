@@ -35,6 +35,7 @@ declare module '@vue/runtime-core' {
     IBiInfoCircleFill: typeof import('~icons/bi/info-circle-fill')['default']
     IBxBxsCategoryAlt: typeof import('~icons/bx/bxs-category-alt')['default']
     IIcBaselineArrowBackIosNew: typeof import('~icons/ic/baseline-arrow-back-ios-new')['default']
+    IIcSharpCloudUpload: typeof import('~icons/ic/sharp-cloud-upload')['default']
     IIcSharpSettings: typeof import('~icons/ic/sharp-settings')['default']
     IIonChatbubbleEllipses: typeof import('~icons/ion/chatbubble-ellipses')['default']
     IIonHeart: typeof import('~icons/ion/heart')['default']

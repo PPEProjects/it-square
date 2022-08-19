@@ -4,7 +4,7 @@ import apolloClient from './smileeye'
 import notifyClient from './notify'
 
 enum ApolloEnum {
-  smileeye = 'default',
+  it = 'default',
   notify = 'notify'
 }
 

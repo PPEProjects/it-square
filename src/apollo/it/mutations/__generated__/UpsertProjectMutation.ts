@@ -6,19 +6,19 @@
 import { UpsertProject } from "./../../../__generated__/itTypes";
 
 // ====================================================
-// GraphQL mutation operation: Upsert_project
+// GraphQL mutation operation: UpsertProjectMutation
 // ====================================================
 
-export interface Upsert_project_upsert_project {
+export interface UpsertProjectMutation_upsert_project {
   __typename: "Project";
   id: string;
   name: string;
 }
 
-export interface Upsert_project {
-  upsert_project: Upsert_project_upsert_project | null;
+export interface UpsertProjectMutation {
+  upsert_project: UpsertProjectMutation_upsert_project | null;
 }
 
-export interface Upsert_projectVariables {
+export interface UpsertProjectMutationVariables {
   input: UpsertProject;
 }
