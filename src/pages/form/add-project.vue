@@ -320,7 +320,7 @@ const { mutate, loading } = useMutation<UpsertProjectMutation, UpsertProjectMuta
  * @param dates
  */
 const onChangeRangePicker = (dates: [string, string] | [Dayjs, Dayjs]) => {
-  if(dates.length == 2 && Object.values(dates).every((date: string | Dayjs) => date instanceof String)) {
+  if(dates.length == 2 && Object.values(dates).every((date: string | Dayjs) => typeof date === 'string')) {
     formState.time_to_do!.from = dates[0] as string
     formState.time_to_do!.to = dates[1] as string
   }
