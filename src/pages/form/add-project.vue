@@ -340,8 +340,9 @@ const onChangeRangePicker = (dates: string[]) => {
 
 /**
  * @description Phạm vi quá rộng sẽ ảnh hưởng tới form khác...khi form này dc tải => inject css vào head...những form sau có selector này sẽ bị ảnh hưởng
+ * .ant-form-item-required::before => .ant-form-item-required::before
  */
-.ant-form-item-required::before {
+.add-project .ant-form-item-required::before {
   position: absolute;
   right: -12px;
 }
