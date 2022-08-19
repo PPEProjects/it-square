@@ -59,15 +59,20 @@
 
         <div class='text-[15px] font-semibold ml-6'>Blog</div>
 
-        <button class='ml-6'>
+        <button class='ml-6' @click='$router.push("/private")'>
           <i-ic-sharp-settings class='text-[20px]' />
         </button>
       </div>
 
       <div class='header-user flex-shrink-0'>
-        <a-badge dot>
+        <a-badge v-if='userStore.auth' dot>
           <a-avatar size="large" src="/images/avatar.jpeg"></a-avatar>
         </a-badge>
+        <button
+          v-else
+          class='text-white bg-gradient-to-r from-primary-500 to-primary-700 rounded-full px-4 py-2'
+          @click='$router.push("/auth/signin")'
+        >Đăng Nhập</button>
       </div>
     </div>
 
@@ -76,10 +81,11 @@
   <div class='h-[70px]'></div>
 </template>
 
-<script>
-export default {
-  name: 'SiteHeader'
-}
+<script lang='ts' setup>
+const userStore = useUserStore()
+
+
+
 </script>
 
 <style scoped>

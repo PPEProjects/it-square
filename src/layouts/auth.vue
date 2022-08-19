@@ -55,9 +55,20 @@
   </div>
 </template>
 
-<script lang='ts'>
-export default defineComponent({
-  name: 'AuthLayout',
+<script lang='ts' setup>
+const userStore = useUserStore()
+const router = useRouter()
+
+watch(() => userStore.user, async () => {
+  if (userStore.auth) {
+    const returnTo = sessionStorage.getItem('returnTo')
+    if(returnTo) {
+      sessionStorage.removeItem('returnTo')
+      await router.replace(returnTo)
+    } else {
+      await router.replace('/')
+    }
+  }
 })
 </script>
 

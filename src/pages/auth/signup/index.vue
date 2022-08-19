@@ -5,7 +5,7 @@
     layout='vertical'
     name="basic"
     autocomplete="off"
-    @finish="onFinish"
+    @finish="mutate"
     @finish-failed="onFinishFailed"
   >
 
@@ -46,7 +46,7 @@
     </a-form-item>
 
     <div class='flex justify-center'>
-      <a-button type="primary" html-type="submit">
+      <a-button type="primary" html-type="submit" :loading='loading'>
         <p class='px-3'>Sign Up</p>
       </a-button>
     </div>
@@ -62,8 +62,11 @@
 </template>
 
 <script lang='ts' setup>
-import { SignUpInputDto } from '../../../dto/auth-input.dto'
+import { SignUpInputDto } from '@dto/auth-input.dto'
 import { Rule } from 'ant-design-vue/es/form'
+import { useMutation } from '@vue/apollo-composable'
+import { SIGN_UP } from '#apollo/it/mutations/auth.mutations'
+import { SignUp, SignUpVariables } from '#apollo/it/mutations/__generated__/SignUp'
 
 const formState = reactive<SignUpInputDto>({
   name: '',
@@ -102,7 +105,7 @@ const rules = ref<Record<string, Rule[]>>(
         message: 'Please input your phone!'
       },
       {
-        pattern: /^0[3456789]\d{9}$/,
+        pattern: /^0[3456789]\d{8}$/,
         message: 'The phone number is not valid!'
       }
     ],
@@ -119,9 +122,17 @@ const rules = ref<Record<string, Rule[]>>(
   }
 )
 
-const onFinish = (values: SignUpInputDto) => {
-  console.log('Success:', values);
-}
+const { mutate, loading } = useMutation<SignUp, SignUpVariables>(SIGN_UP, {
+  variables: {
+    input: {
+      name: formState.name,
+      email: formState.email,
+      phone_number: formState.phone,
+      password: formState.password,
+      password_confirmation: formState.password,
+    }
+  }
+})
 
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo);

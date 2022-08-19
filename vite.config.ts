@@ -12,6 +12,8 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
 // @ts-ignore
 import EnvGenerator from './src/plugins/vite/env'
+// @ts-ignore
+import GrapHQLGenerator from './src/plugins/vite/graphql'
 
 // @ts-ignore
 export default ({ mode }) => {
@@ -30,12 +32,7 @@ export default ({ mode }) => {
         imports: [
           '@vueuse/core',
           'vue',
-          'vue-router',
-          {
-            '@vue/apollo-composable': [
-              'useSubscription'
-            ]
-          }
+          'vue-router'
         ],
         include: [
           /\.[tj]sx?$/,
@@ -71,7 +68,8 @@ export default ({ mode }) => {
         loose: true
       }),
       Inspect({}),
-      EnvGenerator()
+      EnvGenerator(),
+      GrapHQLGenerator()
     ],
     css: {
       preprocessorOptions: {

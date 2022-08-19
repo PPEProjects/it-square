@@ -8,7 +8,7 @@ export default () => {
       const list = [
         {
           regex:
-            /src\/apollo\/smileeye\/(queries|mutations)\/(?!(__generated__))/,
+            /src\/apollo\/it\/(queries|mutations)\/(?!(__generated__))/,
           command: 'npm run apollo:codegen'
         },
         {

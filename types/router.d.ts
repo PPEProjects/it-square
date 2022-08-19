@@ -4,7 +4,7 @@ import 'vue-router'
 declare module 'vue-router' {
   interface RouteMeta {
     layout?: 'default' | 'blank' | 'auth' | string
-    public?: boolean
+    private?: boolean
     title?: string
   }
 }

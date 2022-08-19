@@ -3,8 +3,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 let routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('@pages/index.vue'),
-    meta: { public: true }
+    component: () => import('@pages/index.vue')
   },
   {
     path: '/form',
@@ -15,7 +14,6 @@ let routes: RouteRecordRaw[] = [
     path: '/auth',
     redirect: '/auth/signin',
     meta: {
-      public: false,
       layout: 'auth'
     },
     children: [
@@ -48,6 +46,14 @@ let routes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  // test private
+  {
+    path: '/private',
+    component: () => import('@pages/private/index.vue'),
+    meta: {
+      private: true,
+    }
   }
 ]
 
