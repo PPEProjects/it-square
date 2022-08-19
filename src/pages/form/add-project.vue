@@ -18,6 +18,7 @@
   </section>
   <a-form
     :model="formState"
+    :rules="rules"
     name="basic"
     :label-col="{ span: 8 }"
     :wrapper-col="{ span: 16 }"
@@ -26,24 +27,14 @@
     @finish="onFinish"
     @finish-failed="onFinishFailed"
   >
-    <a-form-item
-      label="Project name"
-      name="name"
-      :rules="[{ required: true}]"
-    >
+    <a-form-item label="Project name" name="name">
       <a-input v-model:value="formState.name" />
     </a-form-item>
-    <a-form-item
-      label="Main description"
-      name="description"
-      :rules="[{ required: true}]"
-    >
+    <a-form-item label="Main description" name="description">
       <a-textarea v-model:value="formState.description" />
     </a-form-item>
     <!-- @link https://vuejs.org/guide/components/slots.html#fallback-content -->
-    <a-form-item
-      name="category"
-    >
+    <a-form-item name="category">
       <template #label>
         Category
         <span class="ml-1 text-gray-400"
@@ -59,10 +50,7 @@
       </a-select>
     </a-form-item>
     <a-form-item name="skill" label="Programing lang, framework">
-      <a-select
-        v-model:value="formState.skill"
-        mode="multiple"
-      >
+      <a-select v-model:value="formState.skill" mode="multiple">
         <a-select-option value="HTML">HTML</a-select-option>
         <a-select-option value="CSS">CSS</a-select-option>
         <a-select-option value="Java">Java</a-select-option>
@@ -71,20 +59,12 @@
         <a-select-option value="Tailwind">Tailwind</a-select-option>
       </a-select>
     </a-form-item>
-    <a-form-item name="time_to_do" label="Time to do" v-bind="rangeConfig">
+    <a-form-item name="time_to_do" label="Time to do">
       <a-range-picker
         v-model:value="formState['time_to_do']"
         value-format="YYYY-MM-DD"
       />
     </a-form-item>
-
-<!--    <a-form-item
-      label="Programming Language"
-      name="username"
-      :rules="[{ required: true, message: 'Please input your username!' }]"
-    >
-      <a-input v-model:value="formState.username" />
-    </a-form-item>-->
     <a-form-item label="Budget" name="budget">
       <a-input-number v-model:value="formState.budget">
         <template #addonAfter>
@@ -144,6 +124,7 @@
               v-model="formState.is_privacy"
               type="radio"
               :value="true"
+              :checked="formState.is_privacy"
               class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer border-gray-300 text-indigo-600 focus:ring-indigo-500"
               aria-labelledby="privacy-setting-0-label"
               aria-describedby="privacy-setting-0-description"
@@ -168,6 +149,7 @@
               v-model="formState.is_privacy"
               type="radio"
               :value="false"
+              :checked="!formState.is_privacy"
               class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer border-gray-300 text-indigo-600 focus:ring-indigo-500"
               aria-labelledby="privacy-setting-2-label"
               aria-describedby="privacy-setting-2-description"
@@ -193,9 +175,22 @@
       <a-button type="primary" html-type="submit">Submit</a-button>
     </a-form-item>
   </a-form>
+  {{ formState }}
 </template>
 
 <script lang="ts" setup>
+import { UPSERT_PROJECT } from '#apollo/it/mutations/project.mutations'
+import { Rule } from 'ant-design-vue/es/form'
+// import { useMutation } from '@vue/apollo-composable'
+// import {
+//   SignUp,
+//   SignUpVariables
+// } from '#apollo/it/mutations/__generated__/SignUp'
+// import { SIGN_UP } from '#apollo/it/mutations/auth.mutations'
+import {useItSquare} from "@composable/useItSquare";
+// import {GetMe} from "#apollo/it/queries/__generated__/GetMe";
+// import {GET_ME} from "#apollo/it/queries/auth.queries";
+
 interface FormState {
   name: string
   description: string
@@ -210,18 +205,16 @@ interface FormState {
   attachments: any
 }
 
-const rangeConfig = {
-  rules: [
-    { type: 'array' as const, required: true, message: 'Please select time!' }
-  ]
-}
+// const rangeConfig = {
+//   rules: [{ type: 'array' as const }]
+// }
 
 const formState = reactive<FormState>({
   name: '',
   description: '',
   category: '',
   status: 'draff_project',
-  time_to_do: null,
+  time_to_do: [],
   skill: [],
   information: '',
   level: '',
@@ -231,12 +224,43 @@ const formState = reactive<FormState>({
   attachments: {
     main_pictures: {},
     other_files: {}
-  },
+  }
 })
-const onFinish = (values: any) => {
+const rules = ref<Record<string, Rule[]>>({
+  name: [{ required: true }],
+  description: [{ required: true }],
+  time_to_do: [{ type: 'array' as const, required: true }]
+})
+const onFinish = async (values: any) => {
   console.log('formState', {formState})
   console.log('Success:', values)
+
+  const client = useItSquare()
+  try {
+    const data = await client.mutate({
+      mutation: UPSERT_PROJECT,
+      variables: {
+        ...formState,
+        time_to_do: {
+          from: formState.time_to_do[0] || '',
+          to: formState.time_to_do[1] || ''
+        }
+      }
+    })
+    console.log('data', {data})
+    // @ts-ignore
+    // this.user = data?.data?.me
+  } catch (e) {
+    // Logout
+    console.log(e)
+  }
 }
+// console.log('aa', formState.time_to_do)
+// const { mutate, loading } = useMutation(UPSERT_PROJECT, {
+//   variables: {
+//     input: formState
+//   }
+// })
 
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo)
@@ -248,14 +272,14 @@ const onFinishFailed = (errorInfo: any) => {
 const list = ref<string[]>(['USD', 'VND'])
 </script>
 
-<style>
+<style >
 .add-project button svg {
   @apply inline;
 }
 .add-project .ant-form-item-label {
   @apply text-left;
 }
-.ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before{
+.ant-form-item-required::before {
   position: absolute;
   right: -12px;
 }
