@@ -79,6 +79,8 @@ onMounted(() => {
 </script>
 
 <style>
+@import "@nguyenshort/vue3-loading-indicator/dist/style.css";
+
 .vue-process-bar ._process {
   transition: 200ms linear;
 }
