@@ -24,7 +24,7 @@
     autocomplete="off"
     class="add-project space-y-6"
     @finish="onFinish"
-    @finishFailed="onFinishFailed"
+    @finish-failed="onFinishFailed"
   >
     <a-form-item
       label="Project name"

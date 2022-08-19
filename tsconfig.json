@@ -29,6 +29,9 @@
       "@dto/*": [
         "./src/dto/*"
       ],
+      "@entities/*": [
+        "./src/entities/*"
+      ],
       "@store/*": [
         "./src/store/*"
       ],
