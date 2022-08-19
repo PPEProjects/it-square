@@ -1,11 +1,11 @@
 <template>
   <a-upload-dragger
-      v-model:fileList="fileList"
       name="file"
       :multiple="true"
-      :action="import.meta.env.VITE_STORAGE_SERVER_URL"
+      :action="$env('VITE_STORAGE_SERVER_URL')"
       @change="handleChange"
   >
+    {{ $env('VITE_STORAGE_SERVER_URL') }}
     <p class="ant-upload-drag-icon flex justify-center text-[30px]">
       <i-ic-sharp-cloud-upload />
     </p>
