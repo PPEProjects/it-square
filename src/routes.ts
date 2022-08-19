@@ -8,7 +8,7 @@ let routes: RouteRecordRaw[] = [
   {
     path: '/form',
     component: () => import('@pages/form/add-project.vue'),
-    meta: { public: true }
+    meta: { private: true }
   },
   {
     path: '/auth',
