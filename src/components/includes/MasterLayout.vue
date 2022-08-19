@@ -2,6 +2,7 @@
   <div :id='$route.meta.layout || "default"' class='text-gray-600'>
     <component :is="layout" :key="layout" />
   </div>
+  <vue-loading-indicator />
 </template>
 
 <script lang='ts' setup>
@@ -77,13 +78,9 @@ onMounted(() => {
 })
 </script>
 
-<script lang="ts">
-export default defineComponent({
-  name: 'MasterLayout'
-})
-</script>
-
 <style>
+@import "@nguyenshort/vue3-loading-indicator/dist/style.css";
+
 .vue-process-bar ._process {
   transition: 200ms linear;
 }

@@ -28,7 +28,10 @@ app.use(apollo)
 app.use(dayjs)
 app.use(animejs)
 app.use(axios)
-app.use(VueLoadingIndicator)
+app.use(VueLoadingIndicator, {
+  autoFinish: true,
+  stepGap: 100
+})
 app.use(createPinia())
 app.use(VueCookies)
 app.use(MotionPlugin)

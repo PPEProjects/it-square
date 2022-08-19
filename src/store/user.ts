@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
-import { useItSquare } from '@composable/useItSquare'
 import { GetMe } from '#apollo/it/queries/__generated__/GetMe'
-import { GET_ME } from '#apollo/it/queries/auth.queries'
 
 interface IUserStore {
   user: any
