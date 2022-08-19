@@ -6,6 +6,11 @@ let routes: RouteRecordRaw[] = [
     component: () => import('@pages/index.vue')
   },
   {
+    path: '/form',
+    component: () => import('@pages/form/add-project.vue'),
+    meta: { public: true }
+  },
+  {
     path: '/auth',
     redirect: '/auth/signin',
     meta: {
