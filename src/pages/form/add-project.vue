@@ -88,7 +88,6 @@
     <a-form-item label="Main pictures">
       <a-form-item name="dragger" no-style>
         <a-upload-dragger
-          v-model:fileList="formState.dragger"
           name="files"
           action="/upload.do"
         >
@@ -109,7 +108,6 @@
     <a-form-item label="Files">
       <a-form-item name="dragger" no-style>
         <a-upload-dragger
-          v-model:fileList="formState.dragger"
           name="files"
           action="/upload.do"
         >
@@ -134,7 +132,7 @@
             v-model="formState.is_privacy"
             type="radio"
             :value="true"
-            :checked="formState.is_privacy"
+            :checked="!!formState.is_privacy"
             class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer border-gray-300 text-indigo-600 focus:ring-indigo-500"
             aria-labelledby="privacy-setting-0-label"
             aria-describedby="privacy-setting-0-description"
@@ -194,6 +192,7 @@ import {
 } from '#apollo/it/mutations/__generated__/UpsertProjectMutation'
 import { AddProjectInput } from '@dto/project-input.dto'
 import { Status } from '#apollo/__generated__/itTypes'
+import { Dayjs } from 'dayjs'
 
 /**
  * @link https://vuejs.org/guide/essentials/list.html
@@ -320,9 +319,11 @@ const { mutate, loading } = useMutation<UpsertProjectMutation, UpsertProjectMuta
  * có 2 params là dates: Dayjs[] | string[], dateStrings: string[]
  * @param dates
  */
-const onChangeRangePicker = (dates: string[]) => {
-  formState.time_to_do!.from = dates[0]
-  formState.time_to_do!.to = dates[1]
+const onChangeRangePicker = (dates: [string, string] | [Dayjs, Dayjs]) => {
+  if(dates.length == 2 && Object.values(dates).every((date: string | Dayjs) => date instanceof String)) {
+    formState.time_to_do!.from = dates[0] as string
+    formState.time_to_do!.to = dates[1] as string
+  }
 }
 </script>
 
