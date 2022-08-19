@@ -86,15 +86,15 @@
     </a-form-item>
 
     <a-form-item label="Main pictures">
-      <a-form-item name="dragger" no-style>
+<!--      <a-form-item name="dragger" no-style>
         <a-upload-dragger
           name="files"
           action="/upload.do"
         >
           <p class="ant-upload-drag-icon flex justify-center text-[30px]">
-            <!-- Icon bên dưới ko ồn tại -->
-            <!-- <InboxOutlined />-->
-            <!-- @link https://icones.js.org/ -->
+            &lt;!&ndash; Icon bên dưới ko ồn tại &ndash;&gt;
+            &lt;!&ndash; <InboxOutlined />&ndash;&gt;
+            &lt;!&ndash; @link https://icones.js.org/ &ndash;&gt;
             <i-ic-sharp-cloud-upload />
           </p>
           <p class="ant-upload-text">
@@ -102,7 +102,8 @@
           </p>
           <p class="ant-upload-hint">Support for a single or bulk upload.</p>
         </a-upload-dragger>
-      </a-form-item>
+      </a-form-item>-->
+      <upload-image/>
     </a-form-item>
 
     <a-form-item label="Files">
@@ -193,6 +194,7 @@ import {
 import { AddProjectInput } from '@dto/project-input.dto'
 import { Status } from '#apollo/__generated__/itTypes'
 import { Dayjs } from 'dayjs'
+import UploadImage from "@pages/form/upload-image.vue";
 
 /**
  * @link https://vuejs.org/guide/essentials/list.html
@@ -245,6 +247,7 @@ const rules = ref<Record<string, Rule[]>>({
     },
     {
       validator(rule, value) {
+        console.log('value', {value})
         if (value.from && value.to) {
           return Promise.resolve()
         }
