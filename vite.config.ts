@@ -32,7 +32,14 @@ export default ({ mode }) => {
         imports: [
           '@vueuse/core',
           'vue',
-          'vue-router'
+          'vue-router',
+          {
+            '@vue/apollo-composable': [
+              'useSubscription',
+              'useQuery',
+              'useMutation'
+            ]
+          }
         ],
         include: [
           /\.[tj]sx?$/,
@@ -43,6 +50,7 @@ export default ({ mode }) => {
           'src/**/composable/*', // blob pattern
           'src/**/store',
           'src/**/dto',
+          'src/apollo/it/*',
         ],
         dts: path.resolve(__dirname, 'types/auto-imports.d.ts'),
         eslintrc: {

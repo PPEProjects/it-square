@@ -1,6 +1,9 @@
 {
   "globals": {
     "EffectScope": true,
+    "GET_ME": true,
+    "SIGN_IN": true,
+    "SIGN_UP": true,
     "asyncComputed": true,
     "autoResetRef": true,
     "computed": true,
@@ -177,6 +180,7 @@
     "useMouse": true,
     "useMouseInElement": true,
     "useMousePressed": true,
+    "useMutation": true,
     "useMutationObserver": true,
     "useNavigatorLanguage": true,
     "useNetwork": true,
@@ -193,6 +197,7 @@
     "usePreferredDark": true,
     "usePreferredLanguages": true,
     "usePreferredReducedMotion": true,
+    "useQuery": true,
     "useRafFn": true,
     "useRefHistory": true,
     "useResizeObserver": true,
@@ -212,6 +217,7 @@
     "useStorage": true,
     "useStorageAsync": true,
     "useStyleTag": true,
+    "useSubscription": true,
     "useSupported": true,
     "useSwipe": true,
     "useTemplateRefsList": true,

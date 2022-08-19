@@ -46,12 +46,9 @@
 import type { Rule } from 'ant-design-vue/es/form';
 
 import { LoginInputDto } from '@dto/auth-input.dto'
-import { useMutation } from '@vue/apollo-composable'
-import { SIGN_IN } from '#apollo/it/mutations/auth.mutations'
 import { SignIn, SignInVariables } from '#apollo/it/mutations/__generated__/SignIn'
 
 const userStore = useUserStore()
-const router = useRouter()
 const cookies = useCookies()
 
 const formState = reactive<LoginInputDto>({
