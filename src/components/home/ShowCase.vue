@@ -1,7 +1,11 @@
 <template>
-  <block-session title='Show Case' description='Some finished projects on our platform'>
+  <block-session title='Hot Show Case' description='Some finished projects on our platform'>
 
-    <div class='flex'>
+    <div
+      v-for='in3d in 3'
+      :key='in3d'
+      class='flex mb-3 last:mb-0'
+    >
       <ul
         class='relative h-[300px] h-[180px] flex-shrink-0'
         :style='{

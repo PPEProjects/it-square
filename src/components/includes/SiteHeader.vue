@@ -12,6 +12,7 @@
         </router-link>
       </div>
 
+
       <div class='menu-list h-full flex items-center flex-shrink-0 text-gray-500'>
         <div class='menu-item _has_sub'>
           <button class='flex items-center'>
@@ -83,9 +84,6 @@
 
 <script lang='ts' setup>
 const userStore = useUserStore()
-
-
-
 </script>
 
 <style scoped>
