@@ -2,7 +2,7 @@
   <block-session title="Running Project">
     <grid-layout
       v-model:layout="layout"
-      class='mx-[-10px]'
+      class='m-[-10px]'
       :responsive-layouts="layout"
       :cols="cols"
       :col-num="24"
