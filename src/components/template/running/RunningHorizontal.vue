@@ -1,7 +1,12 @@
 <template>
-  <div class="h-full w-full px-6 py-5 text-white running-item">
+  <div
+    ref='elRef'
+    class="h-full w-full px-6 py-5 text-white running-item relative"
+  >
 
-    <div class='w-full h-full flex flex-col'>
+    <div class='sprite' :style='spriteStyle'></div>
+
+    <div class='w-full h-full flex flex-col relative'>
       <div class="flex items-center">
         <button
           class="bg-badge flex h-11 w-11 items-center justify-center overflow-hidden rounded-full text-[22px]"
@@ -61,27 +66,58 @@
 </template>
 
 <script lang='ts' setup>
-const { colorFactory } = useTheme()
+import type { CSSProperties } from 'vue'
+const { colorFactory, sparkFactory } = useTheme()
 
 const bg = computed(() => colorFactory())
 
+
+const elRef = ref<HTMLDivElement>()
+const { width, height } = useElementSize(elRef)
+
+const spriteStyle = computed<CSSProperties>(() => {
+
+  if(!width || !height) {
+    return {}
+  }
+
+  const icon = sparkFactory()
+
+  // random position
+  const posion = {
+    width: Math.floor(Math.random() * (width.value - icon.width)),
+    height: Math.floor(Math.random() * (height.value - icon.height)),
+  }
+
+  return {
+    background: `url('/images/sparkling/stars-map.png') no-repeat ${icon.position[0]}px ${icon.position[1]}px`,
+    width: `${icon.width}px`,
+    height: `${icon.height}px`,
+    top: `${posion.height}px`,
+    left: `${posion.width}px`,
+  }
+})
+
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 
 .running-item {
   background-color: v-bind(bg);
-}
+  .bg-badge {
+    @apply bg-[#00000033];
+  }
+  .bg-badge2 {
+    @apply bg-[#ffffff33];
+  }
+  p,
+  h4 {
+    margin-bottom: 0;
+  }
 
-.bg-badge {
-  @apply bg-[#00000033];
-}
-.bg-badge2 {
-  @apply bg-[#ffffff33];
-}
 
-p,
-h4 {
-  margin-bottom: 0;
+  .sprite {
+    @apply absolute opacity-10 scale-[0.4];
+  }
 }
 </style>
