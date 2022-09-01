@@ -1,10 +1,10 @@
 <template>
-  <div class="h-full w-full bg-[#8e61e9] px-7 py-6 text-white">
+  <div class="h-full w-full px-6 py-5 text-white running-item">
 
     <div class='w-full h-full flex flex-col'>
       <div class="flex items-center justify-between">
         <button
-          class="bg-badge flex h-12 w-12 items-center justify-center overflow-hidden rounded-full text-[22px]"
+          class="bg-badge flex h-11 w-11 items-center justify-center overflow-hidden rounded-full text-[22px]"
         >
           <i-ic-twotone-fiber-smart-record />
         </button>
@@ -35,7 +35,7 @@
         </button>
       </div>
 
-      <h4 class="mt-5 mb-0 text-[24px] font-bold text-white">Talent Ui Design</h4>
+      <h4 class="mt-5 mb-0 text-[22px] font-bold text-white">Talent Ui Design</h4>
 
       <div>Web & Responsive</div>
 
@@ -80,13 +80,19 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'RunningVertical'
-}
+<script lang='ts' setup>
+const { colorFactory } = useTheme()
+
+const bg = computed(() => colorFactory())
+
 </script>
 
 <style scoped>
+
+.running-item {
+  background-color: v-bind(bg);
+}
+
 .bg-badge {
   @apply bg-[#00000033];
 }
