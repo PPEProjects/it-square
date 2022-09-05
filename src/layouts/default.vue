@@ -9,6 +9,7 @@
     >
       <router-view />
     </div>
+    <site-footer />
   </div>
 </template>
 

@@ -81,6 +81,7 @@
     "shallowReactive": true,
     "shallowReadonly": true,
     "shallowRef": true,
+    "sparklingMap": true,
     "syncRef": true,
     "syncRefs": true,
     "templateRef": true,
