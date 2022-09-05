@@ -7,7 +7,7 @@
           :key="index"
           class="mb-5 last:mb-0"
       >
-        <div class="shadow-md rounded-lg flex overflow-hidden items-center">
+        <div class="cutsom-shadow rounded-lg flex overflow-hidden items-center">
 
           <div class="pl-6 py-5">
             <a
@@ -155,5 +155,7 @@ const projects = ref<DoneProject[]>([
 </script>
 
 <style scoped>
-
+.cutsom-shadow {
+  box-shadow: 0 24px 20px -18px rgb(69 104 129 / 0%), 0 9px 45px 0 rgb(114 119 160 / 12%);
+}
 </style>
