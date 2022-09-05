@@ -15,7 +15,7 @@
         <li
           v-for='(pic, index) in pics'
           :key='pic'
-          class='absolute w-[140px] h-[180px] overflow-hidden rounded-lg shadow-lg'
+          class='absolute w-[140px] h-[180px] overflow-hidden rounded-lg cutsom-shadow'
           :style='{
           transform: "translateX(" + (index * 25) + "px) scale(" + (1 - index * 0.1) + ")",
           zIndex: pics.length - index

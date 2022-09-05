@@ -1,5 +1,5 @@
 <template>
-  <div class='rounded-lg overflow-hidden bg-white shadow-md project-item'>
+  <div class='rounded-lg overflow-hidden bg-white cutsom-shadow project-item'>
     <div class='w-full aspect-w-3 aspect-h-2 overflow-hidden relative project-avatar'>
       <div class='absolute w-full h-full top-0 left-0 bg-gradient-to-b from-transparent via-transparent to-slate-900 z-20'>
         <div class='relative w-full h-full'>

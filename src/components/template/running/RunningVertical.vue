@@ -1,7 +1,7 @@
 <template>
   <div
     ref='elRef'
-    class="h-full w-full px-6 py-5 text-white running-item relative"
+    class="h-full w-full px-6 py-5 text-white running-item relative cutsom-shadow"
   >
 
     <div class='sprite' :style='spriteStyle'></div>
