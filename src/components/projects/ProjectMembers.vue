@@ -18,7 +18,7 @@
         </div>
 
         <div class="ml-3">
-          <h4 class="font-semibold text-gray-700 mb-1 text-[15px]">{{ member.name }}</h4>
+          <h4 class="font-semibold text-gray-700 mb-0.5 text-[15px]">{{ member.name }}</h4>
           <span
               class="text-[13px] text-gray-500 mb-0 capitalize mt-1 role"
               :class="[member.role]"
