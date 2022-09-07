@@ -12,6 +12,13 @@
     <div class="mt-3">
 
       <ul class="flex">
+
+        <li
+            class="mr-4"
+        >
+          <a class="text-rose-500">#Mobile App</a>
+        </li>
+
         <li
             v-for="(item, index) in frameworks"
             :key="index"

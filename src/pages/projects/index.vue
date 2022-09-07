@@ -18,6 +18,10 @@
         <projects-banners />
         <project-detail class="mt-6" />
 
+        <project-progress class="mt-7" />
+
+<!--        <project-budget class="mt-6" />-->
+
         <project-comments class="mt-8" />
 
       </div>
