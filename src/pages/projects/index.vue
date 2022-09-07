@@ -13,12 +13,14 @@
       </ul>
     </div>
 
-    <div class="flex mt-3 -mx-3">
-      <div class="w-4/5 px-3">
+    <div class="flex mt-3 -mx-4">
+      <div class="w-4/5 px-4">
         <projects-banners />
         <project-detail class="mt-6" />
       </div>
-      <div class="w-1/3 min-h-screen bg-gray-100 px-3"></div>
+      <div class="w-1/3 min-h-screen px-4">
+        <project-members />
+      </div>
     </div>
 
   </div>
