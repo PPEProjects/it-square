@@ -75,6 +75,7 @@ declare module '@vue/runtime-core' {
     ProjectItem: typeof import('./../src/components/includes/ProjectItem.vue')['default']
     ProjectMembers: typeof import('./../src/components/projects/ProjectMembers.vue')['default']
     ProjectName: typeof import('@components/projects/ProjectDetail.vue')['default']
+    ProjectOther: typeof import('./../src/components/projects/ProjectOther.vue')['default']
     ProjectsBanners: typeof import('./../src/components/projects/ProjectsBanners.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

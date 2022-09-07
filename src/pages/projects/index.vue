@@ -20,6 +20,7 @@
       </div>
       <div class="w-1/3 min-h-screen px-4">
         <project-members />
+        <project-other class="mt-6" />
       </div>
     </div>
 
