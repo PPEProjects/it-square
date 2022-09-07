@@ -5,7 +5,7 @@
     <site-header />
     <div
       :id="String($route.name) || ''"
-      class='max-w-bootstrap w-full mx-auto px-4'
+      class='max-w-bootstrap w-full mx-auto px-4 min-h-[52vh]'
     >
       <router-view />
     </div>
