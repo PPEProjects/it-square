@@ -9,7 +9,21 @@
       Development Strategy and Core Value of VPBank
     </h4>
 
-    <article class="prose mt-4 text-gray-500">
+    <div class="mt-3">
+
+      <ul class="flex">
+        <li
+            v-for="(item, index) in frameworks"
+            :key="index"
+            class="mr-4"
+        >
+          <a>#{{ item }}</a>
+        </li>
+      </ul>
+
+    </div>
+
+    <article class="prose mt-3 text-gray-500">
       <p>
         For years parents have espoused the health benefits of eating garlic bread with cheese to their
         children, with the food earning such an iconic status in our culture that kids will often dress
@@ -23,7 +37,6 @@
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores aspernatur autem consectetur, debitis deleniti dolores ducimus eum fugiat illo, iste maiores maxime officiis quae quod ratione recusandae similique tempora totam.
       </p>
     </article>
-
     <div class="flex mt-5">
       <div class="text-gray-500 bg-gray-100 rounded-lg flex items-center">
         <button class="flex items-center px-3 py-1.5">
@@ -51,10 +64,8 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "ProjectName"
-}
+<script lang="ts" setup>
+const frameworks = ref<string[]>(['Vue', 'React', 'Angular', 'Svelte', 'Nuxt', 'Next', 'PHP', 'Laravel'])
 </script>
 
 <style scoped>
