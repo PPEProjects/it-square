@@ -71,6 +71,7 @@ declare module '@vue/runtime-core' {
     IUilFacebookF: typeof import('~icons/uil/facebook-f')['default']
     MasterLayout: typeof import('./../src/components/includes/MasterLayout.vue')['default']
     OnBoard: typeof import('./../src/components/home/OnBoard.vue')['default']
+    ProjectComments: typeof import('./../src/components/projects/ProjectComments.vue')['default']
     ProjectDetail: typeof import('./../src/components/projects/ProjectDetail.vue')['default']
     ProjectItem: typeof import('./../src/components/includes/ProjectItem.vue')['default']
     ProjectMembers: typeof import('./../src/components/projects/ProjectMembers.vue')['default']

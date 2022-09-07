@@ -8,7 +8,7 @@
             v-for="(image, index) in images"
             :key="index"
             class="w-9 h-9 overflow-hidden ml-2 first:ml-0 rounded-lg relative"
-            @click="activeIndex = index"
+            @click="changeIndex(index)"
         >
           <img
               alt=""
@@ -53,9 +53,21 @@
 </template>
 
 <script lang="ts" setup>
+import {rand} from "@vueuse/core";
+
 const images = ref<string[]>(Array(4).fill('1').map((value, index) => `/images/projects/project-${index+1}.jpg`))
 
 const activeIndex = ref(0)
+
+const { pause, resume, isActive } = useIntervalFn(() => {
+  activeIndex.value = rand(0, images.value.length - 1)
+}, 3000)
+
+const changeIndex = (index: number) => {
+  pause()
+  activeIndex.value = index
+  resume()
+}
 </script>
 
 <style scoped>

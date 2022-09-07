@@ -17,6 +17,9 @@
       <div class="w-4/5 px-4">
         <projects-banners />
         <project-detail class="mt-6" />
+
+        <project-comments class="mt-8" />
+
       </div>
       <div class="w-1/3 min-h-screen px-4">
         <project-members />
