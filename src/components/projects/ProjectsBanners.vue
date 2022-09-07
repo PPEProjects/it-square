@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-gray-100 rounded-xl overflow-hidden w-full h-[280px] cutsom-shadow">
+  <div class="relative bg-gray-100 rounded-xl overflow-hidden w-full h-[300px] cutsom-shadow">
 
     <div class="absolute z-10 bottom-5 right-5">
 
