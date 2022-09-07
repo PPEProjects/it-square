@@ -20,6 +20,7 @@
       </div>
       <div class="w-1/3 min-h-screen bg-gray-100 px-3"></div>
     </div>
+
   </div>
 </template>
 

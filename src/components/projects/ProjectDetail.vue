@@ -24,7 +24,7 @@
       </p>
     </article>
 
-    <div class="flex mt-4">
+    <div class="flex mt-5">
       <div class="text-gray-500 bg-gray-100 rounded-lg flex items-center">
         <button class="flex items-center px-3 py-1.5">
           <i-mdi-document class="text-[16px]" />
@@ -36,6 +36,16 @@
           <span class="text-[12px] ml-1">34350 Lượt Xem</span>
         </button>
       </div>
+    </div>
+
+    <div class="mt-6 flex items-center">
+      <button class="flex items-center bg-gradient-to-r from-primary-500 to-primary-700 text-white px-4 py-2 rounded-full shadow-lg shadow-primary-200">
+        <i-material-symbols-add />
+        <span class="font-semibold ml-1">Tham Gia Ngay</span>
+      </button>
+
+      <a class="text-[14px] ml-5 font-semibold">Lưu Lại</a>
+
     </div>
 
   </div>
