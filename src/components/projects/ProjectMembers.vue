@@ -31,7 +31,10 @@
         <div class="flex items-center">
           <span class="text-primary-500 text-[14px] font-semibold mr-4">Còn trống 2 vị trí.</span>
 
-          <button class="flex items-center mr-6 bg-gradient-to-r from-primary-500 to-primary-700 text-white px-3 py-2 rounded-full shadow-lg shadow-primary-200">
+          <button
+              class="flex items-center mr-6 bg-gradient-to-r from-primary-500 to-primary-700 text-white px-3 py-2 rounded-full shadow-lg shadow-primary-200"
+              @click="$emitter.emit('requiredGrantModal')"
+          >
             <span class="text-xs font-semibold mr-1">Tham Gia</span>
             <i-material-symbols-add-circle-rounded/>
           </button>

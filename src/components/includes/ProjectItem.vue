@@ -49,6 +49,7 @@
           v-for='(role, index2) in showRoles'
           :key='index2'
           class='w-2/12 px-1.5 pb-1.5 text-center transition hover:scale-105'
+          @click.prevent.stop="$emitter.emit('requiredGrantModal')"
         >
           <div class='w-full aspect-1 rounded-full border border-dashed flex items-center justify-center text-gray-400'>
             <i-material-symbols-add  />

@@ -90,7 +90,7 @@ const poits = ref<SratingScore[]>([
   }
 ])
 
-const reviews = ref<ReviewDocument[]>(Array(10).fill('i').map(() => ({
+const reviews = ref<ReviewDocument[]>(Array(4).fill('i').map(() => ({
   _id: '1' + Math.random(),
   user: {
     id: String(Math.round(Math.random() * 1000)),

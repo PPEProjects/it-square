@@ -13,6 +13,9 @@
     <div class='h-3'></div>
     <show-case />
     <div class='h-7'></div>
+
+    <require-grant-modal />
+
   </div>
 </template>
 <script lang='ts' setup></script>

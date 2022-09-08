@@ -59,7 +59,7 @@
     </div>
 
     <div class="mt-6 flex items-center">
-      <button class="flex items-center bg-gradient-to-r from-primary-500 to-primary-700 text-white px-4 py-2 rounded-full shadow-lg shadow-primary-200">
+      <button class="flex items-center bg-gradient-to-r from-primary-500 to-primary-700 text-white px-4 py-2 rounded-full shadow-lg shadow-primary-200" @click="$emitter.emit('requiredGrantModal')">
         <i-material-symbols-add />
         <span class="font-semibold ml-1">Tham Gia Ngay</span>
       </button>

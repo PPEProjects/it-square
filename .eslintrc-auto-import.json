@@ -149,6 +149,7 @@
     "useElementHover": true,
     "useElementSize": true,
     "useElementVisibility": true,
+    "useEmitter": true,
     "useEventBus": true,
     "useEventListener": true,
     "useEventSource": true,

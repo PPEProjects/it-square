@@ -38,7 +38,8 @@ export default ({ mode }) => {
               'useSubscription',
               'useQuery',
               'useMutation'
-            ]
+            ],
+            '@nguyenshort/vue3-mitt': ['useEmitter']
           }
         ],
         include: [

@@ -31,6 +31,8 @@
       </div>
     </div>
 
+    <require-grant-modal />
+
   </div>
 </template>
 
