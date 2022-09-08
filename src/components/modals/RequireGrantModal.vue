@@ -1,5 +1,5 @@
 <template>
-  <base-modal event="requiredGrantModal" title="Yêu Cầu Tham Gia">
+  <base-modal event="requiredGrantModal" title="Yêu Cầu Tham Gia" @init="currentStep = 'input'">
     <div v-auto-animate>
       <div v-if="currentStep === 'input'">
         <a-form
