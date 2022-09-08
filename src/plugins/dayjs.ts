@@ -9,9 +9,17 @@ import { App } from 'vue'
 
 export const DAYJS_CONSTANT = Symbol.for('dayjs')
 
+// Cutsom type
+declare module '@vue/runtime-core' {
+  export interface ComponentCustomProperties {
+    $dayjs: typeof dayjs
+  }
+}
+
 const plugin = {
   install(app: App) {
     app.provide(DAYJS_CONSTANT, dayjs)
+    app.config.globalProperties.$dayjs = dayjs
   }
 }
 

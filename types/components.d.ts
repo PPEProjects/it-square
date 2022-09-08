@@ -33,6 +33,7 @@ declare module '@vue/runtime-core' {
     IBiStar: typeof import('~icons/bi/star')['default']
     IBiStarFill: typeof import('~icons/bi/star-fill')['default']
     IBxBxsCategoryAlt: typeof import('~icons/bx/bxs-category-alt')['default']
+    IBxBxsMessageSquareEdit: typeof import('~icons/bx/bxs-message-square-edit')['default']
     IBxsFlag: typeof import('~icons/bxs/flag')['default']
     IEosIconsLoading: typeof import('~icons/eos-icons/loading')['default']
     IEpFlag: typeof import('~icons/ep/flag')['default']
@@ -94,6 +95,7 @@ declare module '@vue/runtime-core' {
     ShowCase: typeof import('./../src/components/home/ShowCase.vue')['default']
     SiteFooter: typeof import('./../src/components/includes/SiteFooter.vue')['default']
     SiteHeader: typeof import('./../src/components/includes/SiteHeader.vue')['default']
+    StarRating: typeof import('./../src/components/includes/StarRating.vue')['default']
     SubMenu: typeof import('./../src/components/includes/SubMenu.vue')['default']
     WhyUs: typeof import('./../src/components/home/WhyUs.vue')['default']
   }

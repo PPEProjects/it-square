@@ -6,7 +6,7 @@
     </h3>
 
     <div class="flex mt-4">
-      <div class="w-2/3 pr-7">
+      <div class="w-2/3 pr-10">
         <ul>
           <li
             v-for="comment in poits"
@@ -31,20 +31,36 @@
           </li>
         </ul>
       </div>
-      <div class="w-1/3">
-        <div class="w-full h-full justify-center items-center">
-          <button class="flex items-center mr-6 bg-gradient-to-r from-primary-500 to-primary-700 text-white px-3 py-2 rounded-full shadow-lg shadow-primary-200">
-            <span class="text-xs font-semibold mr-1">Đánh Giá</span>
-            <i-material-symbols-add-circle />
+      <div class="w-1/3 border-l">
+        <div class="w-full h-full justify-center items-center flex">
+          <button class="flex items-center mr-6 bg-gradient-to-r from-primary-500 to-primary-700 text-white px-4 py-2 rounded-full shadow-lg shadow-primary-200">
+            <span class="text-[14px] font-semibold mr-2">Đánh Giá</span>
+            <i-bx-bxs-message-square-edit />
           </button>
         </div>
       </div>
+    </div>
+
+    <div class="mt-6">
+
+      <div
+          v-for="review in reviews"
+          :key="review._id"
+          class="mb-7 last:mb-0"
+      >
+
+        <review-item :review="review" />
+
+      </div>
+
     </div>
 
   </div>
 </template>
 
 <script lang="ts" setup>
+import {ReviewDocument} from "@entities/review"
+import ReviewItem from "@components/review/ReviewItem";
 interface SratingScore {
   score: number
   name: string
@@ -73,6 +89,30 @@ const poits = ref<SratingScore[]>([
     key: 'vision',
   }
 ])
+
+const reviews = ref<ReviewDocument[]>(Array(10).fill('i').map(() => ({
+  _id: '1' + Math.random(),
+  user: {
+    id: String(Math.round(Math.random() * 1000)),
+    name: 'Nguyễn Văn A',
+    avatar: 'https://i.pravatar.cc/150?img=1',
+  },
+  rating: 3.4,
+  content: '@yuan It is a long established fact. @tien The point of using Lorem Ipsum. As I said before, you can express the value you want to return as the replaced value as a function.',
+  mentions: [
+    {
+      id: '1',
+      name: 'Yuan',
+      slug: 'yuan',
+    },
+    {
+      id: '2',
+      name: 'Tiến',
+      slug: 'tien'
+    }
+  ],
+  createdAt: Date.now()
+})))
 </script>
 
 <style scoped>
