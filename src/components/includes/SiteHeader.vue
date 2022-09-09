@@ -6,7 +6,7 @@
         <router-link to='/' title='' class='logo'>
           <img
             class='w-full h-full object-cover mr-4'
-            src='/images/logo.png'
+            src='/images/logo.svg'
             alt=''
           >
         </router-link>
