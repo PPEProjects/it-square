@@ -1,5 +1,5 @@
 <template>
-  <block-session title='OnBoard' description='Projects that allow registration to participate.'>
+  <block-session title='OnBoard 1' description='Projects that allow registration to participate.'>
     <div
       class='flex flex-wrap -mx-3 -mb-7'
     >

@@ -53,7 +53,7 @@ export default defineComponent({
                 h('span', { class: 'ml-3 text-[13px] text-gray-400' }, 'Hôm Qua')
             ]),
             h(StarRating, { rating: this.review.rating, class: 'text-[11px]' }),
-            h('div', { class: 'text-gray-500 mt-2' }, mentions)
+            h('div', { class: 'text-gray-500 mt-2 relative', ref: 'contentRef' }, mentions)
         ])
 
         return [
