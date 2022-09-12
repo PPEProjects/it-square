@@ -32,6 +32,7 @@
     </div>
 
     <require-grant-modal />
+    <add-comment-modal />
 
   </div>
 </template>

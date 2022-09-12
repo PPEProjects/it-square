@@ -59,7 +59,7 @@ const images = ref<string[]>(Array(4).fill('1').map((value, index) => `/images/p
 
 const activeIndex = ref(0)
 
-const { pause, resume, isActive } = useIntervalFn(() => {
+const { pause, resume } = useIntervalFn(() => {
   activeIndex.value = rand(0, images.value.length - 1)
 }, 3000)
 

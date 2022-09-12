@@ -55,6 +55,10 @@
 
     </div>
 
+    <div class="mt-7 flex items-center justify-end">
+      <pagination-view :total="20" />
+    </div>
+
   </div>
 </template>
 
