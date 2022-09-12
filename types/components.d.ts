@@ -97,6 +97,7 @@ declare module '@vue/runtime-core' {
     ProjectProgress: typeof import('./../src/components/projects/ProjectProgress.vue')['default']
     ProjectsBanners: typeof import('./../src/components/projects/ProjectsBanners.vue')['default']
     RequireGrantModal: typeof import('./../src/components/modals/RequireGrantModal.vue')['default']
+    ReviewMagicInput: typeof import('./../src/components/review/ReviewMagicInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     RunningHorizontal: typeof import('./../src/components/template/running/RunningHorizontal.vue')['default']

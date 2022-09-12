@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.6",
+    "@editorjs/editorjs": "^2.25.0",
     "@formkit/auto-animate": "^1.0.0-beta.1",
     "@nguyenshort/vue3-loading-indicator": "^0.0.7",
     "@nguyenshort/vue3-mitt": "^0.0.4",

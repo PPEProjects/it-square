@@ -15,6 +15,10 @@ let routes: RouteRecordRaw[] = [
     meta: { private: true }
   },
   {
+    path: '/test',
+    component: () => import('@pages/test/index.vue')
+  },
+  {
     path: '/auth',
     redirect: '/auth/signin',
     meta: {

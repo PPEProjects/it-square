@@ -1,5 +1,5 @@
 <template>
-  <base-modal event="addCommentModal" title="Đánh Giá Dự Án" :visible="true" :max-width="500">
+  <base-modal event="addCommentModal" title="Đánh Giá Dự Án" :visible="true" :max-width="600">
     <div class="pt-2">
       <ul class="mb-0">
         <li
@@ -35,12 +35,7 @@
 
       </div>
 
-      <div class="relative">
-        <textarea
-            placeholder="Nhập đánh giá của bạn về dự án. Hãy đánh giá không khoan nhượng và tránh spam bạn nhé!"
-            class="h-[150px] w-full rounded-lg focus:outline-0 bg-gray-100 p-4 text-gray-700 resize-none"
-        />
-      </div>
+      <review-magic-input />
 
     </div>
 
