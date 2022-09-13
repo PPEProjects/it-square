@@ -33,7 +33,10 @@
       </div>
       <div class="w-1/3 border-l">
         <div class="w-full h-full justify-center items-center flex">
-          <button class="flex items-center mr-6 bg-gradient-to-r from-primary-500 to-primary-700 text-white px-4 py-2 rounded-full shadow-lg shadow-primary-200">
+          <button
+              class="flex items-center mr-6 bg-gradient-to-r from-primary-500 to-primary-700 text-white px-4 py-2 rounded-full shadow-lg shadow-primary-200"
+              @click="$emitter.emit('addCommentModal')"
+          >
             <span class="text-[14px] font-semibold mr-2">Đánh Giá</span>
             <i-bx-bxs-message-square-edit />
           </button>

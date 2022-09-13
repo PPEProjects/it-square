@@ -1,5 +1,5 @@
 <template>
-  <base-modal event="addCommentModal" title="Đánh Giá Dự Án" :visible="true" :max-width="600">
+  <base-modal event="addCommentModal" title="Đánh Giá Dự Án" :max-width="600">
     <div class="pt-2">
       <ul class="mb-0">
         <li
