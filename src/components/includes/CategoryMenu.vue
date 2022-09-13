@@ -32,14 +32,23 @@
 
 <script lang="ts" setup>
 
+// @ts-ignore
 import MdiWeb from '~icons/mdi/web'
+// @ts-ignore
 import UilMobileVibrate from '~icons/uil/mobile-vibrate'
+// @ts-ignore
 import PhFigmaLogo from '~icons/ph/figma-logo'
+// @ts-ignore
 import NimbusMarketing from '~icons/nimbus/marketing'
+// @ts-ignore
 import ClarityBlocksGroupSolid from '~icons/clarity/blocks-group-solid'
+// @ts-ignore
 import ClarityInternetOfThingsSolid from '~icons/clarity/internet-of-things-solid'
+// @ts-ignore
 import MdiAppleIcloud from '~icons/mdi/apple-icloud'
+// @ts-ignore
 import UilServers from '~icons/uil/servers'
+// @ts-ignore
 import PhDatabaseFill from '~icons/ph/database-fill'
 
 // 'Mobile', 'Web', 'Design', 'Marketing', 'Blockchain', 'IoT', 'Cloud', 'DevOps', 'Cybersecurity', 'Data Science'

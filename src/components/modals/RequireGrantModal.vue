@@ -182,7 +182,11 @@ const jobPositions = [
   }
 ]
 
-const form = reactive({
+const form = reactive<{
+  position: any
+  about: string
+  cv: string
+}>({
   position: 1,
   about: '',
   cv: ''
