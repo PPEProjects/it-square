@@ -40,6 +40,9 @@
       ],
       "@composable/*": [
         "./src/composable/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
       ]
     }
   },

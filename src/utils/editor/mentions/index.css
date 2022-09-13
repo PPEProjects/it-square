@@ -1,0 +1,49 @@
+.cdx-mention__inline-tool {
+    width: 24px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cdx-mention__inline-tool svg.icon {
+    width: 20px;
+    height: 20px;
+}
+
+.cdx-mention__container {
+    z-index: 1000;
+    position: fixed;
+    background: white;
+    box-shadow: 0 24px 20px -18px rgb(69 104 129 / 0%), 0 9px 45px 0 rgb(114 119 160 / 12%);
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 10px 0;
+    transform: translate(0, -110%);
+    visibility: hidden;
+    opacity: 0;
+    @apply transition;
+}
+
+.cdx-mention__container.openned {
+    transform: translate(0, -100%);
+    opacity: 1;
+    visibility: visible;
+}
+
+.cdx-mention__user {
+    @apply flex px-2 pb-2 last:pb-0 items-center transition hover:bg-primary-50 hover:text-primary-500 cursor-pointer;
+}
+
+.cdx-mention__user-name {
+    @apply font-semibold;
+}
+
+.cdx-mention__user-avatar {
+    @apply w-9 h-9 mr-2 rounded-full overflow-hidden border-2 border-white flex-shrink-0;
+    box-shadow: 0 24px 20px -18px rgb(69 104 129 / 0%), 0 9px 45px 0 rgb(114 119 160 / 12%);
+}
+
+.cdx-mention-active {
+    @apply cursor-pointer underline text-primary-500;
+}

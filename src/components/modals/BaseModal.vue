@@ -76,7 +76,7 @@ const props = withDefaults(defineProps<Props>(), {
   title: '',
   maxWidth: 550,
   canCancel: true,
-  zIndex: 1000
+  zIndex: 100
 })
 
 // ẩn hiện modal

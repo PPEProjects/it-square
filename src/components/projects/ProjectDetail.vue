@@ -72,7 +72,18 @@
 </template>
 
 <script lang="ts" setup>
+import {computed} from "vue";
+
 const frameworks = ref<string[]>(['Vue', 'React', 'Angular', 'Svelte', 'Nuxt', 'Next', 'PHP', 'Laravel'])
+
+const roles = ref<string[]>(['Leader', 'MO', 'Des'].concat(Array(9).fill('Dev')))
+
+const showRoles = computed(() => {
+  if(roles.value.length > 6) {
+    return roles.value.slice(0, 5)
+  }
+  return roles.value
+})
 </script>
 
 <style scoped>
