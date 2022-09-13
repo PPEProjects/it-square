@@ -31,6 +31,7 @@ declare module '@vue/runtime-core' {
     BaseModal: typeof import('./../src/components/modals/BaseModal.vue')['default']
     BestProject: typeof import('./../src/components/home/BestProject.vue')['default']
     BlockSession: typeof import('./../src/components/includes/BlockSession.vue')['default']
+    CategoryMenu: typeof import('./../src/components/includes/CategoryMenu.vue')['default']
     GridItem: typeof import('vue3-grid-layout')['GridItem']
     GridLayout: typeof import('vue3-grid-layout')['GridLayout']
     HomeDone: typeof import('./../src/components/home/HomeDone.vue')['default']
@@ -108,7 +109,8 @@ declare module '@vue/runtime-core' {
     SiteFooter: typeof import('./../src/components/includes/SiteFooter.vue')['default']
     SiteHeader: typeof import('./../src/components/includes/SiteHeader.vue')['default']
     StarRating: typeof import('./../src/components/includes/StarRating.vue')['default']
-    SubMenu: typeof import('./../src/components/includes/SubMenu.vue')['default']
+    SubMenu: typeof import('@components/includes/TechMenu.vue')['default']
+    TechMenu: typeof import('./../src/components/includes/TechMenu.vue')['default']
     WhyUs: typeof import('./../src/components/home/WhyUs.vue')['default']
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div id="inputReview" class="relative">
 
-    <div class="h-[150px] w-full resize-none rounded-lg bg-gray-50 p-4 text-gray-700 focus:outline-0 text-[14px] overflow-y-auto">
+    <div class="h-[180px] w-full resize-none rounded-lg bg-gray-50 p-4 text-gray-700 focus:outline-0 text-[14px] overflow-y-auto">
       <div ref="editorRef" />
     </div>
 

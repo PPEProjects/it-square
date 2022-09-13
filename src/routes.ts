@@ -10,6 +10,10 @@ let routes: RouteRecordRaw[] = [
     component: () => import('@pages/projects/index.vue')
   },
   {
+    path: '/discovery',
+    component: () => import('@pages/discovery/index.vue')
+  },
+  {
     path: '/form',
     component: () => import('@pages/form/add-project.vue'),
     meta: { private: true }
