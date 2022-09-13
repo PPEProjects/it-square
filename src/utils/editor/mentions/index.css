@@ -13,7 +13,7 @@
 
 .cdx-mention__container {
     z-index: 1000;
-    position: fixed;
+    position: absolute;
     background: white;
     box-shadow: 0 24px 20px -18px rgb(69 104 129 / 0%), 0 9px 45px 0 rgb(114 119 160 / 12%);
     border-radius: 4px;
@@ -44,6 +44,15 @@
     box-shadow: 0 24px 20px -18px rgb(69 104 129 / 0%), 0 9px 45px 0 rgb(114 119 160 / 12%);
 }
 
-.cdx-mention-active {
+.cdx-mention {
     @apply cursor-pointer underline text-primary-500;
+}
+
+.cdx-mention__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
 }

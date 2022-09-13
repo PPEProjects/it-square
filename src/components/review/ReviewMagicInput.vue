@@ -62,7 +62,11 @@ onMounted(() => {
         }
       }
     },
-    data: input
+    data: input,
+    onChange: async () => {
+      const data = await editor.value?.save()
+      console.log(data)
+    }
   })
 })
 

@@ -95,9 +95,20 @@ export default class MentionMaker {
 
         this.#api.selection.expandToTag(mark)
 
+        const $parent = document.createElement('div')
+        $parent.classList.add('cdx-mention__overlay')
 
-        const $container: HTMLDivElement = document.createElement('div')
-        $container.classList.add('cdx-mention__container')
+        // Todo: find other way to append to close picker
+        const $backdrop = document.createElement('a')
+        $backdrop.classList.add('cdx-mention__backdrop')
+        $backdrop.addEventListener('click', () => {
+            this.hidenPicker()
+        })
+
+        $parent.appendChild($backdrop)
+
+        const $body: HTMLDivElement = document.createElement('div')
+        $body.classList.add('cdx-mention__container')
 
         users.forEach(user => {
             const $user: HTMLDivElement = document.createElement('div')
@@ -111,29 +122,30 @@ export default class MentionMaker {
 
             $user.addEventListener('click', () => {
                 mark.classList.remove('bg-primary-50')
-                mark.classList.add('cdx-mention-active')
+                mark.classList.add('cdx-mention')
                 mark.textContent = user.name
 
                 this.hidenPicker()
             })
 
-            $container.appendChild($user)
+            $body.appendChild($user)
         })
 
         const rect = mark.getBoundingClientRect()
 
-        $container.style.top = rect.top - 10 + 'px'
-        $container.style.left = rect.left + 'px'
-        $container.style.width = '200px'
+        $body.style.top = rect.top - 10 + 'px'
+        $body.style.left = rect.left + 'px'
+        $body.style.width = '200px'
 
-        document.body.appendChild($container)
+        $parent.appendChild($body)
+        document.body.appendChild($parent)
 
         setTimeout(() => {
-            $container.classList.add('openned')
+            $body.classList.add('openned')
         }, 100)
 
         // document.addEventListener('click', (e) => {
-        //     if (e.target !== $container || e.target !== this.#api.ui.nodes.redactor) {
+        //     if (e.target !== $body || e.target !== this.#api.ui.nodes.redactor) {
         //         this.hidenPicker()
         //     }
         // })
@@ -182,8 +194,8 @@ export default class MentionMaker {
     }
 
     hidenPicker() {
-        const $parent = document.querySelector('.cdx-mention__container')
-        $parent?.classList.remove('openned')
+        const $parent = document.querySelector('.cdx-mention__overlay')
+        $parent?.querySelector('.cdx-mention__container')?.classList.remove('openned')
         setTimeout(() => {
             $parent?.remove()
         }, 500)
