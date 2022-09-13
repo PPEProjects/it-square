@@ -49,6 +49,23 @@
           alt=""
       />
     </div>
+
+
+<!--    <div>-->
+<!--      <a-image-preview-group>-->
+<!--        <a-image-->
+<!--            v-for="(image, index) in images"-->
+<!--            :key="index"-->
+<!--            :src="image"-->
+<!--            :style="{ display: 'none' }"-->
+<!--            :preview="{-->
+<!--              visible,-->
+<!--              onVisibleChange: setVisible,-->
+<!--            }"-->
+<!--        />-->
+<!--      </a-image-preview-group>-->
+<!--    </div>-->
+
   </div>
 </template>
 
@@ -67,6 +84,11 @@ const changeIndex = (index: number) => {
   pause()
   activeIndex.value = index
   resume()
+}
+
+const visible = ref<boolean>(false)
+const setVisible = (value: boolean): void => {
+  visible.value = value;
 }
 </script>
 
