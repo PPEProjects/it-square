@@ -102,6 +102,7 @@
     "until": true,
     "useActiveElement": true,
     "useAnime": true,
+    "useAppStore": true,
     "useArrayEvery": true,
     "useArrayFilter": true,
     "useArrayFind": true,

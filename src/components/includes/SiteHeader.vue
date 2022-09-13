@@ -28,7 +28,7 @@
       </div>
 
       <div class='w-full flex justify-end h-full py-3.5 pr-3'>
-        <form class='w-[280px] h-full' action='/search'>
+        <form class='w-[280px] h-full' action='/search' @click="app.openSpotlight = true">
           <input
             type='text'
             placeholder='Search...'
@@ -68,6 +68,7 @@
 
 <script lang='ts' setup>
 const userStore = useUserStore()
+const app = useAppStore()
 
 </script>
 

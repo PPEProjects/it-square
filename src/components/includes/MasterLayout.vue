@@ -1,12 +1,19 @@
 <template>
-  <div :id='$route.meta.layout || "default"' class='text-gray-600'>
+  <div
+      :id='$route.meta.layout || "default"'
+      class='text-gray-600 master-layout'
+      :class="[ appStore.openSpotlight ? 'blur-[2px] filter' : '' ]"
+  >
     <component :is="layout" :key="layout" />
   </div>
+  <spotlight-view />
   <vue-loading-indicator />
 </template>
 
 <script lang='ts' setup>
 import { useLoadingIndicator } from '@nguyenshort/vue3-loading-indicator'
+
+const appStore = useAppStore()
 
 const cookies = useCookies()
 const useUser = useUserStore()
