@@ -98,6 +98,7 @@ export default class MentionMaker implements InlineTool {
 
         this.#api.selection.expandToTag(mark)
 
+        document.querySelector('.cdx-mention__overlay')?.remove()
         const $parent = document.createElement('div')
         $parent.classList.add('cdx-mention__overlay')
 
@@ -183,7 +184,6 @@ export default class MentionMaker implements InlineTool {
      * @param mark
      */
     showActions(mark: HTMLElement) {
-        console.log(mark)
         this.#action.classList.remove('cdx-mention__picker--hidden')
     }
 
