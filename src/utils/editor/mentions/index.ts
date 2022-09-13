@@ -1,9 +1,9 @@
-import {API} from "@editorjs/editorjs"
+import {API, InlineTool, SanitizerConfig} from "@editorjs/editorjs"
 import './index.css'
 import {mentionInlineToolIcon} from "@utils/editor/mentions/render/icon";
 import {MentionMakerConfig, MentionMakerInlineConfig} from "@utils/editor/mentions/type";
 
-export default class MentionMaker {
+export default class MentionMaker implements InlineTool {
     #api: API
     #config?: MentionMakerInlineConfig
 
@@ -32,10 +32,13 @@ export default class MentionMaker {
         this.#button.classList.toggle(this.#api.styles.inlineToolButtonActive, state);
     }
 
-    static get sanitize() {
+    static get sanitize(): SanitizerConfig {
         return {
-            u: {
+            span: {
                 class: MentionMaker.CSS,
+                'data-id': true,
+                'data-name': true,
+                'data-avatar': true
             }
         };
     }
@@ -121,9 +124,12 @@ export default class MentionMaker {
             `
 
             $user.addEventListener('click', () => {
+                mark.setAttribute('data-id', user.id)
+                mark.setAttribute('data-name', user.name)
+                mark.setAttribute('data-avatar', user.avatar)
                 mark.classList.remove('bg-primary-50')
-                mark.classList.add('cdx-mention')
-                mark.textContent = user.name
+                mark.classList.add(MentionMaker.CSS)
+                mark.textContent = '@' + user.name
 
                 this.hidenPicker()
             })
@@ -169,6 +175,7 @@ export default class MentionMaker {
         } else {
             this.hideActions()
         }
+        return this.#state
     }
 
     /**
