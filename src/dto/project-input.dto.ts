@@ -5,7 +5,8 @@ export declare type WithRequired<T> = {
 }
 
 // Phòng trường hợp modify thì sẽ sử dụng interface này
-export interface AddProjectInput extends Omit<UpsertProject, 'id'> {
+export interface AddProjectInput {
+  name: string
   category: string
-  budget: string
+  technical: string[]
 }

@@ -1,22 +1,4 @@
 <template>
-  <h2 class="mt-5 text-lg text-blue-700">Project Information</h2>
-  {{ $env('VITE_BUNNY_URL') }}
-  <section class="mb-10 mt-5 rounded-lg bg-[#E0F2FE] text-base">
-    <div class="mx-auto max-w-7xl">
-      <div class="flex h-[62px] flex-wrap items-center justify-between px-4">
-        <div class="flex w-0 flex-1 items-center">
-          <i-bi-info-circle-fill class="flex-shrink-1 text-[#0369A1]" />
-          <p class="my-0 ml-3 truncate font-medium text-white">
-            <span class="text-[#0369A1]"
-              >Congratulations for having a great project. Please
-              <a href="#">see Pitch Deck sample here</a> for
-              well-prepared.</span
-            >
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
   <!-- Ko sử dụng thì xoá @finish-failed="onFinishFailed" -->
   <a-form
     :model="formState"
@@ -178,10 +160,6 @@
           </span>
         </label>
       </div>
-    </a-form-item>
-
-    <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-      <a-button type="primary" html-type="submit" :loading='loading'>Submit</a-button>
     </a-form-item>
   </a-form>
 </template>

@@ -5,15 +5,17 @@
     <site-header />
     <div
       :id="String($route.name) || ''"
-      class='max-w-bootstrap w-full mx-auto px-4 min-h-[52vh]'
+      class='w-full mx-auto min-h-[52vh]'
+      :class="[/^studio/.test($route.name) ? '' : 'max-w-bootstrap px-4']"
     >
-      <router-view v-slot="{ Component }">
-        <transition key="transition-layout" name="page-layout" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
+      <router-view />
+<!--      <router-view v-slot="{ Component }">-->
+<!--        <transition key="transition-layout" name="page-layout" mode="out-in">-->
+<!--          <component :is="Component" />-->
+<!--        </transition>-->
+<!--      </router-view>-->
     </div>
-    <site-footer />
+    <site-footer v-if="!(/^studio/.test($route.name))" />
   </div>
 </template>
 

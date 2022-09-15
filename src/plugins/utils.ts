@@ -55,7 +55,6 @@ const plugin = {
     app.provide('$cdn', $cdn)
     app.config.globalProperties.$moneyFormat = $moneyFormat
     app.provide('$moneyFormat', $moneyFormat)
-
     app.config.globalProperties.$env = $env
   }
 }

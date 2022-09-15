@@ -13,6 +13,11 @@
 <script lang='ts' setup>
 import { useLoadingIndicator } from '@nguyenshort/vue3-loading-indicator'
 
+import defaultLayout from '@layouts/default.vue'
+import studioLayout from '@layouts/studio.vue'
+import blankLayout from '@layouts/blank.vue'
+import authLayout from '@layouts/auth.vue'
+
 const appStore = useAppStore()
 
 const cookies = useCookies()
@@ -43,21 +48,17 @@ const vueClientInit = async  () => {
 
 await vueClientInit()
 
-const layouts = shallowRef<Record<string, ReturnType<typeof defineComponent>>>({})
-
-const allowedLayouts = ['default', 'blank', 'auth']
-const asyncLayout = () => {
-  allowedLayouts.forEach(layout => {
-    layouts.value[layout] = defineAsyncComponent(() => import(`../../layouts/${layout}.vue`))
-  })
-}
-
-asyncLayout()
+const layouts = shallowRef<Record<string, ReturnType<typeof defineComponent>>>({
+  default: defaultLayout,
+  studio: studioLayout,
+  blank: blankLayout,
+  auth: authLayout
+})
 
 const route = useRoute()
 const layout = computed(() => {
   // lấy layout từ router
-  const _name = allowedLayouts.includes(route.meta.layout || 'default') ? route.meta.layout || 'default' : 'default'
+  const _name = Object.keys(layouts.value).includes(route.meta.layout || 'default') ? route.meta.layout || 'default' : 'default'
   return layouts.value[_name]
 })
 
