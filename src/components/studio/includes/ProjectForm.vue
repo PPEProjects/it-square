@@ -82,42 +82,34 @@
       </div>
       <div class="w-full pl-7">
         <a-form-item label="Hình Ảnh" name="images">
-          <div>
-
-            <draggable
-                v-model="formState.images"
-                item-key="id"
-                group="people"
-                class="bg-gray-50 p-3 rounded-md empty:hidden mb-3"
-            >
-              <template #item="{element}">
-                <div class="cursor-pointer py-2 border-b last:border-0">
-                  <i-ci-dot-01-xs class="inline-block" />
-                  <span>{{ element.name }}</span>
-                  <i-ic-baseline-delete
-                      class="inline-block text-rose-500 transform scale-90"
-                      @click="formState.images = formState.images.filter((e) => e.id !== element.id)"
-                  />
-                </div>
-              </template>
-            </draggable>
-
-            <a-button type="primary" size="small" @click="useImages.open()">
-              <div class="flex items-center">
-                <i-ic-cloud-upload />
-                <span class="ml-2 text-xs"> Tải Lên </span>
+          <div class="h-3"></div>
+          <draggable
+              v-model="formState.images"
+              item-key="id"
+              group="people"
+              class="bg-gray-50 p-3 rounded-md empty:hidden mb-3 flex flex-wrap -mx-3 -mt-3"
+          >
+            <template #item="{element}">
+              <div class="w-1/4 h-[100px] overflow-hidden px-3 mt-3">
+                <img class="w-full h-full object-cover" :src="element.img" alt="" />
               </div>
-            </a-button>
-
-            <template #extra>
-              <small>
-                - Tải lên hình ảnh của bạn.
-                <br/>
-                - Có thể thay đổi thứ tự hình ảnh bằng cách kéo thả.
-              </small>
             </template>
+          </draggable>
 
-          </div>
+          <a-button type="primary" size="small" @click="useImages.open()">
+            <div class="flex items-center">
+              <i-ic-cloud-upload />
+              <span class="ml-2 text-xs"> Tải Lên </span>
+            </div>
+          </a-button>
+
+          <template #extra>
+            <small>
+              - Tải lên hình ảnh của bạn.
+              <br/>
+              - Có thể thay đổi thứ tự hình ảnh bằng cách kéo thả.
+            </small>
+          </template>
         </a-form-item>
       </div>
     </div>
@@ -138,6 +130,7 @@ const formState = reactive<AddProjectInput>({
   name: '',
   category: '',
   skills: [],
+  images: [],
   time_to_do: {
     from: '',
     to: ''
@@ -176,8 +169,7 @@ const onChangeRangePicker = (dates: [string, string] | [Dayjs, Dayjs]) => {
 }
 
 const useFile = useFileDialog({
-  multiple: true,
-  accept: '*'
+  multiple: true
 })
 
 watch(useFile.files, (files) => {
@@ -192,7 +184,16 @@ watch(useFile.files, (files) => {
 
 const useImages = useFileDialog({
   multiple: true,
-  accept: '*'
+  accept: '.png'
+})
+
+watch(useImages.files, (files) => {
+  Array.from(files as FileList).forEach((file) => {
+    formState.images.push({
+      id: Math.random(),
+      img: URL.createObjectURL(file),
+    })
+  })
 })
 
 

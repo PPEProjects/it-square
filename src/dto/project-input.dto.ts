@@ -9,6 +9,7 @@ export interface AddProjectInput {
   name: string
   category: string
   skills: string[]
+  images: any[]
   time_to_do: {
     from: string
     to: string
