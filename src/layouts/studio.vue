@@ -76,7 +76,7 @@
       <div id="studio-body" class="relative z-10">
 
         <div
-            class="h-[70px] w-full bg-white relative top-0 left-0 right-0 z-10 px-[32px] flex items-center"
+            class="h-[70px] w-full bg-white relative top-0 left-0 right-0 z-10 px-[32px] flex items-center flex-shrink-0"
         >
           <a
               id="back-button"
@@ -104,10 +104,12 @@
 
         </div>
 
-        <div class="w-full h-full overflow-y-auto px-[30px] pt-[30px]">
+        <div class="w-full h-full px-[30px] pt-[30px]">
 
-          <div class="w-full h-full bg-white scrollbar-hide p-[30px]">
-            <router-view />
+          <div class="px-[30px] pt-[30px] w-full h-full bg-white">
+            <div id="scroller" class="scrollbar-hide overflow-y-auto">
+              <router-view />
+            </div>
           </div>
 
         </div>
@@ -119,6 +121,10 @@
 <script lang="ts" setup></script>
 
 <style lang="scss" scoped>
+
+#scroller {
+  height: calc(100vh - 70px - 30px - 30px);
+}
 
 #studio-layout {
   @apply w-full h-screen bg-primary-100 flex-shrink-0;

@@ -1,14 +1,14 @@
 <template>
   <div>
 
-    <div class="fixed top-[35px] right-[32px] z-50 transform -translate-y-1/2">
+    <tranform-view to="#studio-actions">
       <a-button type="primary" class="items-end" @click="$router.push('/studio/new-project')">
         Thêm Mới
         <template #icon>
           <i-ic-baseline-plus class="inline-block mr-1" />
         </template>
       </a-button>
-    </div>
+    </tranform-view>
 
     <a-table :data-source="dataSource" :columns="columns">
       <template #bodyCell="{ column }">

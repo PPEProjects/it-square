@@ -8,5 +8,10 @@ export declare type WithRequired<T> = {
 export interface AddProjectInput {
   name: string
   category: string
-  technical: string[]
+  skills: string[]
+  time_to_do: {
+    from: string
+    to: string
+  },
+  files: any[]
 }

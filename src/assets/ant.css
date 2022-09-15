@@ -11,3 +11,8 @@
 .ant-table-thead > tr > th {
     text-transform: uppercase;
 }
+
+.ant-select-multiple .ant-select-selection-item-remove {
+    position: relative;
+    top: -2px;
+}
