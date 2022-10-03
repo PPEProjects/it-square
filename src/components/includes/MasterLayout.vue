@@ -7,11 +7,16 @@
     <component :is="layout" :key="layout" />
   </div>
   <spotlight-view />
+  <auth-modal />
   <vue-loading-indicator />
 </template>
 
 <script lang='ts' setup>
 import { useLoadingIndicator } from '@nguyenshort/vue3-loading-indicator'
+
+import {useFirebaseContext} from "@composable/useFirebase"
+
+const firebaseCtx = useFirebaseContext()
 
 import defaultLayout from '@layouts/default.vue'
 import studioLayout from '@layouts/studio.vue'
@@ -19,23 +24,30 @@ import blankLayout from '@layouts/blank.vue'
 import authLayout from '@layouts/auth.vue'
 
 const appStore = useAppStore()
+const userStore = useUserStore()
 
-const cookies = useCookies()
 const useUser = useUserStore()
 const router = useRouter()
+
+const { user } = useAuth(getAuth(firebaseCtx))
+const getUserMetaData = async () => {
+  const db = getDatabase()
+  dbOnValue(dbRef(db, 'users/' + user.value!.uid), async (data) => {
+    if (data.exists()) {
+      userStore.user = user.value
+    }
+  })
+}
+// Lắng nghe sự kiện đăng nhập
+watch(user, (val) => {
+  if (val) {
+    getUserMetaData()
+  } else {
+    useUser.logout()
+  }
+})
 // Init app
 const vueClientInit = async  () => {
-  useUser.setToken(cookies?.get('_token'))
-  // kiểm tra cookie, lấy user
-  if (useUser._token) {
-    await useUser.getMe()
-  }
-
-  if(!useUser.auth) {
-    useUser.logout()
-    cookies?.remove('_token')
-  }
-
   router.beforeEach((to, from, next) => {
     if (to.meta.private && !useUser.auth) {
       sessionStorage.setItem('returnTo', to.fullPath)

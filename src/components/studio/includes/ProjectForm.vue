@@ -81,16 +81,23 @@
 
       </div>
       <div class="w-full pl-7">
-        <a-form-item label="Hình Ảnh" name="images">
+        <a-form-item name="images">
+          <template #label>
+            <div class="flex items-center justify-between">
+              <h4 class="mb-0">Hình Ảnh</h4>
+              <button>Chỉnh Sửa</button>
+            </div>
+          </template>
           <div class="h-3"></div>
           <draggable
               v-model="formState.images"
+              v-auto-animate
               item-key="id"
               group="people"
               class="bg-gray-50 p-3 rounded-md empty:hidden mb-3 flex flex-wrap -mx-3 -mt-3"
           >
             <template #item="{element}">
-              <div class="w-1/4 h-[100px] overflow-hidden px-3 mt-3">
+              <div class="w-1/4 h-[100px] overflow-hidden px-3 mt-4">
                 <img class="w-full h-full object-cover" :src="element.img" alt="" />
               </div>
             </template>
@@ -184,7 +191,7 @@ watch(useFile.files, (files) => {
 
 const useImages = useFileDialog({
   multiple: true,
-  accept: '.png'
+  accept: '.png,.jpg'
 })
 
 watch(useImages.files, (files) => {
@@ -195,6 +202,8 @@ watch(useImages.files, (files) => {
     })
   })
 })
+
+const editImagesEnable = ref(false)
 
 
 const onFinish = (values: any) => {

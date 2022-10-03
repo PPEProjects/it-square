@@ -40,6 +40,18 @@ export default ({ mode }) => {
               'useMutation'
             ],
             '@nguyenshort/vue3-mitt': ['useEmitter']
+          },
+          {
+            '@vueuse/firebase': ['useAuth']
+          },
+          {
+            'firebase/auth': ['getAuth'],
+            'firebase/database': [
+                'getDatabase',
+                ['ref', 'dbRef'],
+                ['set', 'dbSet'],
+                ['onValue', 'dbOnValue'],
+            ]
           }
         ],
         include: [

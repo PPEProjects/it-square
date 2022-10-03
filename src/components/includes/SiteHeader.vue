@@ -56,13 +56,11 @@
         </div>
 
         <div class="header-user flex-shrink-0">
-          <a-badge v-if="userStore.auth" dot>
-            <a-avatar size="large" src="/images/avatar.jpeg"></a-avatar>
-          </a-badge>
+          <user-menu v-if="userStore.auth" />
           <button
               v-else
               class="rounded-full bg-gradient-to-r from-primary-500 to-primary-700 px-4 py-2 text-white"
-              @click="$router.push('/auth/signin')"
+              @click="$emitter.emit('authModal')"
           >
             Đăng Nhập
           </button>

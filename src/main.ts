@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-import './firebase'
 import './assets/tailwind.css'
 
 import App from './App.vue'
@@ -10,6 +9,7 @@ import VueLoadingIndicator from '@nguyenshort/vue3-loading-indicator'
 import { createPinia } from 'pinia'
 import { MotionPlugin } from '@vueuse/motion'
 import VueMitter from '@nguyenshort/vue3-mitt'
+import VueLottie from '@nguyenshort/vue-lottie'
 
 import router from './routes'
 import axios from './plugins/axios'
@@ -17,6 +17,7 @@ import animejs from './plugins/animejs'
 import dayjs from './plugins/dayjs'
 import apollo from '@plugins/apollo'
 import utils from '@plugins/utils'
+import firebase from '@plugins/firebase'
 
 const app = createApp(App)
 
@@ -25,6 +26,7 @@ const app = createApp(App)
  * @link https://auto-animate.formkit.com/
  */
 app.use(autoAnimatePlugin)
+app.use(firebase)
 app.use(VueMitter)
 
 app.use(apollo)
@@ -38,6 +40,7 @@ app.use(VueLoadingIndicator, {
 app.use(createPinia())
 app.use(VueCookies)
 app.use(MotionPlugin)
+app.use(VueLottie)
 app.use(utils)
 
 app.use(router)

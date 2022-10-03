@@ -19,6 +19,10 @@ interface ImportMetaEnv {
   readonly VITE_NOTIFY_SUBSCRIPTION: string
   readonly VITE_NOTIFY_API_KEY: string
 
+
+  // Dành cho khang
+  readonly VITE_KHANG_API: string
+
 }
 interface ImportMeta {
   readonly env: ImportMetaEnv
