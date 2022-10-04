@@ -13,7 +13,10 @@
       <div class="sub-menu-content">
         <ul ref="categoriesRef">
           <li v-for="category in appStore.categories" :key="category.id">
-            <router-link to="/">
+            <router-link to="/" class="flex items-center">
+              <span class="w-4 h-4">
+                <img alt="" :src="$cdn(category.avatar)" />
+              </span>
               <span>{{ category.name }}</span>
             </router-link>
           </li>
@@ -68,7 +71,7 @@ watch(result, (res) => {
     @apply mb-0 overflow-hidden rounded-lg py-2;
     li {
       a {
-        @apply flex items-center py-2 px-3 text-white transition hover:bg-primary-500;
+        @apply flex items-center py-2 px-2 text-white transition hover:bg-primary-500;
         span {
           @apply ml-2;
         }

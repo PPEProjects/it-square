@@ -2,10 +2,10 @@ import { App } from 'vue'
 
 //CDN
 enum CDNLocation {
-  CODE_BY
+  LOCAL
 }
 
-const $cdn = (path: string, location = CDNLocation.CODE_BY) => {
+const $cdn = (path: string, location = CDNLocation.LOCAL) => {
   if (!path) {
     return ''
   }
@@ -17,8 +17,8 @@ const $cdn = (path: string, location = CDNLocation.CODE_BY) => {
   let _path = path.replace(/^\//, '')
 
   switch (location) {
-    case CDNLocation.CODE_BY:
-      _path = 'https://smileeyev2.codeby.com/' + path
+    case CDNLocation.LOCAL:
+      _path = 'http://localhost:3000/' + path
       break
   }
 

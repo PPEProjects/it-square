@@ -51,6 +51,9 @@ export default ({ mode }) => {
                 ['ref', 'dbRef'],
                 ['set', 'dbSet'],
                 ['onValue', 'dbOnValue'],
+            ],
+            'uuid': [
+                ['v4', 'uuidv4']
             ]
           }
         ],
@@ -92,6 +95,11 @@ export default ({ mode }) => {
             if (componentName.toLowerCase() === 'draggable')
               return { name: 'default', from: 'vuedraggable' }
           },
+          (componentName) => {
+            // where `componentName` is always CapitalCase
+            if (componentName === 'VueCropper')
+              return { name: 'default', from: 'vue-cropperjs' }
+          },
         ],
         dts: path.resolve(__dirname, 'types/components.d.ts')
       }),
@@ -110,8 +118,6 @@ export default ({ mode }) => {
         less: {
           modifyVars: {
             'primary-color': '#3b66f5',
-            'height-base': '40px',
-            // 'padding-md': '40px',
             'border-radius-base': '6px',
             'input-padding-horizontal': '15px',
             'form-vertical-label-padding': '0 0 4px',
@@ -141,12 +147,12 @@ export default ({ mode }) => {
           secure: true,
           rewrite: (path) => path.replace(/^\/bunny/, '')
         },
-        '/smileeye': {
+        '/geto': {
           // @ts-ignore
-          target: 'https://v2-be.smileeye.edu.vn/',
+          target: 'http://localhost:3000/',
           changeOrigin: true,
           secure: true,
-          rewrite: (path) => path.replace(/^\/smileeye/, '')
+          rewrite: (path) => path.replace(/^\/geto/, '')
         }
       },
     }

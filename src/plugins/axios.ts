@@ -10,12 +10,12 @@ const plugin = {
     const http = axios.create({
       timeout: 10000
     })
-
-    http.interceptors.request.use(
+      http.interceptors.request.use(
       (config) => {
-        console.log('🔥 Request to:', config.url)
+          const useUser = useUserStore()
+          console.log('🔥 Request to:', config.url)
         $loading?.start()
-        config.headers!['Authorization'] = 'Bearer '
+        config.headers!['Authorization'] = 'Bearer ' + useUser.token
         return config
       },
       (error) => {

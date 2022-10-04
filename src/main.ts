@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import './assets/tailwind.css'
+import 'cropperjs/dist/cropper.css'
 
 import App from './App.vue'
 

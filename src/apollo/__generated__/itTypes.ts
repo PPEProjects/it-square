@@ -7,6 +7,13 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface CreateCategoryInput {
+  avatar: string;
+  content: string;
+  name: string;
+  primary: boolean;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

@@ -43,6 +43,7 @@ type Category {
   content: String
   id: ID!
   name: String!
+  primary: Boolean!
   slug: String!
 }
 
@@ -50,6 +51,7 @@ input CreateCategoryInput {
   avatar: String!
   content: String!
   name: String!
+  primary: Boolean!
 }
 
 type Mutation {
@@ -91,6 +93,7 @@ input UpdateCategoryInput {
   content: String
   id: ID!
   name: String
+  primary: Boolean
 }
 
 type User {
