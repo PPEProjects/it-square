@@ -2,10 +2,6 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
-  const GET_ME: typeof import('../src/apollo/it/queries/auth.queries')['GET_ME']
-  const SIGN_IN: typeof import('../src/apollo/it/mutations/auth.mutations')['SIGN_IN']
-  const SIGN_UP: typeof import('../src/apollo/it/mutations/auth.mutations')['SIGN_UP']
-  const UPSERT_PROJECT: typeof import('../src/apollo/it/mutations/project.mutations')['UPSERT_PROJECT']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const colorsColection: typeof import('../src/composable/useTheme/index')['colorsColection']

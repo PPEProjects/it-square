@@ -1,10 +1,6 @@
 {
   "globals": {
     "EffectScope": true,
-    "GET_ME": true,
-    "SIGN_IN": true,
-    "SIGN_UP": true,
-    "UPSERT_PROJECT": true,
     "asyncComputed": true,
     "autoResetRef": true,
     "colorsColection": true,

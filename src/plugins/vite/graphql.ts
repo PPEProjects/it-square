@@ -8,13 +8,8 @@ export default () => {
       const list = [
         {
           regex:
-            /src\/apollo\/it\/(queries|mutations)\/(?!(__generated__))/,
+            /src\/apollo\/(queries|mutations)\/(?!(__generated__))/,
           command: 'npm run apollo:codegen'
-        },
-        {
-          regex:
-            /src\/apollo\/notify\/(queries|mutations|subscriptions)\/(?!(__generated__))/,
-          command: 'npm run apollo:codegen:notify'
         }
       ]
 

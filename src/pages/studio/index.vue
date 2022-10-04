@@ -15,7 +15,7 @@
                 <span class="ml-2">Dự Án</span>
               </span>
             </template>
-            <a-menu-item key="1">
+            <a-menu-item key="1" @click="$router.push('/studio/new-project')">
               Thêm Mới
             </a-menu-item>
             <a-menu-item key="2">
@@ -40,7 +40,7 @@
             <a-menu-item key="12">
               Technology
             </a-menu-item>
-            <a-menu-item key="13">
+            <a-menu-item key="13" @click="$router.push('/studio/admin/categories')">
               Category
             </a-menu-item>
           </a-sub-menu>
@@ -78,41 +78,27 @@
           </a-sub-menu>
         </a-menu>
       </a-layout-sider>
-      <a-layout
-          style="padding: 0 24px 24px"
-      >
+      <a-layout class="px-[24px] pb-[24px]">
         <a-breadcrumb style="margin: 16px 0">
           <a-breadcrumb-item>Home</a-breadcrumb-item>
           <a-breadcrumb-item>List</a-breadcrumb-item>
           <a-breadcrumb-item>App</a-breadcrumb-item>
         </a-breadcrumb>
         <a-layout-content
-            :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+            id="studio-content"
+            class="overflow-y-auto scrollbar-hide"
+            :style="{ background: '#fff', padding: '24px', margin: 0 }"
         >
-          Content
+          <router-view></router-view>
         </a-layout-content>
       </a-layout>
     </a-layout>
   </a-layout>
 </template>
-<script lang="ts">
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue';
-import { defineComponent, ref } from 'vue';
-export default defineComponent({
-  components: {
-    UserOutlined,
-    LaptopOutlined,
-    NotificationOutlined,
-  },
-  setup() {
-    return {
-      selectedKeys1: ref<string[]>(['2']),
-      selectedKeys2: ref<string[]>(['1']),
-      collapsed: ref<boolean>(false),
-      openKeys: ref<string[]>(['sub1']),
-    };
-  },
-});
+<script lang="ts" setup>
+
+const selectedKeys2 = ref<string[]>(['1'])
+const openKeys = ref<string[]>(['sub1'])
 </script>
 <style>
 #components-layout-demo-top-side-2 .logo {
@@ -130,5 +116,8 @@ export default defineComponent({
 
 .site-layout-background {
   background: #fff;
+}
+#studio-content {
+  height: calc(100vh - 70px - 22px - 16px - 16px - 24px);
 }
 </style>
