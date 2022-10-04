@@ -21,10 +21,10 @@ const routes: RouteRecordRaw[] = [
     }
 ]
 
-routes.forEach((record) => {
-    record.meta = Object.assign({}, record.meta, {
-        layout: 'studio'
-    })
-})
+// routes.forEach((record) => {
+//     record.meta = Object.assign({}, record.meta, {
+//         layout: 'studio'
+//     })
+// })
 
 export const studioRoutes: RouteRecordRaw[] = routes
