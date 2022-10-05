@@ -11,3 +11,15 @@ export const CREATE_CATEGORIES = gql`
         }
     }
 `
+
+export const UPDATE_CATEGORY = gql`
+    mutation UpdateCategory($input: UpdateCategoryInput!) {
+        updateCategory(input: $input) {
+            id
+            content
+            avatar
+            name
+            primary
+        }
+    }
+`

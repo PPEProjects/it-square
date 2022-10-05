@@ -14,6 +14,14 @@ export interface CreateCategoryInput {
   primary: boolean;
 }
 
+export interface UpdateCategoryInput {
+  avatar?: string | null;
+  content?: string | null;
+  id: string;
+  name?: string | null;
+  primary?: boolean | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

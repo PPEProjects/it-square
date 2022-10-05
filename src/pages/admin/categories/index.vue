@@ -1,13 +1,29 @@
 <template>
   <div class="-my-[10px]">
-    <a-table key="_id" :data-source="appStore.categories" :columns="columns">
+    <a-table
+        key="_id"
+        :data-source="appStore.categories"
+        :columns="columns"
+        :loading="isLoading"
+    >
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'avatar'">
           <a-avatar :src="$cdn(record.avatar)" />
         </template>
 
-        <template v-if="column.key === 'action'">
-          <a-button type="primary" size="small">
+        <template v-else-if="column.key === 'primary'">
+          <a-switch
+              :checked="record.primary"
+              @click="updateCategory({ input: { primary: !record.primary, id: record.id } })"
+          />
+        </template>
+
+        <template v-else-if="column.key === 'action'">
+          <a-button
+              type="primary"
+              size="small"
+              @click="openEditCategory(record)"
+          >
             <template #icon>
               <i-material-symbols-edit-rounded class="inline-block" />
             </template>
@@ -38,6 +54,7 @@
       @ok="submitModal"
     >
       <a-form
+        ref="formRef"
         :model="formData"
         layout="vertical"
         name="basic"
@@ -115,11 +132,13 @@
 
 <script lang="ts" setup>
 import { GetCategories_categories } from '#apollo/queries/__generated__/GetCategories'
-import { CREATE_CATEGORIES } from '#apollo/mutations/categories'
+import {CREATE_CATEGORIES, UPDATE_CATEGORY} from '#apollo/mutations/categories'
 import {
   CreateCategory,
   CreateCategoryVariables
 } from '#apollo/mutations/__generated__/CreateCategory'
+import { FormInstance, Rule } from 'ant-design-vue/lib/form'
+import {UpdateCategory, UpdateCategoryVariables} from "#apollo/mutations/__generated__/UpdateCategory";
 
 const appStore = useAppStore()
 
@@ -134,6 +153,12 @@ const columns = [
     title: 'Avatar',
     dataIndex: 'avatar',
     key: 'avatar'
+  },
+  {
+    title: 'Phân Nhóm Chính',
+    dataIndex: 'primary',
+    key: 'primary',
+    align: 'center'
   },
   {
     title: 'Mô Tả',
@@ -151,6 +176,7 @@ const columns = [
 
 const visible = ref<boolean>(false)
 
+const formRef = ref<FormInstance>()
 const formData = ref<Partial<GetCategories_categories>>({})
 
 const rules = ref({
@@ -163,17 +189,15 @@ const rules = ref({
   avatar: [
     {
       message: 'Vui lòng chọn hình ảnh',
-      validator: (rule: any, value: any) => {
-        return !!value
+      validator: async (_rule: Rule, value: number) => {
+        if (formData.value.primary && !value) {
+          return Promise.reject('Vui lòng chọn hình ảnh')
+        }
+        return Promise.resolve()
       }
     }
   ]
 })
-
-const handleOk = (e: MouseEvent) => {
-  console.log(e)
-  visible.value = false
-}
 
 const visibleCropper = ref<boolean>(false)
 
@@ -223,10 +247,37 @@ const createCategory = async () => {
   })
 }
 
+const { mutate: updateCategory, loading: updatingCategory } = useMutation<UpdateCategory, UpdateCategoryVariables>(UPDATE_CATEGORY)
+
 const submitModal = async () => {
-  if(!formData.value.id) {
-    await createCategory()
+  try {
+    await formRef.value?.validateFields()
+    if (!formData.value.id) {
+      await createCategory()
+    } else {
+      await updateCategory({
+        input: {
+          id: formData.value.id as string,
+          name: formData.value.name as string,
+          content: formData.value.content as string,
+          avatar: formData.value.avatar as string,
+          primary: formData.value.primary as boolean
+        }
+      })
+    }
+  } catch (e) {
+    //
   }
+  visible.value = false
+}
+
+const isLoading = computed(() => creatingCategory.value || updatingCategory.value)
+
+const openEditCategory = (item: GetCategories_categories) => {
+  formData.value = Object.assign({}, item)
+  nextTick(() => {
+    visible.value = true
+  })
 }
 </script>
 

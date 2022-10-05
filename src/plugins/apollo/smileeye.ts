@@ -48,7 +48,7 @@ export default (app: App) => {
     return {
       headers: {
         ...headers,
-        authorization: `Bearer ${useUser._token}`
+        authorization: `Bearer ${useUser.token}`
       }
     }
   })
