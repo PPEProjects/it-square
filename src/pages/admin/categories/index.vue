@@ -28,11 +28,19 @@
               <i-material-symbols-edit-rounded class="inline-block" />
             </template>
           </a-button>
-          <a-button type="danger" size="small" class="ml-2">
+          <a-popconfirm
+              placement="topRight"
+              title="Bạn không thể hoàn tác hành động này!"
+              ok-text="Yes"
+              cancel-text="No"
+              @confirm="removeCategory({ input: { id: record.id } })"
+          >
+            <a-button type="danger" size="small" class="ml-2">
             <template #icon>
               <i-ic-baseline-delete class="inline-block" />
             </template>
           </a-button>
+          </a-popconfirm>
         </template>
       </template>
 
@@ -132,13 +140,14 @@
 
 <script lang="ts" setup>
 import { GetCategories_categories } from '#apollo/queries/__generated__/GetCategories'
-import {CREATE_CATEGORIES, UPDATE_CATEGORY} from '#apollo/mutations/categories'
+import {CREATE_CATEGORIES, DELETE_CATEGORY, UPDATE_CATEGORY} from '#apollo/mutations/categories'
 import {
   CreateCategory,
   CreateCategoryVariables
 } from '#apollo/mutations/__generated__/CreateCategory'
 import { FormInstance, Rule } from 'ant-design-vue/lib/form'
 import {UpdateCategory, UpdateCategoryVariables} from "#apollo/mutations/__generated__/UpdateCategory";
+import {RemoveCategory, RemoveCategoryVariables} from "#apollo/mutations/__generated__/RemoveCategory";
 
 const appStore = useAppStore()
 
@@ -271,7 +280,15 @@ const submitModal = async () => {
   visible.value = false
 }
 
-const isLoading = computed(() => creatingCategory.value || updatingCategory.value)
+const { mutate: removeCategory, loading: removingCategory, onDone } = useMutation<RemoveCategory, RemoveCategoryVariables>(DELETE_CATEGORY)
+
+onDone(({ data }) => {
+  if(data?.removeCategory) {
+    appStore.categories = appStore.categories.filter((e) => e.slug !== data.removeCategory.slug)
+  }
+})
+
+const isLoading = computed(() => creatingCategory.value || updatingCategory.value || removingCategory.value)
 
 const openEditCategory = (item: GetCategories_categories) => {
   formData.value = Object.assign({}, item)

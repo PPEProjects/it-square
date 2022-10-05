@@ -14,6 +14,10 @@ export interface CreateCategoryInput {
   primary: boolean;
 }
 
+export interface DeleteCategoryInput {
+  id: string;
+}
+
 export interface UpdateCategoryInput {
   avatar?: string | null;
   content?: string | null;

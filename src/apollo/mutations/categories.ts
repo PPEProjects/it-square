@@ -23,3 +23,12 @@ export const UPDATE_CATEGORY = gql`
         }
     }
 `
+
+export const DELETE_CATEGORY = gql`
+    mutation RemoveCategory($input: DeleteCategoryInput!) {
+        removeCategory(input: $input) {
+            id
+            slug
+        }
+    }
+`

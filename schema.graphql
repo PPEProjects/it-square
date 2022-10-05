@@ -54,8 +54,13 @@ input CreateCategoryInput {
   primary: Boolean!
 }
 
+input DeleteCategoryInput {
+  id: ID!
+}
+
 type Mutation {
   createCategory(input: CreateCategoryInput!): Category!
+  removeCategory(input: DeleteCategoryInput!): Category!
   updateCategory(input: UpdateCategoryInput!): Category!
 }
 
