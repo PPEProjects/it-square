@@ -48,3 +48,15 @@ export const UPDATE_TECHNOLOGY = gql`
         }
     }
 `
+
+export const DELETE_TECHNOLOGY = gql`
+    mutation RemoveTechnology($input: RemoveTechnologyInput!) {
+        removeTechnology(input: $input) {
+            id
+            slug
+            platform {
+                id
+            }
+        }
+    }
+`

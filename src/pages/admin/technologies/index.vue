@@ -85,6 +85,7 @@
               <template v-if="!drag">
                 <i-ic-outline-remove-circle
                   class="ml-auto text-rose-500 transition"
+                  @click="removeTechnology({ input: { id: element.id } })"
                 />
                 <i-mdi-lead-pencil
                   class="ml-2 text-primary-500 transition delay-100"
@@ -178,7 +179,7 @@ import {
 import { FormInstance } from 'ant-design-vue/lib/form'
 import {
   CREATE_PLATFORM,
-  CREATE_TECHNOLOGY,
+  CREATE_TECHNOLOGY, DELETE_TECHNOLOGY,
   UPDATE_PLATFORM,
   UPDATE_TECHNOLOGY
 } from '#apollo/mutations/platforms'
@@ -199,6 +200,7 @@ import {
   UpdateTechnology,
   UpdateTechnologyVariables
 } from '#apollo/mutations/__generated__/UpdateTechnology'
+import {RemoveTechnology, RemoveTechnologyVariables} from "#apollo/mutations/__generated__/RemoveTechnology";
 
 const drag = ref(false)
 
@@ -338,7 +340,7 @@ const { mutate: updateTechnology } = useMutation<
 const submitTechnology = async () => {
   try {
     await formTechnologyRef.value?.validateFields()
-    if (String(formTechnology.value.id).length > 0) {
+    if (String(formTechnology.value.id || '').length > 0) {
       updateTechnology({
         input: {
           id: formTechnology.value.id as string,
@@ -374,6 +376,24 @@ const submitTechnology = async () => {
   }
   visibleTechnology.value = false
 }
+
+const { mutate: removeTechnology, onDone } = useMutation<RemoveTechnology, RemoveTechnologyVariables>(DELETE_TECHNOLOGY)
+onDone((result) => {
+  if (result.data?.removeTechnology) {
+    console.log(result.data.removeTechnology)
+    getoInstance.cache.modify({
+      id: getoInstance.cache.identify({
+        __typename: 'Platform',
+        id: result.data.removeTechnology.platform.id
+      }),
+      fields: {
+        children(existingChildren = []) {
+          return existingChildren.filter((child: GetPlatforms_platforms_children) => child.slug !== result.data?.removeTechnology.slug)
+        }
+      }
+    })
+  }
+})
 </script>
 <style scoped lang="scss">
 .tech-item {

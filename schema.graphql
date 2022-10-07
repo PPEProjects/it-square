@@ -75,7 +75,7 @@ type Mutation {
   createTechnology(input: CreateTechnologyInput!): Technology!
   removeCategory(input: DeleteCategoryInput!): Category!
   removePlatform(id: Int!): Platform!
-  removeTechnology(id: Int!): Technology!
+  removeTechnology(input: RemoveTechnologyInput!): Technology!
   updateCategory(input: UpdateCategoryInput!): Category!
   updatePlatform(input: UpdatePlatformInput!): Platform!
   updateTechnology(input: UpdateTechnologyInput!): Technology!
@@ -108,6 +108,10 @@ type Query {
   platforms: [Platform!]!
   technologies: [Technology!]!
   technology(id: Int!): Technology!
+}
+
+input RemoveTechnologyInput {
+  id: ID!
 }
 
 enum Role {
