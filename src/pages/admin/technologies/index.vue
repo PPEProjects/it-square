@@ -394,6 +394,19 @@ onDone((result) => {
     })
   }
 })
+
+// sự kiện kéo thả
+const counterChange = ref(0)
+const debouncedChangePlatforms = useDebounceFn(() => {
+  console.log('change platforms')
+}, 300)
+
+watch(platforms, () => {
+  if(counterChange.value) {
+    debouncedChangePlatforms()
+  }
+  counterChange.value++
+}, { deep: true })
 </script>
 <style scoped lang="scss">
 .tech-item {
