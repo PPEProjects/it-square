@@ -43,6 +43,13 @@ export interface UpdatePlatformInput {
   name?: string | null;
 }
 
+export interface UpdateTechnologyInput {
+  content: string;
+  id: string;
+  name: string;
+  platform: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

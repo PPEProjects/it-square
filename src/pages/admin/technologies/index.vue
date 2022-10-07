@@ -12,10 +12,10 @@
       </div>
 
       <a-button
-          type="primary"
-          size="small"
-          class="ml-auto"
-          @click="formPlatform = {}; visible = true"
+        type="primary"
+        size="small"
+        class="ml-auto"
+        @click="openNewPlatfoem({})"
       >
         <span class="ml-1 text-[14px]">Add</span>
         <template #icon>
@@ -36,10 +36,10 @@
 
           <div class="mt-2 flex items-center">
             <a-button
-                type="primary"
-                size="small"
-                class="mr-5"
-                @click="openTechModal(platform)"
+              type="primary"
+              size="small"
+              class="mr-5"
+              @click="openTechModal(platform)"
             >
               <span class="ml-1 text-[14px]">Add</span>
               <template #icon>
@@ -48,10 +48,10 @@
             </a-button>
 
             <a-button
-                type="primary"
-                size="small"
-                class="ml-auto"
-                @click="formPlatform = Object.assign({}, platform); visible = true"
+              type="primary"
+              size="small"
+              class="ml-auto"
+              @click="openNewPlatfoem(platform)"
             >
               <template #icon>
                 <i-material-symbols-edit-rounded
@@ -84,10 +84,11 @@
               <div>{{ element.name }}</div>
               <template v-if="!drag">
                 <i-ic-outline-remove-circle
-                    class="ml-auto text-rose-500 transition"
+                  class="ml-auto text-rose-500 transition"
                 />
                 <i-mdi-lead-pencil
-                    class="ml-2 text-primary-500 transition delay-100"
+                  class="ml-2 text-primary-500 transition delay-100"
+                  @click="openEditTechModal(platform, element)"
                 />
               </template>
             </div>
@@ -97,58 +98,58 @@
     </div>
 
     <a-modal
-        v-model:visible="visible"
-        :title="formPlatform.id ? 'Cập Nhật' : 'Thêm Mới'"
-        @ok="submitPlatform"
+      v-model:visible="visible"
+      :title="formPlatform.id ? 'Cập Nhật' : 'Thêm Mới'"
+      @ok="submitPlatform"
     >
       <a-form
-          ref="formPlatformRef"
-          :model="formPlatform"
-          layout="vertical"
-          name="basic"
-          autocomplete="off"
-          :rules="rulesPlatform"
+        ref="formPlatformRef"
+        :model="formPlatform"
+        layout="vertical"
+        name="basic"
+        autocomplete="off"
+        :rules="rulesPlatform"
       >
         <a-form-item label="Tên" name="name">
-          <a-input v-model:value="formPlatform.name" placeholder="Tên phân nền tảng" />
+          <a-input
+            v-model:value="formPlatform.name"
+            placeholder="Tên phân nền tảng"
+          />
         </a-form-item>
 
         <a-form-item label="Mô Tả" name="content">
           <a-textarea
-              v-model:value="formPlatform.content"
-              placeholder="Mô tả thêm về phân nền tảng"
-              :auto-size="{ minRows: 3, maxRows: 6 }"
+            v-model:value="formPlatform.content"
+            placeholder="Mô tả thêm về phân nền tảng"
+            :auto-size="{ minRows: 3, maxRows: 6 }"
           />
         </a-form-item>
       </a-form>
     </a-modal>
 
     <a-modal
-        v-model:visible="visibleTechnology"
-        :title="formTechnology.id ? 'Cập Nhật' : 'Thêm Mới'"
-        @ok="submitTechnology"
+      v-model:visible="visibleTechnology"
+      :title="formTechnology.id ? 'Cập Nhật' : 'Thêm Mới'"
+      @ok="submitTechnology"
     >
       <a-form
-          ref="formTechnologyRef"
-          :model="formTechnology"
-          layout="vertical"
-          name="basic"
-          autocomplete="off"
-          :rules="rulesTechnology"
+        ref="formTechnologyRef"
+        :model="formTechnology"
+        layout="vertical"
+        name="basic"
+        autocomplete="off"
+        :rules="rulesTechnology"
       >
         <a-form-item label="Tên" name="name">
           <a-input v-model:value="formTechnology.name" placeholder="Tên" />
         </a-form-item>
 
         <a-form-item label="Nền tảng" name="platform">
-          <a-select
-              ref="select"
-              v-model:value="formTechnology.platform"
-          >
+          <a-select ref="select" v-model:value="formTechnology.platform">
             <a-select-option
-                v-for="(platform, index) in platforms"
-                :key="index"
-                :value="platform.id"
+              v-for="(platform, index) in platforms"
+              :key="index"
+              :value="platform.id"
             >
               {{ platform.name }}
             </a-select-option>
@@ -157,14 +158,13 @@
 
         <a-form-item label="Mô Tả" name="content">
           <a-textarea
-              v-model:value="formTechnology.content"
-              placeholder="Mô tả thêm"
-              :auto-size="{ minRows: 3, maxRows: 6 }"
+            v-model:value="formTechnology.content"
+            placeholder="Mô tả thêm"
+            :auto-size="{ minRows: 3, maxRows: 6 }"
           />
         </a-form-item>
       </a-form>
     </a-modal>
-
   </div>
 </template>
 
@@ -173,26 +173,54 @@ import { GET_PLATFORMS } from '#apollo/queries/platforms'
 import {
   GetPlatforms,
   GetPlatforms_platforms,
+  GetPlatforms_platforms_children
 } from '#apollo/queries/__generated__/GetPlatforms'
-import {FormInstance} from "ant-design-vue/lib/form";
-import {CREATE_PLATFORM, CREATE_TECHNOLOGY, UPDATE_PLATFORM} from "#apollo/mutations/platforms";
-import {CreatePlatform, CreatePlatformVariables} from "#apollo/mutations/__generated__/CreatePlatform";
-import {UpdatePlatform, UpdatePlatformVariables} from "#apollo/mutations/__generated__/UpdatePlatform";
-import {CreateTechnologyInput} from "#apollo/__generated__/itTypes";
-import {CreateTechnology, CreateTechnologyVariables} from "#apollo/mutations/__generated__/CreateTechnology";
+import { FormInstance } from 'ant-design-vue/lib/form'
+import {
+  CREATE_PLATFORM,
+  CREATE_TECHNOLOGY,
+  UPDATE_PLATFORM,
+  UPDATE_TECHNOLOGY
+} from '#apollo/mutations/platforms'
+import {
+  CreatePlatform,
+  CreatePlatformVariables
+} from '#apollo/mutations/__generated__/CreatePlatform'
+import {
+  UpdatePlatform,
+  UpdatePlatformVariables
+} from '#apollo/mutations/__generated__/UpdatePlatform'
+import { CreateTechnologyInput } from '#apollo/__generated__/itTypes'
+import {
+  CreateTechnology,
+  CreateTechnologyVariables
+} from '#apollo/mutations/__generated__/CreateTechnology'
+import {
+  UpdateTechnology,
+  UpdateTechnologyVariables
+} from '#apollo/mutations/__generated__/UpdateTechnology'
 
 const drag = ref(false)
 
 const platforms = ref<GetPlatforms_platforms[]>([])
-const countTechnologies = computed(() => platforms.value?.reduce((acc, platform) => acc + platform.children!.length || 0, 0))
+const countTechnologies = computed(() =>
+  platforms.value?.reduce(
+    (acc, platform) => acc + platform.children!.length || 0,
+    0
+  )
+)
 
 const { result } = useQuery<GetPlatforms>(GET_PLATFORMS)
 
-watch(result, (val) => {
-  if (val?.platforms) {
-    platforms.value = JSON.parse(JSON.stringify(val.platforms))
-  }
-}, { deep: true, immediate: true })
+watch(
+  result,
+  (val) => {
+    if (val?.platforms) {
+      platforms.value = JSON.parse(JSON.stringify(val.platforms))
+    }
+  },
+  { deep: true, immediate: true }
+)
 
 // Cập nhật cache
 const getoInstance = useGeto()
@@ -210,13 +238,24 @@ const rulesPlatform = ref({
   ]
 })
 
-const { mutate: createPlatform } = useMutation<CreatePlatform, CreatePlatformVariables>(CREATE_PLATFORM)
-const { mutate: updatePlatform } = useMutation<UpdatePlatform, UpdatePlatformVariables>(UPDATE_PLATFORM)
+const { mutate: createPlatform } = useMutation<
+  CreatePlatform,
+  CreatePlatformVariables
+>(CREATE_PLATFORM)
+const { mutate: updatePlatform } = useMutation<
+  UpdatePlatform,
+  UpdatePlatformVariables
+>(UPDATE_PLATFORM)
+
+const openNewPlatfoem = (platform: GetPlatforms_platforms) => {
+  formPlatform.value = Object.assign({}, platform)
+  visible.value = true
+}
 
 const submitPlatform = async () => {
   try {
     await formPlatformRef.value?.validateFields()
-    if(formPlatform.value.id) {
+    if (formPlatform.value.id) {
       updatePlatform({
         input: {
           id: formPlatform.value.id,
@@ -231,14 +270,11 @@ const submitPlatform = async () => {
           content: formPlatform.value.content || ''
         }
       })
-      if(result?.data?.createPlatform) {
+      if (result?.data?.createPlatform) {
         getoInstance.writeQuery<GetPlatforms>({
           query: GET_PLATFORMS,
           data: {
-            platforms: [
-              ...platforms.value,
-              result.data.createPlatform
-            ]
+            platforms: [...platforms.value, result.data.createPlatform]
           }
         })
         visible.value = false
@@ -253,9 +289,13 @@ const submitPlatform = async () => {
 // form technology
 const formTechnologyRef = ref<FormInstance>()
 const visibleTechnology = ref(false)
-const formTechnology = ref<Partial<CreateTechnologyInput & {
-  id: string
-}>>({})
+const formTechnology = ref<
+  Partial<
+    CreateTechnologyInput & {
+      id: string
+    }
+  >
+>({})
 const rulesTechnology = ref({
   name: [
     {
@@ -270,19 +310,43 @@ const rulesTechnology = ref({
     }
   ]
 })
-const openTechModal = (platform: GetPlatforms_platforms) => {
+const openTechModal = (
+  platform: GetPlatforms_platforms
+) => {
   formTechnology.value = {
     platform: platform.id
   }
   visibleTechnology.value = true
 }
 
-const { mutate: createTechnology } = useMutation<CreateTechnology, CreateTechnologyVariables>(CREATE_TECHNOLOGY)
+const openEditTechModal = (platform: GetPlatforms_platforms, tech: GetPlatforms_platforms_children) => {
+  formTechnology.value = {
+    ...tech,
+    platform: platform.id,
+  } as any
+  visibleTechnology.value = true
+}
+
+const { mutate: createTechnology } = useMutation<
+  CreateTechnology,
+  CreateTechnologyVariables
+>(CREATE_TECHNOLOGY)
+const { mutate: updateTechnology } = useMutation<
+  UpdateTechnology,
+  UpdateTechnologyVariables
+>(UPDATE_TECHNOLOGY)
 const submitTechnology = async () => {
   try {
     await formTechnologyRef.value?.validateFields()
-    if(formPlatform.value.id) {
-      //
+    if (String(formTechnology.value.id).length > 0) {
+      updateTechnology({
+        input: {
+          id: formTechnology.value.id as string,
+          name: formTechnology.value.name as string,
+          content: formTechnology.value.content as string,
+          platform: formTechnology.value.platform as string
+        }
+      })
     } else {
       const result = await createTechnology({
         input: {
@@ -291,7 +355,7 @@ const submitTechnology = async () => {
           platform: formTechnology.value.platform as string
         }
       })
-      if(result?.data?.createTechnology) {
+      if (result?.data?.createTechnology) {
         getoInstance.cache.modify({
           id: getoInstance.cache.identify({
             __typename: 'Platform',
@@ -310,7 +374,6 @@ const submitTechnology = async () => {
   }
   visibleTechnology.value = false
 }
-
 </script>
 <style scoped lang="scss">
 .tech-item {

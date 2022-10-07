@@ -37,3 +37,14 @@ export const CREATE_TECHNOLOGY = gql`
     }
   }
 `
+
+export const UPDATE_TECHNOLOGY = gql`
+    mutation UpdateTechnology($input: UpdateTechnologyInput!) {
+        updateTechnology(input: $input) {
+            id
+            name
+            content
+            slug
+        }
+    }
+`
