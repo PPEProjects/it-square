@@ -37,7 +37,7 @@
             <a-menu-item key="11">
               Thành Viên
             </a-menu-item>
-            <a-menu-item key="12">
+            <a-menu-item key="12" @click="$router.push('/studio/admin/technologies')">
               Technology
             </a-menu-item>
             <a-menu-item key="13" @click="$router.push('/studio/admin/categories')">

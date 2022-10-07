@@ -169,6 +169,7 @@
     "useFullscreen": true,
     "useGamepad": true,
     "useGeolocation": true,
+    "useGeto": true,
     "useIdle": true,
     "useImage": true,
     "useInfiniteScroll": true,

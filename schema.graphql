@@ -54,14 +54,31 @@ input CreateCategoryInput {
   primary: Boolean!
 }
 
+input CreatePlatformInput {
+  content: String!
+  name: String!
+}
+
+input CreateTechnologyInput {
+  content: String!
+  name: String!
+  platform: ID!
+}
+
 input DeleteCategoryInput {
   id: ID!
 }
 
 type Mutation {
   createCategory(input: CreateCategoryInput!): Category!
+  createPlatform(input: CreatePlatformInput!): Platform!
+  createTechnology(input: CreateTechnologyInput!): Technology!
   removeCategory(input: DeleteCategoryInput!): Category!
+  removePlatform(id: Int!): Platform!
+  removeTechnology(id: Int!): Technology!
   updateCategory(input: UpdateCategoryInput!): Category!
+  updatePlatform(input: UpdatePlatformInput!): Platform!
+  updateTechnology(updateTechnologyInput: UpdateTechnologyInput!): Technology!
 }
 
 type Notify {
@@ -75,10 +92,22 @@ type Notify {
   user: User!
 }
 
+type Platform {
+  children: [Technology!]
+  content: String
+  id: ID!
+  name: String!
+  slug: String!
+}
+
 type Query {
   categories: [Category!]!
   category(category: String!): Category!
   me: User!
+  platform(id: Int!): Platform!
+  platforms: [Platform!]!
+  technologies: [Technology!]!
+  technology(id: Int!): Technology!
 }
 
 enum Role {
@@ -93,12 +122,32 @@ type Subscription {
   subNotify: Notify!
 }
 
+type Technology {
+  content: String
+  id: ID!
+  name: String!
+  platform: Platform!
+  slug: String!
+}
+
 input UpdateCategoryInput {
   avatar: String
   content: String
   id: ID!
   name: String
   primary: Boolean
+}
+
+input UpdatePlatformInput {
+  content: String
+  id: ID!
+  name: String
+}
+
+input UpdateTechnologyInput {
+  content: String
+  name: String
+  platform: ID
 }
 
 type User {

@@ -5,6 +5,10 @@ const adminRoutes: RouteRecordRaw[] = [
         path: '/studio/admin/categories',
         component: () => import('@pages/admin/categories/index.vue')
     },
+    {
+        path: '/studio/admin/technologies',
+        component: () => import('@pages/admin/technologies/index.vue')
+    }
 ]
 
 const routes: RouteRecordRaw[] = [
