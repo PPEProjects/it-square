@@ -27,14 +27,14 @@
       <div
         v-for="(platform, index) in platforms"
         :key="index"
-        class="cutsom-shadow mr-5 w-auto p-4 last:mr-0"
+        class="cutsom-shadow mr-5 w-auto pt-4 last:mr-0"
       >
-        <div class="border-b pb-3">
-          <h3 class="mb-0 text-[15px] font-semibold text-gray-600">
+        <div class="pb-3">
+          <h3 class="mb-0 text-[15px] font-semibold text-gray-600 px-4">
             {{ platform.name }}
           </h3>
 
-          <div class="mt-2 flex items-center">
+          <div class="mt-2 flex items-center px-4">
             <a-button
               type="primary"
               size="small"
@@ -66,12 +66,16 @@
               </template>
             </a-button>
           </div>
+
+          <div class="px-4 pt-4">
+            <div class="w-full h-px border-b"></div>
+          </div>
         </div>
 
         <draggable
           data-source="juju"
           :list="platforms[index].children"
-          class="list-group mt-2"
+          class="list-group -mt-2"
           group="a"
           item-key="id"
           @start="drag = true"
@@ -79,19 +83,21 @@
         >
           <template #item="{ element }">
             <div
-              class="tech-item flex cursor-pointer items-center border-b border-gray-100 py-2 last:border-0 last:pb-0"
+              class="tech-item px-4"
             >
-              <div>{{ element.name }}</div>
-              <template v-if="!drag">
-                <i-ic-outline-remove-circle
-                  class="ml-auto text-rose-500 transition"
-                  @click="removeTechnology({ input: { id: element.id } })"
-                />
-                <i-mdi-lead-pencil
-                  class="ml-2 text-primary-500 transition delay-100"
-                  @click="openEditTechModal(platform, element)"
-                />
-              </template>
+              <div class="flex cursor-pointer items-center border-b border-gray-100 py-2">
+                <div>{{ element.name }}</div>
+                <template v-if="!drag">
+                  <i-ic-outline-remove-circle
+                      class="ml-auto text-rose-500 transition"
+                      @click="removeTechnology({ input: { id: element.id } })"
+                  />
+                  <i-mdi-lead-pencil
+                      class="ml-2 text-primary-500 transition delay-100"
+                      @click="openEditTechModal(platform, element)"
+                  />
+                </template>
+              </div>
             </div>
           </template>
         </draggable>
