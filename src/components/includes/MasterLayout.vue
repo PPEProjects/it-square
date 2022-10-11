@@ -21,7 +21,6 @@ const firebaseCtx = useFirebaseContext()
 import defaultLayout from '@layouts/default.vue'
 import studioLayout from '@layouts/studio.vue'
 import blankLayout from '@layouts/blank.vue'
-import authLayout from '@layouts/auth.vue'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -63,8 +62,7 @@ await vueClientInit()
 const layouts = shallowRef<Record<string, ReturnType<typeof defineComponent>>>({
   default: defaultLayout,
   studio: studioLayout,
-  blank: blankLayout,
-  auth: authLayout
+  blank: blankLayout
 })
 
 const route = useRoute()
