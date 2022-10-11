@@ -140,16 +140,9 @@ export default ({ mode }) => {
     server: {
       port: Number(env.VITE_PORT) || 3000,
       proxy: {
-        '/bunny': {
-          // @ts-ignore
-          target: 'https://sg.storage.bunnycdn.com/smileeyev2/',
-          changeOrigin: true,
-          secure: true,
-          rewrite: (path) => path.replace(/^\/bunny/, '')
-        },
         '/geto': {
           // @ts-ignore
-          target: 'http://localhost:3000/',
+          target: env.VITE_IT_SERVER,
           changeOrigin: true,
           secure: true,
           rewrite: (path) => path.replace(/^\/geto/, '')

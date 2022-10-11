@@ -8,20 +8,9 @@ interface ImportMetaEnv {
   readonly VITE_PORT: string
   readonly VITE_DOMAIN: string
 
-  readonly VITE_SMILE_EYE_SERVER: string
-  readonly VITE_SMILE_EYE_GRAPHQL: string
-
-  // Máy chủ lưu trữ
-  readonly VITE_BUNNY_URL: string
-  readonly VITE_BUNNY_TOKEN: string
-
-  readonly VITE_NOTIFY_GRAPHQL: string
-  readonly VITE_NOTIFY_SUBSCRIPTION: string
-  readonly VITE_NOTIFY_API_KEY: string
-
-
-  // Dành cho khang
-  readonly VITE_KHANG_API: string
+  readonly VITE_IT_SERVER: string
+  readonly VITE_IT_GRAPHQL: string
+  readonly VITE_IT_CDN: string
 
 }
 interface ImportMeta {

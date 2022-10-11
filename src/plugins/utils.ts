@@ -18,7 +18,7 @@ const $cdn = (path: string, location = CDNLocation.LOCAL) => {
 
   switch (location) {
     case CDNLocation.LOCAL:
-      _path = 'http://localhost:3000/' + path
+      _path = import.meta.env.VITE_IT_CDN + path
       break
   }
 

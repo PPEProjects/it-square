@@ -39,7 +39,7 @@ export default (app: App) => {
   // HTTP connection to the API
   const httpLink = createHttpLink({
     // You should use an absolute URL here
-    uri: import.meta.env.VITE_SMILE_EYE_GRAPHQL
+    uri: import.meta.env.VITE_IT_GRAPHQL
   })
 
   const authLink = setContext((_, { headers }) => {
