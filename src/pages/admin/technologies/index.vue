@@ -60,7 +60,7 @@
               </template>
             </a-button>
 
-            <a-button type="danger" size="small" class="ml-3">
+            <a-button :type="'danger' as ButtonType" size="small" class="ml-3">
               <template #icon>
                 <i-ic-baseline-delete class="inline-block text-[14px]" />
               </template>
@@ -74,7 +74,7 @@
 
         <draggable
           data-source="juju"
-          :list="platforms[index].children"
+          :list="platforms[index].children || []"
           class="list-group -mt-2"
           group="a"
           item-key="id"
@@ -176,6 +176,7 @@
 </template>
 
 <script lang="ts" setup>
+import {ButtonType} from "ant-design-vue/lib/button"
 import { GET_PLATFORMS } from '#apollo/queries/platforms'
 import {
   GetPlatforms,
@@ -255,7 +256,7 @@ const { mutate: updatePlatform } = useMutation<
   UpdatePlatformVariables
 >(UPDATE_PLATFORM)
 
-const openNewPlatfoem = (platform: GetPlatforms_platforms) => {
+const openNewPlatfoem = (platform: Partial<GetPlatforms_platforms>) => {
   formPlatform.value = Object.assign({}, platform)
   visible.value = true
 }

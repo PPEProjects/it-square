@@ -35,7 +35,7 @@
               cancel-text="No"
               @confirm="removeCategory({ input: { id: record.id } })"
           >
-            <a-button type="danger" size="small" class="ml-2">
+            <a-button :type="'danger' as ButtonType" size="small" class="ml-2">
             <template #icon>
               <i-ic-baseline-delete class="inline-block" />
             </template>
@@ -58,7 +58,7 @@
 
     <a-modal
       v-model:visible="visible"
-      :title="formData._id ? 'Cập Nhật' : 'Thêm Mới'"
+      :title="formData.id ? 'Cập Nhật' : 'Thêm Mới'"
       @ok="submitModal"
     >
       <a-form
@@ -139,7 +139,7 @@
 </template>
 
 <script lang="ts" setup>
-import { GetCategories_categories } from '#apollo/queries/__generated__/GetCategories'
+import {GetCategories, GetCategories_categories} from '#apollo/queries/__generated__/GetCategories'
 import {CREATE_CATEGORIES, DELETE_CATEGORY, UPDATE_CATEGORY} from '#apollo/mutations/categories'
 import {
   CreateCategory,
@@ -148,10 +148,13 @@ import {
 import { FormInstance, Rule } from 'ant-design-vue/lib/form'
 import {UpdateCategory, UpdateCategoryVariables} from "#apollo/mutations/__generated__/UpdateCategory";
 import {RemoveCategory, RemoveCategoryVariables} from "#apollo/mutations/__generated__/RemoveCategory";
+import {ColumnsType} from "ant-design-vue/lib/table";
+import {ButtonType} from "ant-design-vue/lib/button";
+import {GET_CATEGORIES} from "#apollo/queries/categories";
 
 const appStore = useAppStore()
-
-const columns = [
+const getoApp = useGeto()
+const columns: ColumnsType = [
   {
     title: 'Tên',
     dataIndex: 'name',
@@ -240,7 +243,7 @@ const handleCrop = () => {
   }
 }
 
-const { loading: creatingCategory, mutate } = useMutation<
+const { loading: creatingCategory, mutate, onDone: afterCreatedCategory } = useMutation<
   CreateCategory,
   CreateCategoryVariables
 >(CREATE_CATEGORIES)
@@ -255,6 +258,20 @@ const createCategory = async () => {
     }
   })
 }
+
+afterCreatedCategory((data) => {
+  if(data?.data?.createCategory) {
+    getoApp.cache.writeQuery<GetCategories>({
+      query: GET_CATEGORIES,
+      data: {
+        categories: [
+          ...appStore.categories,
+          data.data.createCategory
+        ]
+      }
+    })
+  }
+})
 
 const { mutate: updateCategory, loading: updatingCategory } = useMutation<UpdateCategory, UpdateCategoryVariables>(UPDATE_CATEGORY)
 

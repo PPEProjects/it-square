@@ -11,28 +11,28 @@
   <div class="mx-auto mt-5 flex w-[250px] items-center justify-around">
     <button
       class="flex h-8 w-8 items-center justify-center rounded border border-gray-200 text-gray-500"
-      @click="$refs.cropperRef.rotate(-90)"
+      @click="cropperRef.rotate(-90)"
     >
       <i-ic-baseline-rotate-left class="text-current" />
     </button>
 
     <button
       class="flex h-8 w-8 items-center justify-center rounded border border-gray-200 text-gray-500"
-      @click="$refs.cropperRef.relativeZoom(-0.2)"
+      @click="cropperRef.relativeZoom(-0.2)"
     >
       <i-ri-zoom-out-line class="text-current" />
     </button>
 
     <button
       class="flex h-8 w-8 items-center justify-center rounded border border-gray-200 text-gray-500"
-      @click="$refs.cropperRef.relativeZoom(0.2)"
+      @click="cropperRef.relativeZoom(0.2)"
     >
       <i-ri-zoom-in-line class="text-current" />
     </button>
 
     <button
       class="flex h-8 w-8 items-center justify-center rounded border border-gray-200 text-gray-500"
-      @click="$refs.cropperRef.rotate(90)"
+      @click="cropperRef.rotate(90)"
     >
       <i-ic-baseline-rotate-right class="text-current" />
 

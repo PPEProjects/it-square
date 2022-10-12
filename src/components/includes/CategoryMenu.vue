@@ -27,12 +27,10 @@
 </template>
 
 <script lang="ts" setup>
-
-const appStore = useAppStore()
-
-import { useAnime } from '@composable/useAnime'
 import { GET_CATEGORIES } from '#apollo/queries/categories'
 import { GetCategories } from '#apollo/queries/__generated__/GetCategories'
+
+const appStore = useAppStore()
 
 const categoriesRef = ref<HTMLUListElement>()
 const anime = useAnime()

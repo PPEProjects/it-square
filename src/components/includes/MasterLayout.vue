@@ -12,15 +12,14 @@
 </template>
 
 <script lang='ts' setup>
+import defaultLayout from '@layouts/default.vue'
+import studioLayout from '@layouts/studio.vue'
+import blankLayout from '@layouts/blank.vue'
 import { useLoadingIndicator } from '@nguyenshort/vue3-loading-indicator'
 
 import {useFirebaseContext} from "@composable/useFirebase"
 
 const firebaseCtx = useFirebaseContext()
-
-import defaultLayout from '@layouts/default.vue'
-import studioLayout from '@layouts/studio.vue'
-import blankLayout from '@layouts/blank.vue'
 
 const appStore = useAppStore()
 const userStore = useUserStore()

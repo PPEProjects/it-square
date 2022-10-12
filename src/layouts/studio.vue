@@ -15,7 +15,7 @@
         <ul class="nav-primary mt-[20px]">
 
           <studio-menu-item
-              :active="/^studio$/.test($route.name)"
+              :active="/^studio$/.test(String($route.name))"
               icon="#i-dashboard"
               label="Tổng Quan"
               to="/studio"
@@ -25,7 +25,7 @@
             </template>
           </studio-menu-item>
           <studio-menu-item
-              :active="/^studio-(projects|new-project)/.test($route.name)"
+              :active="/^studio-(projects|new-project)/.test(String($route.name))"
               label="Dự Án"
               to="/studio/projects"
           >
@@ -36,7 +36,7 @@
 
           <studio-menu-item
               v-if="false"
-              :active="/^(payment)/.test($route.name)"
+              :active="/^(payment)/.test(String($route.name))"
               icon="#i-income"
               label="Việc Làm"
           >
@@ -45,14 +45,14 @@
                   class="bg-white absolute w-[280px] right-0 left-full top-0 sub-nav py-3 -ml-3 -mt-3 rounded"
               >
                 <studio-menu-item
-                    :active="/^(payment)\/activity/.test($route.name)"
+                    :active="/^(payment)\/activity/.test(String($route.name))"
                     icon="#i-income"
                     label="Việc Làm"
                     to="/payment/activity"
                 />
 
                 <studio-menu-item
-                    :active="/^(payment)\/history/.test($route.name)"
+                    :active="/^(payment)\/history/.test(String($route.name))"
                     icon="#i-trash-bin"
                     label="Lịch Sử"
                     to="/payment/history"
@@ -63,7 +63,7 @@
           </studio-menu-item>
 
           <studio-menu-item
-              :active="/^(studio-blogs)/.test($route.name)"
+              :active="/^(studio-blogs)/.test(String($route.name))"
               label="Bài Viết"
               to="/users"
           >

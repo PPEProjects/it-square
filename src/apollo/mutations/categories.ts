@@ -5,6 +5,7 @@ export const CREATE_CATEGORIES = gql`
         createCategory(input: $input) {
             id
             content
+            slug
             avatar
             name
             primary

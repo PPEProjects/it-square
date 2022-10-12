@@ -19,7 +19,7 @@
             </template>
           </a-button>
           <a-button
-              type="danger"
+              :type="'danger' as ButtonType"
               size="small"
               class="ml-2"
           >
@@ -35,6 +35,9 @@
 </template>
 
 <script lang="ts" setup>
+import {ColumnsType} from "ant-design-vue/lib/table"
+import {ButtonType} from "ant-design-vue/lib/button"
+
 const dataSource = [
   {
     key: '1',
@@ -50,7 +53,7 @@ const dataSource = [
   },
 ]
 
-const columns = [
+const columns: ColumnsType = [
   {
     title: 'Tên',
     dataIndex: 'name',

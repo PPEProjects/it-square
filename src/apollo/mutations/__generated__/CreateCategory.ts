@@ -13,6 +13,7 @@ export interface CreateCategory_createCategory {
   __typename: "Category";
   id: string;
   content: string | null;
+  slug: string;
   avatar: string;
   name: string;
   primary: boolean;

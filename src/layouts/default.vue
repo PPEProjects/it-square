@@ -4,7 +4,7 @@
   >
     <site-header />
     <div
-      :id="String($route.name) || ''"
+      :id="$route.name"
       class='w-full mx-auto min-h-[52vh]'
       :class="[/^studio/.test($route.name) ? '' : 'max-w-bootstrap px-4']"
     >
