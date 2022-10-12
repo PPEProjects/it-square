@@ -16,3 +16,14 @@ export const GET_PLATFORMS = gql`
         }
     }
 `
+
+
+export const GET_TECHNOLOGIES = gql`
+    query GetTechnologies {
+        technologies {
+            id
+            name
+            slug
+        }
+    }
+`

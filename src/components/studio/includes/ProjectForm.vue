@@ -13,50 +13,57 @@
 
     <div class="flex">
       <div class="w-[400px] flex-shrink-0">
-
         <a-form-item label="Phân Loại" name="category">
-          <a-input
+          <a-select
               v-model:value="formState.category"
               placeholder="Phân loại dự án"
-          />
+              :options="categories"
+          ></a-select>
         </a-form-item>
 
         <a-form-item name="skill" label="Programing lang, framework">
           <!-- Dùng loop -->
           <a-select
-              v-model:value="formState.skills"
-              mode="tags"
-              placeholder="Vue, Nuxt,..."
+            v-model:value="formState.skills"
+            mode="tags"
+            placeholder="Vue, Nuxt,..."
           >
             <a-select-option
-                v-for="(item, index) in skills"
-                :key="index"
-                :value="item"
+              v-for="(item, index) in technologies"
+              :key="index"
+              :value="item._id"
             >
-              {{ item }}
+              {{ item.name }}
             </a-select-option>
           </a-select>
         </a-form-item>
 
         <a-form-item name="time_to_do" label="Thời gian dự kiến">
-          <a-range-picker class="w-full" value-format="YYYY-MM-DD" @change="onChangeRangePicker" />
+          <a-range-picker
+            class="w-full"
+            value-format="YYYY-MM-DD"
+            @change="onChangeRangePicker"
+          />
         </a-form-item>
 
         <a-form-item name="files" label="Tệp đính kèm">
-
           <draggable
-              v-model="formState.files"
-              item-key="id"
-              group="people"
-              class="bg-gray-50 p-3 rounded-md empty:hidden mb-3"
+            v-model="formState.files"
+            item-key="id"
+            group="people"
+            class="mb-3 rounded-md bg-gray-50 p-3 empty:hidden"
           >
-            <template #item="{element}">
-              <div class="cursor-pointer py-2 border-b last:border-0">
+            <template #item="{ element }">
+              <div class="cursor-pointer border-b py-2 last:border-0">
                 <i-ci-dot-01-xs class="inline-block" />
                 <span>{{ element.name }}</span>
                 <i-ic-baseline-delete
-                    class="inline-block text-rose-500 transform scale-90"
-                    @click="formState.files = formState.files.filter((e) => e.id !== element.id)"
+                  class="inline-block scale-90 transform text-rose-500"
+                  @click="
+                    formState.files = formState.files.filter(
+                      (e) => e.id !== element.id
+                    )
+                  "
                 />
               </div>
             </template>
@@ -72,13 +79,11 @@
           <template #extra>
             <small>
               - Tải lên tệp đính kèm của bạn.
-              <br/>
+              <br />
               - Có thể thay đổi thứ tự tệp đính kèm bằng cách kéo thả.
             </small>
           </template>
-
         </a-form-item>
-
       </div>
       <div class="w-full pl-7">
         <a-form-item name="images">
@@ -88,17 +93,19 @@
               <button>Chỉnh Sửa</button>
             </div>
           </template>
-          <div class="h-3"></div>
           <draggable
-              v-model="formState.images"
-              v-auto-animate
-              item-key="id"
-              group="people"
-              class="bg-gray-50 p-3 rounded-md empty:hidden mb-3 flex flex-wrap -mx-3 -mt-3"
+            v-model="formState.images"
+            item-key="id"
+            group="people"
+            class="flex flex-wrap rounded-md bg-gray-50 empty:hidden mb-3"
           >
-            <template #item="{element}">
-              <div class="w-1/4 h-[100px] overflow-hidden px-3 mt-4">
-                <img class="w-full h-full object-cover" :src="element.img" alt="" />
+            <template #item="{ element }">
+              <div class="my-2 h-[100px] w-1/4 overflow-hidden px-3">
+                <img
+                  class="h-full w-full object-cover"
+                  :src="element.img"
+                  alt=""
+                />
               </div>
             </template>
           </draggable>
@@ -113,7 +120,7 @@
           <template #extra>
             <small>
               - Tải lên hình ảnh của bạn.
-              <br/>
+              <br />
               - Có thể thay đổi thứ tự hình ảnh bằng cách kéo thả.
             </small>
           </template>
@@ -124,14 +131,23 @@
     <a-form-item label="Mô Tả" name="content">
       <magic-editor />
     </a-form-item>
-
-
   </a-form>
 </template>
 
 <script lang="ts" setup>
 import { AddProjectInput } from '@dto/project-input.dto'
-import {Dayjs} from "dayjs";
+import { Dayjs } from 'dayjs'
+import { GetCategories } from '#apollo/queries/__generated__/GetCategories'
+import { GET_CATEGORIES } from '#apollo/queries/categories'
+import { GetTechnologies } from '#apollo/queries/__generated__/GetTechnologies'
+import { GET_TECHNOLOGIES } from '#apollo/queries/platforms'
+
+const { result: queryCategories } = useQuery<GetCategories>(GET_CATEGORIES)
+const categories = computed(() => (queryCategories.value?.categories || []).map((e) => ({ label: e.name, value: e.id })))
+
+const { result: queryTechnologies } =
+  useQuery<GetTechnologies>(GET_TECHNOLOGIES)
+const technologies = computed(() => queryTechnologies.value?.technologies || [])
 
 const formState = reactive<AddProjectInput>({
   name: '',
@@ -145,31 +161,13 @@ const formState = reactive<AddProjectInput>({
   files: []
 })
 
-const skills = ref<string[]>([
-  'HTML',
-  'Java',
-  'ReactNative',
-  'Bootstrap',
-  'Tailwind',
-  'Vue',
-  'Angular',
-  'NodeJS',
-  'ExpressJS',
-  'MongoDB',
-  'MySQL',
-  'PostgreSQL',
-  'TypeScript',
-  'JavaScript',
-  'Python',
-  'Django',
-  'Flask',
-  'C++',
-  'C#',
-  'C'
-])
-
 const onChangeRangePicker = (dates: [string, string] | [Dayjs, Dayjs]) => {
-  if(dates.length == 2 && Object.values(dates).every((date: string | Dayjs) => typeof date === 'string')) {
+  if (
+    dates.length == 2 &&
+    Object.values(dates).every(
+      (date: string | Dayjs) => typeof date === 'string'
+    )
+  ) {
     formState.time_to_do!.from = dates[0] as string
     formState.time_to_do!.to = dates[1] as string
   }
@@ -183,11 +181,10 @@ watch(useFile.files, (files) => {
   Array.from(files as FileList).forEach((file) => {
     formState.files.push({
       id: Math.random(),
-      name: file.name,
+      name: file.name
     })
   })
 })
-
 
 const useImages = useFileDialog({
   multiple: true,
@@ -198,13 +195,12 @@ watch(useImages.files, (files) => {
   Array.from(files as FileList).forEach((file) => {
     formState.images.push({
       id: Math.random(),
-      img: URL.createObjectURL(file),
+      img: URL.createObjectURL(file)
     })
   })
 })
 
 const editImagesEnable = ref(false)
-
 
 const onFinish = (values: any) => {
   console.log('Success:', values)
@@ -213,7 +209,6 @@ const onFinish = (values: any) => {
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo)
 }
-
 </script>
 
 <style>
@@ -226,9 +221,9 @@ const onFinishFailed = (errorInfo: any) => {
   font-size: 28px;
   font-weight: 600;
   padding-left: 0;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 .chapter-name {
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 </style>
