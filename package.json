@@ -10,7 +10,7 @@
     "build:env": "sed 's/=.*/=/' .env > .env.example",
     "lint:script": "eslint --ext .ts,vue --ignore-path .gitignore .",
     "apollo:codegen": "npx apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --tagName=gql --includes=./src/apollo/**/*.ts --globalTypesFile=src/apollo/__generated__/itTypes.ts",
-    "apollo:download": "npx apollo client:download-schema --endpoint=http://localhost:3000/graphql schema.graphql",
+    "apollo:download": "npx apollo client:download-schema --endpoint=http://localhost:5000/graphql schema.graphql",
     "restart": "pm2 restart it-square",
     "stop": "pm2 stop it-square"
   },

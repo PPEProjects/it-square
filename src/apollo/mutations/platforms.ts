@@ -60,3 +60,20 @@ export const DELETE_TECHNOLOGY = gql`
         }
     }
 `
+
+export const UPDATE_GRID_PLATFORM = gql`
+    mutation UpdateGridPlatform($input: UpdateGridPlatformInput!) {
+        updateGridPlatform(input: $input) {
+            id
+            content
+            name
+            slug
+            children {
+                id
+                name
+                slug
+                content
+            }
+        }
+    }
+`

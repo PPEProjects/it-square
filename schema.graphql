@@ -48,10 +48,10 @@ type Category {
 }
 
 input CreateCategoryInput {
-  avatar: String!
-  content: String!
+  avatar: String = ""
+  content: String = ""
   name: String!
-  primary: Boolean!
+  primary: Boolean = false
 }
 
 input CreatePlatformInput {
@@ -77,6 +77,7 @@ type Mutation {
   removePlatform(id: Int!): Platform!
   removeTechnology(input: RemoveTechnologyInput!): Technology!
   updateCategory(input: UpdateCategoryInput!): Category!
+  updateGridPlatform(input: UpdateGridPlatformInput!): [Platform!]!
   updatePlatform(input: UpdatePlatformInput!): Platform!
   updateTechnology(input: UpdateTechnologyInput!): Technology!
 }
@@ -135,11 +136,20 @@ type Technology {
 }
 
 input UpdateCategoryInput {
-  avatar: String
-  content: String
+  avatar: String = ""
+  content: String = ""
   id: ID!
   name: String
-  primary: Boolean
+  primary: Boolean = false
+}
+
+input UpdateGridPlatformInput {
+  map: [UpdateGridPlatformInputItem!]!
+}
+
+input UpdateGridPlatformInputItem {
+  children: [ID!]!
+  id: String!
 }
 
 input UpdatePlatformInput {

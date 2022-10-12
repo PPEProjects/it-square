@@ -1,108 +1,112 @@
 <template>
   <div>
-    <div class="mb-4 flex items-center">
-      <div class="flex items-center">
-        <i-material-symbols-amp-stories-rounded class="mr-2 text-gray-500" />
-        Platforms: {{ platforms.length }}
-      </div>
 
-      <div class="ml-5 flex items-center">
-        <i-tabler-world-longitude class="mr-2 text-gray-500" />
-        Technologies: {{ countTechnologies }}
-      </div>
 
-      <a-button
-        type="primary"
-        size="small"
-        class="ml-auto"
-        @click="openNewPlatfoem({})"
-      >
-        <span class="ml-1 text-[14px]">Add</span>
-        <template #icon>
-          <i-material-symbols-add class="inline-block text-[14px]" />
-        </template>
-      </a-button>
-    </div>
-    <div class="flex w-full">
-      <div
-        v-for="(platform, index) in platforms"
-        :key="index"
-        class="cutsom-shadow mr-5 w-auto pt-4 last:mr-0"
-      >
-        <div class="pb-3">
-          <h3 class="mb-0 text-[15px] font-semibold text-gray-600 px-4">
-            {{ platform.name }}
-          </h3>
-
-          <div class="mt-2 flex items-center px-4">
-            <a-button
-              type="primary"
-              size="small"
-              class="mr-5"
-              @click="openTechModal(platform)"
-            >
-              <span class="ml-1 text-[14px]">Add</span>
-              <template #icon>
-                <i-material-symbols-add class="inline-block text-[14px]" />
-              </template>
-            </a-button>
-
-            <a-button
-              type="primary"
-              size="small"
-              class="ml-auto"
-              @click="openNewPlatfoem(platform)"
-            >
-              <template #icon>
-                <i-material-symbols-edit-rounded
-                  class="inline-block text-[14px]"
-                />
-              </template>
-            </a-button>
-
-            <a-button :type="'danger' as ButtonType" size="small" class="ml-3">
-              <template #icon>
-                <i-ic-baseline-delete class="inline-block text-[14px]" />
-              </template>
-            </a-button>
-          </div>
-
-          <div class="px-4 pt-4">
-            <div class="w-full h-px border-b"></div>
-          </div>
+    <a-spin :spinning="isLoading">
+      <div class="mb-4 flex items-center">
+        <div class="flex items-center">
+          <i-material-symbols-amp-stories-rounded class="mr-2 text-gray-500" />
+          Platforms: {{ platforms.length }}
         </div>
 
-        <draggable
-          data-source="juju"
-          :list="platforms[index].children || []"
-          class="list-group -mt-2"
-          group="a"
-          item-key="id"
-          @start="drag = true"
-          @end="drag = false"
+        <div class="ml-5 flex items-center">
+          <i-tabler-world-longitude class="mr-2 text-gray-500" />
+          Technologies: {{ countTechnologies }}
+        </div>
+
+        <a-button
+            type="primary"
+            size="small"
+            class="ml-auto"
+            @click="openNewPlatfoem({})"
         >
-          <template #item="{ element }">
-            <div
-              class="tech-item px-4"
-            >
-              <div class="flex cursor-pointer items-center border-b border-gray-100 py-2">
-                <div>{{ element.name }}</div>
-                <template v-if="!drag">
-                  <i-ic-outline-remove-circle
-                      class="ml-auto text-rose-500 transition"
-                      @click="removeTechnology({ input: { id: element.id } })"
-                  />
-                  <i-mdi-lead-pencil
-                      class="ml-2 text-primary-500 transition delay-100"
-                      @click="openEditTechModal(platform, element)"
+          <span class="ml-1 text-[14px]">Add</span>
+          <template #icon>
+            <i-material-symbols-add class="inline-block text-[14px]" />
+          </template>
+        </a-button>
+      </div>
+      <div class="flex w-full">
+        <div
+            v-for="(platform, index) in platforms"
+            :key="index"
+            class="cutsom-shadow mr-5 w-auto pt-4 last:mr-0"
+        >
+          <div class="pb-3">
+            <h3 class="mb-0 px-4 text-[15px] font-semibold text-gray-600">
+              {{ platform.name }}
+            </h3>
+
+            <div class="mt-2 flex items-center px-4">
+              <a-button
+                  type="primary"
+                  size="small"
+                  class="mr-5"
+                  @click="openTechModal(platform)"
+              >
+                <span class="ml-1 text-[14px]">Add</span>
+                <template #icon>
+                  <i-material-symbols-add class="inline-block text-[14px]" />
+                </template>
+              </a-button>
+
+              <a-button
+                  type="primary"
+                  size="small"
+                  class="ml-auto"
+                  @click="openNewPlatfoem(platform)"
+              >
+                <template #icon>
+                  <i-material-symbols-edit-rounded
+                      class="inline-block text-[14px]"
                   />
                 </template>
-              </div>
+              </a-button>
+
+              <a-button :type="'danger' as ButtonType" size="small" class="ml-3">
+                <template #icon>
+                  <i-ic-baseline-delete class="inline-block text-[14px]" />
+                </template>
+              </a-button>
             </div>
-          </template>
-        </draggable>
+
+            <div class="px-4 pt-4">
+              <div class="h-px w-full border-b"></div>
+            </div>
+          </div>
+
+          <draggable
+              data-source="juju"
+              :list="platforms[index].children || []"
+              class="list-group -mt-2"
+              group="a"
+              item-key="id"
+              @start="drag = true"
+              @end="drag = false"
+          >
+            <template #item="{ element }">
+              <div class="tech-item px-4">
+                <div
+                    class="flex cursor-pointer items-center border-b border-gray-100 py-2"
+                >
+                  <div>{{ element.name }}</div>
+                  <template v-if="!drag">
+                    <i-ic-outline-remove-circle
+                        class="ml-auto text-rose-500 transition"
+                        @click="removeTechnology({ input: { id: element.id } })"
+                    />
+                    <i-mdi-lead-pencil
+                        class="ml-2 text-primary-500 transition delay-100"
+                        @click="openEditTechModal(platform, element)"
+                    />
+                  </template>
+                </div>
+              </div>
+            </template>
+          </draggable>
+        </div>
       </div>
-    </div>
+    </a-spin>
 
     <a-modal
       v-model:visible="visible"
@@ -176,7 +180,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ButtonType} from "ant-design-vue/lib/button"
+import { ButtonType } from 'ant-design-vue/lib/button'
 import { GET_PLATFORMS } from '#apollo/queries/platforms'
 import {
   GetPlatforms,
@@ -186,7 +190,9 @@ import {
 import { FormInstance } from 'ant-design-vue/lib/form'
 import {
   CREATE_PLATFORM,
-  CREATE_TECHNOLOGY, DELETE_TECHNOLOGY,
+  CREATE_TECHNOLOGY,
+  DELETE_TECHNOLOGY,
+  UPDATE_GRID_PLATFORM,
   UPDATE_PLATFORM,
   UPDATE_TECHNOLOGY
 } from '#apollo/mutations/platforms'
@@ -207,7 +213,14 @@ import {
   UpdateTechnology,
   UpdateTechnologyVariables
 } from '#apollo/mutations/__generated__/UpdateTechnology'
-import {RemoveTechnology, RemoveTechnologyVariables} from "#apollo/mutations/__generated__/RemoveTechnology";
+import {
+  RemoveTechnology,
+  RemoveTechnologyVariables
+} from '#apollo/mutations/__generated__/RemoveTechnology'
+import {
+  UpdateGridPlatform,
+  UpdateGridPlatformVariables
+} from '#apollo/mutations/__generated__/UpdateGridPlatform'
 
 const drag = ref(false)
 
@@ -319,28 +332,29 @@ const rulesTechnology = ref({
     }
   ]
 })
-const openTechModal = (
-  platform: GetPlatforms_platforms
-) => {
+const openTechModal = (platform: GetPlatforms_platforms) => {
   formTechnology.value = {
     platform: platform.id
   }
   visibleTechnology.value = true
 }
 
-const openEditTechModal = (platform: GetPlatforms_platforms, tech: GetPlatforms_platforms_children) => {
+const openEditTechModal = (
+  platform: GetPlatforms_platforms,
+  tech: GetPlatforms_platforms_children
+) => {
   formTechnology.value = {
     ...tech,
-    platform: platform.id,
+    platform: platform.id
   } as any
   visibleTechnology.value = true
 }
 
-const { mutate: createTechnology } = useMutation<
+const { mutate: createTechnology, loading: isCreatingTechnology } = useMutation<
   CreateTechnology,
   CreateTechnologyVariables
 >(CREATE_TECHNOLOGY)
-const { mutate: updateTechnology } = useMutation<
+const { mutate: updateTechnology, loading: isUpdatingTechnology } = useMutation<
   UpdateTechnology,
   UpdateTechnologyVariables
 >(UPDATE_TECHNOLOGY)
@@ -384,7 +398,10 @@ const submitTechnology = async () => {
   visibleTechnology.value = false
 }
 
-const { mutate: removeTechnology, onDone } = useMutation<RemoveTechnology, RemoveTechnologyVariables>(DELETE_TECHNOLOGY)
+const { mutate: removeTechnology, onDone } = useMutation<
+  RemoveTechnology,
+  RemoveTechnologyVariables
+>(DELETE_TECHNOLOGY)
 onDone((result) => {
   if (result.data?.removeTechnology) {
     console.log(result.data.removeTechnology)
@@ -395,7 +412,10 @@ onDone((result) => {
       }),
       fields: {
         children(existingChildren = []) {
-          return existingChildren.filter((child: GetPlatforms_platforms_children) => child.slug !== result.data?.removeTechnology.slug)
+          return existingChildren.filter(
+            (child: GetPlatforms_platforms_children) =>
+              child.slug !== result.data?.removeTechnology.slug
+          )
         }
       }
     })
@@ -404,16 +424,41 @@ onDone((result) => {
 
 // sự kiện kéo thả
 const counterChange = ref(0)
-const debouncedChangePlatforms = useDebounceFn(() => {
-  console.log('change platforms')
+
+// update grid
+const { mutate: updateGridPlatforms, loading: isUpdatingGridPlatforms } =
+  useMutation<UpdateGridPlatform, UpdateGridPlatformVariables>(
+    UPDATE_GRID_PLATFORM
+  )
+const debouncedChangePlatforms = useDebounceFn(async () => {
+  await updateGridPlatforms({
+    input: {
+      map: platforms.value.map((platform) => ({
+        id: platform.id,
+        children: platform.children?.map((child) => child.id) || []
+      }))
+    }
+  })
 }, 300)
 
-watch(platforms, () => {
-  if(counterChange.value) {
-    debouncedChangePlatforms()
-  }
-  counterChange.value++
-}, { deep: true })
+watch(
+  platforms,
+  () => {
+    if (counterChange.value) {
+      debouncedChangePlatforms()
+    }
+    counterChange.value++
+  },
+  { deep: true }
+)
+
+const isLoading = computed(() => {
+  return (
+    isUpdatingGridPlatforms.value ||
+    isCreatingTechnology.value ||
+    isUpdatingTechnology.value
+  )
+})
 </script>
 <style scoped lang="scss">
 .tech-item {

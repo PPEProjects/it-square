@@ -8,10 +8,10 @@
 //==============================================================
 
 export interface CreateCategoryInput {
-  avatar: string;
-  content: string;
+  avatar?: string | null;
+  content?: string | null;
   name: string;
-  primary: boolean;
+  primary?: boolean | null;
 }
 
 export interface CreatePlatformInput {
@@ -39,6 +39,15 @@ export interface UpdateCategoryInput {
   id: string;
   name?: string | null;
   primary?: boolean | null;
+}
+
+export interface UpdateGridPlatformInput {
+  map: UpdateGridPlatformInputItem[];
+}
+
+export interface UpdateGridPlatformInputItem {
+  children: string[];
+  id: string;
 }
 
 export interface UpdatePlatformInput {
