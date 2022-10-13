@@ -2,22 +2,22 @@
   <div>
     <div class="pb-5">
       <a-steps>
-        <a-step status="finish" title="Tạo Dự Án">
+        <a-step :status="buildStep(1)" title="Tạo Dự Án">
           <template #icon>
             <i-ic-twotone-pentagon />
           </template>
         </a-step>
-        <a-step status="finish" title="Thiết Lập Nâng Cao">
+        <a-step :status="buildStep(2)" title="Thiết Lập Nâng Cao">
           <template #icon>
             <i-icon-park-twotone-modify />
           </template>
         </a-step>
-        <a-step status="process" title="Mời Tham Gia">
+        <a-step :status="buildStep(3)" title="Mời Tham Gia">
           <template #icon>
             <i-ic-twotone-mark-email-unread />
           </template>
         </a-step>
-        <a-step status="wait" title="Hoàn Tất">
+        <a-step :status="buildStep(4)" title="Hoàn Tất">
           <template #icon>
             <i-ph-flag-duotone />
           </template>
@@ -29,7 +29,8 @@
       class="relative overflow-y-auto scrollbar-hide"
       style="height: calc(100vh - 70px - 22px - 16px - 16px - 24px - 60px)"
     >
-      <project-form @on-created="afterCreated" />
+      <project-form v-if="step === 1" @on-created="afterCreated" />
+      <project-advance v-else-if="step === 2" :project="form" />
     </div>
   </div>
 </template>
@@ -37,10 +38,29 @@
 <script lang="ts" setup>
 import { CreateProject_createProject } from '#apollo/mutations/__generated__/CreateProject'
 
+const step = ref(2)
+
+const buildStep = (position: number) => {
+  if (position > step.value) {
+    return 'wait'
+  } else if (position === step.value) {
+    return 'process'
+  } else {
+    return 'finish'
+  }
+}
+
+const form = ref<Omit<CreateProject_createProject, '__typename'>|undefined>({
+  id: 'ìdsfdsfdsgdg',
+  name: 'Chạm Vào Giai Điệu',
+  slug: ''
+})
+
 const afterCreated = (
   data: Omit<CreateProject_createProject, '__typename'>
 ) => {
-  console.log(data)
+  form.value = data
+  step.value = 2
 }
 </script>
 

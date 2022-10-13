@@ -138,6 +138,7 @@ declare module '@vue/runtime-core' {
     MessageModal: typeof import('./../src/components/modals/MessageModal.vue')['default']
     OnBoard: typeof import('./../src/components/home/OnBoard.vue')['default']
     PaginationView: typeof import('./../src/components/includes/PaginationView.vue')['default']
+    ProjectAdvance: typeof import('./../src/components/studio/includes/ProjectAdvance.vue')['default']
     ProjectBudget: typeof import('./../src/components/projects/ProjectBudget.vue')['default']
     ProjectComments: typeof import('./../src/components/projects/ProjectComments.vue')['default']
     ProjectDetail: typeof import('./../src/components/projects/ProjectDetail.vue')['default']
