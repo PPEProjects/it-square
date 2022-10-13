@@ -271,10 +271,11 @@ watch(useFile.files, async (files) => {
     Array.from(files as FileList).map(
       (file) =>
         new Promise((resolve) => {
-          uploader.image(file, 'project').then((res) => resolve(res))
+          uploader.document(file, 'project').then((res) => resolve(res))
         })
     )
   )
+  console.log(list)
 })
 
 const useImages = useFileDialog({
