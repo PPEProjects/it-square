@@ -59,6 +59,16 @@ input CreatePlatformInput {
   name: String!
 }
 
+input CreateProjectInput {
+  category: ID!
+  content: String!
+  covers: [String!]!
+  estimate: [Float!]!
+  files: [ID!]!
+  name: String!
+  technologies: [ID!]!
+}
+
 input CreateTechnologyInput {
   content: String!
   name: String!
@@ -72,13 +82,16 @@ input DeleteCategoryInput {
 type Mutation {
   createCategory(input: CreateCategoryInput!): Category!
   createPlatform(input: CreatePlatformInput!): Platform!
+  createProject(input: CreateProjectInput!): Project!
   createTechnology(input: CreateTechnologyInput!): Technology!
   removeCategory(input: DeleteCategoryInput!): Category!
   removePlatform(id: Int!): Platform!
+  removeProject(id: Int!): Project!
   removeTechnology(input: RemoveTechnologyInput!): Technology!
   updateCategory(input: UpdateCategoryInput!): Category!
   updateGridPlatform(input: UpdateGridPlatformInput!): [Platform!]!
   updatePlatform(input: UpdatePlatformInput!): Platform!
+  updateProject(updateProjectInput: UpdateProjectInput!): Project!
   updateTechnology(input: UpdateTechnologyInput!): Technology!
 }
 
@@ -101,12 +114,28 @@ type Platform {
   slug: String!
 }
 
+type Project {
+  category: Category!
+  content: String
+  covers: [String!]!
+  createdAt: Float!
+  estimate: [Float!]!
+  files: [String!]!
+  id: ID!
+  name: String!
+  slug: String!
+  technologies: [Technology!]!
+  updatedAt: Float!
+}
+
 type Query {
   categories: [Category!]!
   category(category: String!): Category!
   me: User!
   platform(id: Int!): Platform!
   platforms: [Platform!]!
+  project(id: Int!): Project!
+  projects: [Project!]!
   technologies: [Technology!]!
   technology(id: Int!): Technology!
 }
@@ -156,6 +185,17 @@ input UpdatePlatformInput {
   content: String
   id: ID!
   name: String
+}
+
+input UpdateProjectInput {
+  category: ID
+  content: String
+  covers: [String!]
+  estimate: [Float!]
+  files: [ID!]
+  id: Int!
+  name: String
+  technologies: [ID!]
 }
 
 input UpdateTechnologyInput {

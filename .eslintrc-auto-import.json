@@ -249,6 +249,7 @@
     "useToString": true,
     "useToggle": true,
     "useTransition": true,
+    "useUpload": true,
     "useUrlSearchParams": true,
     "useUserMedia": true,
     "useUserStore": true,

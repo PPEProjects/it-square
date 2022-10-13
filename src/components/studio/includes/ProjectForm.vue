@@ -1,9 +1,11 @@
 <template>
   <a-form
+    id="project1-form"
     :model="formState"
     layout="vertical"
     name="basic"
     autocomplete="off"
+    :class="[editImagesEnable ? '_edit_image' : '']"
     @finish="onFinish"
     @finish-failed="onFinishFailed"
   >
@@ -15,16 +17,16 @@
       <div class="w-[400px] flex-shrink-0">
         <a-form-item label="Phân Loại" name="category">
           <a-select
-              v-model:value="formState.category"
-              placeholder="Phân loại dự án"
-              :options="categories"
+            v-model:value="formState.category"
+            placeholder="Phân loại dự án"
+            :options="categories"
           ></a-select>
         </a-form-item>
 
         <a-form-item name="skill" label="Programing lang, framework">
           <!-- Dùng loop -->
           <a-select
-            v-model:value="formState.skills"
+            v-model:value="formState.technologies"
             mode="tags"
             placeholder="Vue, Nuxt,..."
           >
@@ -45,7 +47,8 @@
             @change="onChangeRangePicker"
           />
         </a-form-item>
-
+      </div>
+      <div class="w-full pl-7">
         <a-form-item name="files" label="Tệp đính kèm">
           <draggable
             v-model="formState.files"
@@ -85,48 +88,117 @@
           </template>
         </a-form-item>
       </div>
-      <div class="w-full pl-7">
-        <a-form-item name="images">
-          <template #label>
-            <div class="flex items-center justify-between">
-              <h4 class="mb-0">Hình Ảnh</h4>
-              <button>Chỉnh Sửa</button>
-            </div>
-          </template>
-          <draggable
-            v-model="formState.images"
-            item-key="id"
-            group="people"
-            class="flex flex-wrap rounded-md bg-gray-50 empty:hidden mb-3"
-          >
-            <template #item="{ element }">
-              <div class="my-2 h-[100px] w-1/4 overflow-hidden px-3">
+    </div>
+
+    <div class="h-3 w-full"></div>
+
+    <a-form-item name="cover" class="cover-field">
+      <template #label>
+        <div class="flex h-6 w-full items-center justify-between">
+          <h4 class="mb-0">Hình Ảnh</h4>
+
+          <div>
+            <button
+              v-if="listDelete.length && editImagesEnable"
+              class="mr-3 rounded bg-rose-500 px-2 py-0.5 text-[12px] font-semibold text-white"
+              @click="removeSelected"
+            >
+              Xoá Đã Chọn({{ listDelete.length }})
+            </button>
+
+            <button
+              v-if="!editImagesEnable"
+              class="rounded bg-rose-500 px-2 py-0.5 text-[12px] font-semibold text-white"
+              @click="editImagesEnable = true"
+            >
+              Chỉnh Sửa
+            </button>
+
+            <button
+              v-else
+              class="rounded bg-primary-500 px-2 py-0.5 text-[12px] font-semibold text-white"
+              @click="editImagesEnable = false"
+            >
+              Xong
+            </button>
+          </div>
+        </div>
+      </template>
+      <draggable
+        v-model="formState.covers"
+        item-key="id"
+        group="people"
+        class="mb-3 flex flex-wrap rounded-md bg-primary-50 p-1.5 empty:hidden"
+      >
+        <template #item="{ element }">
+          <div class="image-item h-[200px] w-1/4 p-1.5">
+            <div
+              class="relative h-full w-full overflow-hidden rounded-md border-[4px] border-white"
+            >
+              <button
+                class="absolute top-3 right-3 z-30 flex transform items-center rounded-md bg-rose-500 p-0.5 text-[18px] text-white transition"
+                :class="[
+                  !editImagesEnable ? 'invisible scale-0 opacity-0' : ''
+                ]"
+                @click="removeImageAt(element.id)"
+              >
+                <i-material-symbols-close-rounded />
+              </button>
+
+              <label
+                class="absolute top-0 left-0 z-20 flex h-full w-full cursor-pointer items-center justify-center"
+                :class="[!editImagesEnable ? 'invisible' : '']"
+              >
+                <div
+                  class="transform rounded-full border-[3px] text-[30px] transition"
+                  :class="[
+                    listDelete.includes(element.id)
+                      ? 'border-primary-500 text-primary-500'
+                      : 'scale-95 border-transparent text-white'
+                  ]"
+                >
+                  <i-ic-outline-check />
+                </div>
+
+                <input
+                  v-model="listDelete"
+                  type="checkbox"
+                  class="hidden"
+                  name="selectImages"
+                  :value="element.id"
+                />
+              </label>
+
+              <a-spin
+                wrapper-class-name="h-[200px]"
+                :spinning="element.loading"
+              >
                 <img
-                  class="h-full w-full object-cover"
-                  :src="element.img"
+                  class="relative z-10 h-full w-full object-cover transition-all"
+                  :src="element.loading ? element.file : $cdn(element.file)"
                   alt=""
                 />
-              </div>
-            </template>
-          </draggable>
-
-          <a-button type="primary" size="small" @click="useImages.open()">
-            <div class="flex items-center">
-              <i-ic-cloud-upload />
-              <span class="ml-2 text-xs"> Tải Lên </span>
+              </a-spin>
             </div>
-          </a-button>
+          </div>
+        </template>
+      </draggable>
 
-          <template #extra>
-            <small>
-              - Tải lên hình ảnh của bạn.
-              <br />
-              - Có thể thay đổi thứ tự hình ảnh bằng cách kéo thả.
-            </small>
-          </template>
-        </a-form-item>
-      </div>
-    </div>
+      <a-button type="primary" size="small" @click="useImages.open()">
+        <div class="flex items-center">
+          <i-ic-cloud-upload />
+          <span class="ml-2 text-xs"> Tải Lên </span>
+        </div>
+      </a-button>
+
+      <template #extra>
+        <small>
+          - Tải lên hình ảnh của bạn.
+          <br />
+          - Có thể thay đổi thứ tự hình ảnh bằng cách kéo thả.
+        </small>
+      </template>
+    </a-form-item>
 
     <a-form-item label="Mô Tả" name="content">
       <magic-editor />
@@ -135,30 +207,43 @@
 </template>
 
 <script lang="ts" setup>
-import { AddProjectInput } from '@dto/project-input.dto'
 import { Dayjs } from 'dayjs'
 import { GetCategories } from '#apollo/queries/__generated__/GetCategories'
 import { GET_CATEGORIES } from '#apollo/queries/categories'
 import { GetTechnologies } from '#apollo/queries/__generated__/GetTechnologies'
 import { GET_TECHNOLOGIES } from '#apollo/queries/platforms'
+import { CreateProjectInput } from '#apollo/__generated__/itTypes'
 
 const { result: queryCategories } = useQuery<GetCategories>(GET_CATEGORIES)
-const categories = computed(() => (queryCategories.value?.categories || []).map((e) => ({ label: e.name, value: e.id })))
+const categories = computed(() =>
+  (queryCategories.value?.categories || []).map((e) => ({
+    label: e.name,
+    value: e.id
+  }))
+)
 
 const { result: queryTechnologies } =
   useQuery<GetTechnologies>(GET_TECHNOLOGIES)
 const technologies = computed(() => queryTechnologies.value?.technologies || [])
 
-const formState = reactive<AddProjectInput>({
-  name: '',
+interface EnClose {
+  id: string | number
+  loading: boolean
+  file: string
+}
+
+const formState = ref<
+  Partial<Omit<CreateProjectInput, 'covers'>> & {
+    covers: EnClose[]
+  }
+>({
   category: '',
-  skills: [],
-  images: [],
-  time_to_do: {
-    from: '',
-    to: ''
-  },
-  files: []
+  content: '',
+  covers: [],
+  estimate: [],
+  files: [],
+  name: '',
+  technologies: []
 })
 
 const onChangeRangePicker = (dates: [string, string] | [Dayjs, Dayjs]) => {
@@ -168,22 +253,26 @@ const onChangeRangePicker = (dates: [string, string] | [Dayjs, Dayjs]) => {
       (date: string | Dayjs) => typeof date === 'string'
     )
   ) {
-    formState.time_to_do!.from = dates[0] as string
-    formState.time_to_do!.to = dates[1] as string
+    console.log(dates)
   }
 }
+
+// upload
+const uploader = useUpload()
 
 const useFile = useFileDialog({
   multiple: true
 })
 
-watch(useFile.files, (files) => {
-  Array.from(files as FileList).forEach((file) => {
-    formState.files.push({
-      id: Math.random(),
-      name: file.name
-    })
-  })
+watch(useFile.files, async (files) => {
+  const list = await Promise.all<string>(
+    Array.from(files as FileList).map(
+      (file) =>
+        new Promise((resolve) => {
+          uploader.image(file, 'project').then((res) => resolve(res))
+        })
+    )
+  )
 })
 
 const useImages = useFileDialog({
@@ -191,16 +280,42 @@ const useImages = useFileDialog({
   accept: '.png,.jpg'
 })
 
-watch(useImages.files, (files) => {
-  Array.from(files as FileList).forEach((file) => {
-    formState.images.push({
-      id: Math.random(),
-      img: URL.createObjectURL(file)
-    })
-  })
+watch(useImages.files, async (files) => {
+  await Promise.all(
+    Array.from(files as FileList).map(
+      (file) =>
+        new Promise((resolve) => {
+          const id = Math.round(Math.random() * 100000)
+
+          formState.value.covers.push({
+            id,
+            loading: true,
+            file: URL.createObjectURL(file)
+          })
+          uploader.image(file, 'project').then((res) => {
+            const index = formState.value.covers.findIndex((e) => e.id === id)
+            if (index > -1) {
+              formState.value.covers[index].loading = false
+              formState.value.covers[index].file = res
+            }
+            resolve(res)
+          })
+        })
+    )
+  )
 })
 
 const editImagesEnable = ref(false)
+const removeImageAt = (id: string | number) => {
+  formState.value.covers = formState.value.covers.filter((e) => e.id !== id)
+}
+const listDelete = ref<(string | number)[]>([])
+const removeSelected = () => {
+  formState.value.covers = formState.value.covers.filter(
+    (e) => !listDelete.value.includes(e.id)
+  )
+  listDelete.value = []
+}
 
 const onFinish = (values: any) => {
   console.log('Success:', values)
@@ -225,5 +340,57 @@ const onFinishFailed = (errorInfo: any) => {
 }
 .chapter-name {
   margin-bottom: 6px;
+}
+
+.cover-field label[for='basic_cover'] {
+  width: 100%;
+}
+
+#project1-form._edit_image .image-item {
+  /* Start the shake animation and make the animation last for 0.5 seconds */
+  animation: shake 1s;
+
+  /* When the animation is finished, start again */
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+#project1-form._edit_image .image-item img {
+  filter: blur(2px) brightness(0.8);
 }
 </style>

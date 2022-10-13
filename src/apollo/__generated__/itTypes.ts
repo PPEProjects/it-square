@@ -19,6 +19,16 @@ export interface CreatePlatformInput {
   name: string;
 }
 
+export interface CreateProjectInput {
+  category: string;
+  content: string;
+  covers: string[];
+  estimate: number[];
+  files: string[];
+  name: string;
+  technologies: string[];
+}
+
 export interface CreateTechnologyInput {
   content: string;
   name: string;
