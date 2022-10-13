@@ -263,7 +263,7 @@ const formState = ref<
   }
 >({
   category: '',
-  content: '12345',
+  content: '',
   covers: [],
   estimate: [],
   files: [],
