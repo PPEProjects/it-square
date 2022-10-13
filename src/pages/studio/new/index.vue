@@ -26,14 +26,22 @@
     </div>
 
     <div
-        class="relative overflow-y-auto scrollbar-hide"
-        style="height: calc(100vh - 70px - 22px - 16px - 16px - 24px - 60px)"
+      class="relative overflow-y-auto scrollbar-hide"
+      style="height: calc(100vh - 70px - 22px - 16px - 16px - 24px - 60px)"
     >
-      <project-form />
+      <project-form @on-created="afterCreated" />
     </div>
   </div>
 </template>
 
-<style scoped>
+<script lang="ts" setup>
+import { CreateProject_createProject } from '#apollo/mutations/__generated__/CreateProject'
 
-</style>
+const afterCreated = (
+  data: Omit<CreateProject_createProject, '__typename'>
+) => {
+  console.log(data)
+}
+</script>
+
+<style scoped></style>

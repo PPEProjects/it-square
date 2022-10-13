@@ -24,7 +24,7 @@
             ></a-select>
           </a-form-item>
 
-          <a-form-item name="skill" label="Programing lang, framework">
+          <a-form-item name="technologies" label="Programing lang, framework">
             <!-- Dùng loop -->
             <a-select
                 v-model:value="formState.technologies"
@@ -34,17 +34,16 @@
               <a-select-option
                   v-for="(item, index) in technologies"
                   :key="index"
-                  :value="item._id"
+                  :value="item.id"
               >
                 {{ item.name }}
               </a-select-option>
             </a-select>
           </a-form-item>
 
-          <a-form-item name="time_to_do" label="Thời gian dự kiến">
+          <a-form-item name="estimate" label="Thời gian dự kiến">
             <a-range-picker
                 class="w-full"
-                value-format="YYYY-MM-DD"
                 @change="onChangeRangePicker"
             />
           </a-form-item>
@@ -99,7 +98,7 @@
 
       <div class="h-3 w-full"></div>
 
-      <a-form-item name="cover" class="cover-field">
+      <a-form-item name="covers" class="cover-field">
         <template #label>
           <div class="flex h-6 w-full items-center justify-between">
             <h4 class="mb-0">Hình Ảnh</h4>
@@ -215,6 +214,7 @@
     <div>
       <a-button
           type="primary"
+          :loading="creatingProject"
           @click="onSubmit"
       >
         <div class="flex items-center">
@@ -235,6 +235,12 @@ import { GetTechnologies } from '#apollo/queries/__generated__/GetTechnologies'
 import { GET_TECHNOLOGIES } from '#apollo/queries/platforms'
 import { CreateProjectInput } from '#apollo/__generated__/itTypes'
 import {FormInstance} from "ant-design-vue/lib/form";
+import {CREATE_PROJECT} from "#apollo/mutations/projects";
+import {
+  CreateProject,
+  CreateProject_createProject,
+  CreateProjectVariables
+} from "#apollo/mutations/__generated__/CreateProject";
 
 const { result: queryCategories } = useQuery<GetCategories>(GET_CATEGORIES)
 const categories = computed(() =>
@@ -255,11 +261,12 @@ interface EnClose {
 }
 
 const formState = ref<
-  Partial<Omit<CreateProjectInput, 'covers' | 'files'>> & {
+  Partial<Omit<CreateProjectInput, 'covers' | 'files' | 'technologies'>> & {
     covers: EnClose[]
     files: (EnClose & {
       name: string
     })[]
+  technologies: string[]
   }
 >({
   category: '',
@@ -271,15 +278,8 @@ const formState = ref<
   technologies: []
 })
 
-const onChangeRangePicker = (dates: [string, string] | [Dayjs, Dayjs]) => {
-  if (
-    dates.length == 2 &&
-    Object.values(dates).every(
-      (date: string | Dayjs) => typeof date === 'string'
-    )
-  ) {
-    console.log(dates)
-  }
+const onChangeRangePicker = (dates: [Dayjs, Dayjs]) => {
+  formState.value.estimate = [dates[0].unix(), dates[1].unix()]
 }
 
 // upload
@@ -403,7 +403,7 @@ const rules = ref({
     {
       message: 'Vui lòng chọn công nghệ',
       validator: async () => {
-        if (!formState.value.covers.length) {
+        if (!formState.value.technologies.length) {
           return Promise.reject('Vui lòng chọn kĩ năng')
         }
         return Promise.resolve()
@@ -421,11 +421,31 @@ const rules = ref({
 const formRef = ref<FormInstance>()
 const editorRef = ref()
 
+const { mutate: createProject, loading: creatingProject } = useMutation<CreateProject, CreateProjectVariables>(CREATE_PROJECT)
+
+const emit = defineEmits<{
+  (e: 'onCreated', value: Omit<CreateProject_createProject, '__typename'>): void
+}>()
 const onSubmit = async () => {
   try {
     const content = editorRef.value?.getContent()
     formState.value.content = content || ''
     await formRef.value?.validateFields()
+
+    const data = await createProject({
+      input: {
+        category: formState.value.category || '',
+        content: formState.value.content || '',
+        covers: formState.value.covers.map((e) => e.file),
+        estimate: formState.value.estimate || [],
+        files: formState.value.files.map((e) => e.file),
+        name: formState.value.name || '',
+        technologies: formState.value.technologies
+      }
+    })
+    if(data?.data?.createProject) {
+      emit('onCreated', data.data.createProject)
+    }
   } catch (e) {
     //
   }
@@ -448,7 +468,7 @@ const onSubmit = async () => {
   margin-bottom: 6px;
 }
 
-.cover-field label[for='basic_cover'] {
+.cover-field label[for='basic_covers'] {
   width: 100%;
 }
 
