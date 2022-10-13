@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div>
+    this component will help you to create some steps for current project
+  </div>
 </template>
 
 <script lang="ts" setup>

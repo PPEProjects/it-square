@@ -38,7 +38,7 @@
 <script lang="ts" setup>
 import { CreateProject_createProject } from '#apollo/mutations/__generated__/CreateProject'
 
-const step = ref(2)
+const step = ref(1)
 
 const buildStep = (position: number) => {
   if (position > step.value) {
