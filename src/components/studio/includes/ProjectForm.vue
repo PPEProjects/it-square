@@ -54,30 +54,36 @@
             v-model="formState.files"
             item-key="id"
             group="people"
-            class="mb-3 rounded-md bg-gray-50 p-3 empty:hidden"
+            class="rounded-md bg-primary-50 p-1.5 empty:hidden"
           >
             <template #item="{ element }">
-              <div class="cursor-pointer border-b py-2 last:border-0">
-                <i-ci-dot-01-xs class="inline-block" />
+              <div
+                class="mb-1.5 flex cursor-pointer items-center rounded-md bg-white px-2 py-1.5 last:mb-0"
+              >
                 <span>{{ element.name }}</span>
-                <i-ic-baseline-delete
-                  class="inline-block scale-90 transform text-rose-500"
-                  @click="
-                    formState.files = formState.files.filter(
-                      (e) => e.id !== element.id
-                    )
-                  "
-                />
+
+                <button class="ml-auto">
+                  <i-ic-baseline-delete
+                    class="inline-block scale-90 transform text-rose-500"
+                    @click="
+                      formState.files = formState.files.filter(
+                        (e) => e.id !== element.id
+                      )
+                    "
+                  />
+                </button>
               </div>
             </template>
           </draggable>
 
-          <a-button type="primary" size="small" @click="useFile.open()">
-            <div class="flex items-center">
-              <i-ic-cloud-upload />
-              <span class="ml-2 text-xs"> Tải Lên </span>
-            </div>
-          </a-button>
+          <div class="mt-3">
+            <a-button type="primary" size="small" @click="useFile.open()">
+              <div class="flex items-center">
+                <i-ic-cloud-upload />
+                <span class="ml-2 text-xs"> Tải Lên </span>
+              </div>
+            </a-button>
+          </div>
 
           <template #extra>
             <small>
@@ -97,9 +103,7 @@
         <div class="flex h-6 w-full items-center justify-between">
           <h4 class="mb-0">Hình Ảnh</h4>
 
-          <div
-              :class="[!formState.covers.length ? 'invisible' : '']"
-          >
+          <div :class="[!formState.covers.length ? 'invisible' : '']">
             <button
               v-if="listDelete.length && editImagesEnable"
               class="mr-3 rounded bg-rose-500 px-2 py-0.5 text-[12px] font-semibold text-white"
@@ -235,8 +239,11 @@ interface EnClose {
 }
 
 const formState = ref<
-  Partial<Omit<CreateProjectInput, 'covers'>> & {
+  Partial<Omit<CreateProjectInput, 'covers' | 'files'>> & {
     covers: EnClose[]
+    files: (EnClose & {
+      name: string
+    })[]
   }
 >({
   category: '',
@@ -267,15 +274,31 @@ const useFile = useFileDialog({
 })
 
 watch(useFile.files, async (files) => {
-  const list = await Promise.all<string>(
+  await Promise.all<string>(
     Array.from(files as FileList).map(
       (file) =>
         new Promise((resolve) => {
-          uploader.document(file, 'project').then((res) => resolve(res))
+          const id = Math.round(Math.random() * 100000)
+
+          formState.value.files.push({
+            id,
+            name: file.name,
+            loading: true,
+            file: URL.createObjectURL(file)
+          })
+
+          uploader.document(file, 'project').then((res) => {
+            const index = formState.value.files.findIndex((e) => e.id === id)
+            if (index > -1) {
+              formState.value.files[index].name = getFileName(res)
+              formState.value.files[index].loading = false
+              formState.value.files[index].file = res
+            }
+            resolve(res)
+          })
         })
     )
   )
-  console.log(list)
 })
 
 const useImages = useFileDialog({
@@ -318,6 +341,11 @@ const removeSelected = () => {
     (e) => !listDelete.value.includes(e.id)
   )
   listDelete.value = []
+}
+
+const getFileName = (path: string) => {
+  const arr = path.split('/')
+  return arr[arr.length - 1]
 }
 
 const onFinish = (values: any) => {

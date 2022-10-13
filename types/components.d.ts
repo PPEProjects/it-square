@@ -49,6 +49,7 @@ declare module '@vue/runtime-core' {
     IBiStarFill: typeof import('~icons/bi/star-fill')['default']
     IBxBxsCategoryAlt: typeof import('~icons/bx/bxs-category-alt')['default']
     IBxBxsMessageSquareEdit: typeof import('~icons/bx/bxs-message-square-edit')['default']
+    IBxMenu: typeof import('~icons/bx/menu')['default']
     ICiDot01Xs: typeof import('~icons/ci/dot01-xs')['default']
     IEosIconsLoading: typeof import('~icons/eos-icons/loading')['default']
     IEpFlag: typeof import('~icons/ep/flag')['default']
