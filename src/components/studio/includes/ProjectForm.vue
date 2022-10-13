@@ -97,7 +97,9 @@
         <div class="flex h-6 w-full items-center justify-between">
           <h4 class="mb-0">Hình Ảnh</h4>
 
-          <div>
+          <div
+              :class="[!formState.covers.length ? 'invisible' : '']"
+          >
             <button
               v-if="listDelete.length && editImagesEnable"
               class="mr-3 rounded bg-rose-500 px-2 py-0.5 text-[12px] font-semibold text-white"
