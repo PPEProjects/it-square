@@ -132,6 +132,7 @@ declare module '@vue/runtime-core' {
     ITablerSearch: typeof import('~icons/tabler/search')['default']
     ITablerWorldLongitude: typeof import('~icons/tabler/world-longitude')['default']
     IUilFacebookF: typeof import('~icons/uil/facebook-f')['default']
+    IZondiconsCloudUpload: typeof import('~icons/zondicons/cloud-upload')['default']
     MagicEditor: typeof import('./../src/components/includes/MagicEditor.vue')['default']
     MasterLayout: typeof import('./../src/components/includes/MasterLayout.vue')['default']
     MessageModal: typeof import('./../src/components/modals/MessageModal.vue')['default']
