@@ -119,6 +119,7 @@ declare module '@vue/runtime-core' {
     IPhFireSimpleDuotone: typeof import('~icons/ph/fire-simple-duotone')['default']
     IPhFlagDuotone: typeof import('~icons/ph/flag-duotone')['default']
     IPhLinkSimpleFill: typeof import('~icons/ph/link-simple-fill')['default']
+    IPhMagicWandBold: typeof import('~icons/ph/magic-wand-bold')['default']
     IPhPaperPlaneTiltBold: typeof import('~icons/ph/paper-plane-tilt-bold')['default']
     IPhPersonSimpleRunBold: typeof import('~icons/ph/person-simple-run-bold')['default']
     IPhPushPinFill: typeof import('~icons/ph/push-pin-fill')['default']
