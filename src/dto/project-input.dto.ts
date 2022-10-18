@@ -1,5 +1,3 @@
-import { UpsertProject } from '#apollo/__generated__/itTypes'
-
 export declare type WithRequired<T> = {
   [K in keyof T]-?: T[K] | undefined
 }

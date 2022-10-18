@@ -7,6 +7,21 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum PermissionEnum {
+  DOING = "DOING",
+  DONE = "DONE",
+  WAITING = "WAITING",
+}
+
+export enum StepStatus {
+  DONE = "DONE",
+  WAITING = "WAITING",
+}
+
+export interface CheckStepInput {
+  id: string;
+}
+
 export interface CreateCategoryInput {
   avatar?: string | null;
   content?: string | null;
@@ -24,9 +39,14 @@ export interface CreateProjectInput {
   content: string;
   covers: string[];
   estimate: number[];
-  files: string[];
+  files?: string[] | null;
   name: string;
   technologies: string[];
+}
+
+export interface CreateStepsInput {
+  project: string;
+  steps: StepDocInput[];
 }
 
 export interface CreateTechnologyInput {
@@ -41,6 +61,11 @@ export interface DeleteCategoryInput {
 
 export interface RemoveTechnologyInput {
   id: string;
+}
+
+export interface StepDocInput {
+  name: string;
+  status?: StepStatus | null;
 }
 
 export interface UpdateCategoryInput {

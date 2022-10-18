@@ -51,9 +51,9 @@ const buildStep = (position: number) => {
 }
 
 const form = ref<Omit<CreateProject_createProject, '__typename'>|undefined>({
-  id: 'ìdsfdsfdsgdg',
+  id: '63468497a7433fabd7daa8b7',
   name: 'Chạm Vào Giai Điệu',
-  slug: ''
+  slug: 'koki-matsuno'
 })
 
 const afterCreated = (

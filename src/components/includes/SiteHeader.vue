@@ -1,42 +1,25 @@
 <template>
   <div id="site-header" :class="[isStudio ? 'cutsom-shadow' : 'border-b']">
     <div class="mx-auto flex h-full max-w-bootstrap items-center px-4">
-      <div v-if="!isStudio" class="header-logo mr-3 flex-shrink-0">
+
+      <div class="header-logo mr-3 flex-shrink-0">
         <router-link to="/" title="" class="logo">
           <img
-            class="mr-4 h-full w-full object-cover"
-            src="/images/logo.svg"
-            alt=""
+              class="mr-4 h-full w-full object-cover"
+              src="/images/logo.svg"
+              alt=""
           />
         </router-link>
       </div>
 
       <div
-        v-auto-animate
         class="menu-list mr-auto flex h-full flex-shrink-0 items-center text-gray-500"
       >
-        <button
-          v-if="isStudio"
-          class="mr-6 text-[23px]"
-          @click="$router.back()"
-        >
-          <i-material-symbols-arrow-back />
-        </button>
-
-        <button
-            v-if="isStudio"
-            class="flex items-center"
-            @click="$router.push('/')"
-        >
-          <i-mdi-home-lightning-bolt class="text-[23px]" />
-          <h5 class="mb-0 ml-2 text-[15px] font-semibold text-current">Home</h5>
-        </button>
-
         <tech-menu />
 
         <category-menu />
 
-        <div v-if="!isStudio" class="menu-item">
+        <div class="menu-item">
           <router-link
             to="/studio"
             class="flex items-center text-gray-500 hover:text-gray-500"

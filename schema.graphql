@@ -47,6 +47,10 @@ type Category {
   slug: String!
 }
 
+input CheckStepInput {
+  id: ID!
+}
+
 input CreateCategoryInput {
   avatar: String = ""
   content: String = ""
@@ -64,9 +68,24 @@ input CreateProjectInput {
   content: String!
   covers: [String!]!
   estimate: [Float!]!
-  files: [ID!]!
+  files: [ID!] = []
   name: String!
   technologies: [ID!]!
+}
+
+input CreateRoleInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateStepInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateStepsInput {
+  project: ID!
+  steps: [StepDocInput!]!
 }
 
 input CreateTechnologyInput {
@@ -80,18 +99,26 @@ input DeleteCategoryInput {
 }
 
 type Mutation {
+  checkStep(input: CheckStepInput!): Step!
   createCategory(input: CreateCategoryInput!): Category!
   createPlatform(input: CreatePlatformInput!): Platform!
   createProject(input: CreateProjectInput!): Project!
+  createRole(createRoleInput: CreateRoleInput!): Role!
+  createStep(createStepInput: CreateStepInput!): Step!
+  createSteps(input: CreateStepsInput!): [Step!]!
   createTechnology(input: CreateTechnologyInput!): Technology!
   removeCategory(input: DeleteCategoryInput!): Category!
   removePlatform(id: Int!): Platform!
   removeProject(id: Int!): Project!
+  removeRole(id: Int!): Role!
+  removeStep(id: Int!): Step!
   removeTechnology(input: RemoveTechnologyInput!): Technology!
   updateCategory(input: UpdateCategoryInput!): Category!
   updateGridPlatform(input: UpdateGridPlatformInput!): [Platform!]!
   updatePlatform(input: UpdatePlatformInput!): Platform!
   updateProject(updateProjectInput: UpdateProjectInput!): Project!
+  updateRole(updateRoleInput: UpdateRoleInput!): Role!
+  updateStep(updateStepInput: UpdateStepInput!): Step!
   updateTechnology(input: UpdateTechnologyInput!): Technology!
 }
 
@@ -104,6 +131,12 @@ type Notify {
 
   """Thành viên hiện tại"""
   user: User!
+}
+
+enum PermissionEnum {
+  DOING
+  DONE
+  WAITING
 }
 
 type Platform {
@@ -123,7 +156,9 @@ type Project {
   files: [String!]!
   id: ID!
   name: String!
+  roles: [Role!]!
   slug: String!
+  steps: [Step!]!
   technologies: [Technology!]!
   updatedAt: Float!
 }
@@ -134,8 +169,11 @@ type Query {
   me: User!
   platform(id: Int!): Platform!
   platforms: [Platform!]!
-  project(id: Int!): Project!
+  project(project: String!): Project!
   projects: [Project!]!
+  role(id: Int!): Role!
+  roles: [Role!]!
+  step(id: Int!): Step!
   technologies: [Technology!]!
   technology(id: Int!): Technology!
 }
@@ -144,11 +182,34 @@ input RemoveTechnologyInput {
   id: ID!
 }
 
-enum Role {
-  ADMIN
-  AUTHOR
-  SP_ADMIN
-  USER
+type Role {
+  createdAt: Float!
+  id: ID!
+  name: String!
+  order: Float!
+  permissions: [PermissionEnum!]!
+  project: Project!
+  updatedAt: Float!
+}
+
+type Step {
+  createdAt: Float!
+  id: ID!
+  name: String!
+  order: Float!
+  project: Project!
+  status: StepStatus!
+  updatedAt: Float!
+}
+
+input StepDocInput {
+  name: String!
+  status: StepStatus = WAITING
+}
+
+enum StepStatus {
+  DONE
+  WAITING
 }
 
 type Subscription {
@@ -192,10 +253,22 @@ input UpdateProjectInput {
   content: String
   covers: [String!]
   estimate: [Float!]
-  files: [ID!]
+  files: [ID!] = []
   id: Int!
   name: String
   technologies: [ID!]
+}
+
+input UpdateRoleInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateStepInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 input UpdateTechnologyInput {
@@ -210,9 +283,16 @@ type User {
   createdAt: Float!
   id: ID!
   name: String!
-  role: Role!
+  role: UserRole!
   slug: String!
 
   """Firebase ID"""
   uid: String!
+}
+
+enum UserRole {
+  ADMIN
+  AUTHOR
+  SP_ADMIN
+  USER
 }
