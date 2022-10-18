@@ -12,11 +12,11 @@
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab aliquam aliquid animi architecto, aut dolore doloremque dolores doloribus, expedita natus neque non nulla omnis quidem quisquam quo reiciendis veniam.
       </div>
 
-      <div class="text-[13px] text-gray-500">
+      <div class="text-[13px] text-gray-500 mt-2">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab aliquam aliquid animi architecto, aut dolore doloremque dolores doloribus, expedita natus neque non nulla omnis quidem quisquam quo reiciendis veniam.
       </div>
 
-      <div class="text-[13px] text-gray-500">
+      <div class="text-[13px] text-gray-500 mt-3">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab aliquam aliquid animi architecto, aut dolore doloremque dolores doloribus, expedita natus neque non nulla omnis quidem quisquam quo reiciendis veniam.
       </div>
 
