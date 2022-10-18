@@ -59,6 +59,10 @@ export interface DeleteCategoryInput {
   id: string;
 }
 
+export interface DeleteStepInput {
+  id: string;
+}
+
 export interface RemoveTechnologyInput {
   id: string;
 }

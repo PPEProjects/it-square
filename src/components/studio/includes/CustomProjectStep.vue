@@ -17,7 +17,16 @@
 
       <div>
         <div class="flex items-center justify-center">
-          <a-button type="primary"> Thêm Tiến Độ </a-button>
+          <a-button
+            type="primary"
+            @click="
+              openFormEdit({
+                status: StepStatus.WAITING
+              })
+            "
+          >
+            Thêm Tiến Độ
+          </a-button>
 
           <a-button type="danger" class="ml-3" @click="visible = true">
             <i-ph-magic-wand-bold />
@@ -76,16 +85,23 @@
                 </div>
                 <div>
                   <div
-                    class="name text-[16px] font-semibold text-gray-700 transition flex items-center"
+                    class="name flex items-center text-[16px] font-semibold text-gray-700 transition"
                   >
                     {{ element.name }}
                     <i-material-symbols-edit-rounded
-                        class="text-[12px] ml-2 invisible transition transform opacity-0 scale-0"
-                        @click.stop="openFormEdit(Object.assign({}, element))"
+                      class="invisible ml-2 scale-0 transform text-[12px] opacity-0 transition"
+                      @click.stop="openFormEdit(Object.assign({}, element))"
                     />
-                    <i-ic-baseline-remove-circle-outline
-                        class="text-[12px] ml-2 invisible transition transform opacity-0 scale-0 delete"
-                    />
+                    <a-popconfirm
+                      title="Bạn có chắc muốn xoá?"
+                      ok-text="Yes"
+                      cancel-text="No"
+                      @confirm="removeStep({ input: { id: element.id } })"
+                    >
+                      <i-ic-baseline-remove-circle-outline
+                        class="delete invisible ml-2 scale-0 transform text-[12px] opacity-0 transition"
+                      />
+                    </a-popconfirm>
                   </div>
                   <div class="description text-[13px] text-gray-500 transition">
                     {{ element.content || '--' }}
@@ -211,6 +227,7 @@ import { GetProjectAdvance_project_steps } from '#apollo/queries/__generated__/G
 import {
   CHECK_STEP,
   CREATE_STEPS,
+  REMOVE_STEP,
   SORT_STEPS
 } from '#apollo/mutations/projects'
 import {
@@ -228,6 +245,10 @@ import {
   SortSteps,
   SortStepsVariables
 } from '#apollo/mutations/__generated__/SortSteps'
+import {
+  RemoveStep,
+  RemoveStepVariables
+} from '#apollo/mutations/__generated__/RemoveStep'
 
 const props = defineProps<{
   project: string
@@ -372,7 +393,37 @@ const addNewStep = async () => {
   }
 }
 
-const loading = computed(() => isCreating.value || isSorting.value)
+const {
+  mutate: removeStep,
+  onDone: afterRemoveStep,
+  loading: isRemoving
+} = useMutation<RemoveStep, RemoveStepVariables>(REMOVE_STEP)
+afterRemoveStep((data) => {
+  if (data.data?.removeStep) {
+    getoApp.cache.evict({
+      id: getoApp.cache.identify({
+        id: 'Step:' + data.data.removeStep.id
+      })
+    })
+    getoApp.cache.modify({
+      id: `Project:${props.project}`,
+      fields: {
+        steps(oldSteps) {
+          return (oldSteps || []).filter(
+            (step: { id: string }) => step.id !== data.data!.removeStep.id
+          )
+        }
+      }
+    })
+    steps.value = steps.value.filter(
+      (step) => step.id !== data.data!.removeStep.id
+    )
+  }
+})
+
+const loading = computed(
+  () => isCreating.value || isSorting.value || isRemoving.value
+)
 </script>
 
 <style scoped lang="scss">

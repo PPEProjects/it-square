@@ -98,6 +98,10 @@ input DeleteCategoryInput {
   id: ID!
 }
 
+input DeleteStepInput {
+  id: ID!
+}
+
 type Mutation {
   checkStep(input: CheckStepInput!): Step!
   createCategory(input: CreateCategoryInput!): Category!
@@ -111,7 +115,7 @@ type Mutation {
   removePlatform(id: Int!): Platform!
   removeProject(id: Int!): Project!
   removeRole(id: Int!): Role!
-  removeStep(id: Int!): Step!
+  removeStep(input: DeleteStepInput!): Step!
   removeTechnology(input: RemoveTechnologyInput!): Technology!
   sortSteps(input: SortStepsInput!): [Step!]!
   updateCategory(input: UpdateCategoryInput!): Category!
@@ -119,7 +123,7 @@ type Mutation {
   updatePlatform(input: UpdatePlatformInput!): Platform!
   updateProject(updateProjectInput: UpdateProjectInput!): Project!
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
-  updateStep(updateStepInput: UpdateStepInput!): Step!
+  updateStep(input: UpdateStepInput!): Step!
   updateTechnology(input: UpdateTechnologyInput!): Technology!
 }
 

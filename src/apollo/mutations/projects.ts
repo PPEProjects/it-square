@@ -42,3 +42,11 @@ export const SORT_STEPS = gql`
     }
   }
 `
+
+export const REMOVE_STEP = gql`
+  mutation RemoveStep($input: DeleteStepInput!) {
+    removeStep(input: $input) {
+      id
+    }
+  }
+`
