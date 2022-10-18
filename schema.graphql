@@ -193,6 +193,7 @@ type Role {
 }
 
 type Step {
+  content: String!
   createdAt: Float!
   id: ID!
   name: String!
@@ -203,6 +204,7 @@ type Step {
 }
 
 input StepDocInput {
+  content: String = ""
   name: String!
   status: StepStatus = WAITING
 }

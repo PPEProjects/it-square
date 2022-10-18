@@ -64,6 +64,7 @@ export interface RemoveTechnologyInput {
 }
 
 export interface StepDocInput {
+  content?: string | null;
   name: string;
   status?: StepStatus | null;
 }

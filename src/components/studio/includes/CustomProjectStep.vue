@@ -63,7 +63,7 @@
                     v-if="buildStatus(index) === 'done'"
                   />
                   <i-line-md-loading-loop
-                    v-else-if="buildStatus(index) === 'doing' "
+                    v-else-if="buildStatus(index) === 'doing'"
                     class="scale-75 transform"
                   />
                 </div>
@@ -85,7 +85,16 @@
         </draggable>
 
         <div class="mt-3">
-          <a-button type="primary"> Thêm Tiến Độ </a-button>
+          <a-button
+            type="primary"
+            @click="
+              openFormEdit({
+                status: StepStatus.WAITING
+              })
+            "
+          >
+            Thêm Tiến Độ
+          </a-button>
         </div>
       </div>
     </template>
@@ -142,6 +151,47 @@
       c thể thay đổi tạo tiến độ.
     </p>
   </a-modal>
+
+  <a-modal
+    v-model:visible="visible2"
+    title="Thêm Mới"
+    :form="form"
+    @ok="addNewStep"
+  >
+    <a-form ref="formRef" :model="form" layout="vertical" autocomplete="off">
+      <a-form-item
+        label="Vị Trí Công Việc"
+        name="name"
+        :rules="[
+          {
+            required: true,
+            message: 'Vui lòng nhập tên dự án'
+          }
+        ]"
+      >
+        <a-input v-model:value="form.name" placeholder="Tên tiến độ" />
+      </a-form-item>
+
+      <a-form-item label="Trạng thái tiến độ">
+        <a-select v-model:value="form.status" :disabled="!form.id">
+          <a-select-option :value="StepStatus.DONE">
+            Đã Hoàn Thành
+          </a-select-option>
+          <a-select-option :value="StepStatus.WAITING">
+            Đang Chờ
+          </a-select-option>
+        </a-select>
+      </a-form-item>
+
+      <a-form-item label="Mô tả tiến độ" name="content">
+        <a-textarea
+          v-model:value="form.content"
+          placeholder="Mô tả công việc"
+          :auto-size="{ minRows: 3, maxRows: 6 }"
+        />
+      </a-form-item>
+    </a-form>
+  </a-modal>
 </template>
 
 <script lang="ts" setup>
@@ -149,6 +199,7 @@ import { GetProjectAdvance_project_steps } from '#apollo/queries/__generated__/G
 import { CHECK_STEP, CREATE_STEPS } from '#apollo/mutations/projects'
 import {
   CreateSteps,
+  CreateSteps_createSteps,
   CreateStepsVariables
 } from '#apollo/mutations/__generated__/CreateSteps'
 import { StepStatus } from '#apollo/__generated__/itTypes'
@@ -156,6 +207,7 @@ import {
   CheckStep,
   CheckStepVariables
 } from '#apollo/mutations/__generated__/CheckStep'
+import { FormInstance } from 'ant-design-vue/lib/form'
 
 const props = defineProps<{
   project: string
@@ -189,10 +241,11 @@ const buildStatus = (index: number): CustomStatus => {
   return 'waiting'
 }
 
-const { mutate, loading, onDone } = useMutation<
-  CreateSteps,
-  CreateStepsVariables
->(CREATE_STEPS)
+const {
+  mutate: createSteps,
+  loading,
+  onDone
+} = useMutation<CreateSteps, CreateStepsVariables>(CREATE_STEPS)
 
 const getoApp = useGeto()
 onDone((data) => {
@@ -200,8 +253,10 @@ onDone((data) => {
     getoApp.cache.modify({
       id: `Project:${props.project}`,
       fields: {
-        steps() {
-          return data.data!.createSteps
+        steps(oldSteps) {
+          return [...(oldSteps || []), ...data.data!.createSteps].sort(
+            (a, b) => a.order - b.order
+          )
         }
       }
     })
@@ -210,7 +265,7 @@ onDone((data) => {
 
 const handleOk = () => {
   visible.value = false
-  mutate({
+  createSteps({
     input: {
       project: props.project,
       steps: [
@@ -283,6 +338,29 @@ const afterDrag = () =>
       })
     })
   })
+
+const visible2 = ref<boolean>(false)
+const form = ref<Partial<CreateSteps_createSteps>>({})
+const openFormEdit = (initValue: Partial<CreateSteps_createSteps>) => {
+  form.value = initValue
+  visible2.value = true
+}
+
+const formRef = ref<FormInstance>()
+const addNewStep = async () => {
+  try {
+    await formRef.value?.validateFields()
+    await createSteps({
+      input: {
+        project: props.project,
+        steps: [form.value as CreateSteps_createSteps]
+      }
+    })
+    visible2.value = false
+  } catch (e) {
+    //
+  }
+}
 </script>
 
 <style scoped lang="scss">
