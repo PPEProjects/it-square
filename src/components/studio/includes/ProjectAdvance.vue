@@ -1,11 +1,23 @@
 <template>
   <a-spin :spinning="loading">
     <div class="h-full">
-      <h3 class="mb-0 text-[26px] font-semibold">
+      <h3
+        class="mb-0 flex items-center border-b border-gray-100 pb-2 text-[26px] font-semibold"
+      >
+        <button class="mr-2 text-[15px] text-gray-400">
+          <i-material-symbols-arrow-back />
+        </button>
         {{ projectData?.name || '--' }}
+        <a-button
+          type="primary"
+          class="ml-auto flex items-center"
+          @click="$emit('next')"
+        >
+          <span>Bước Tiếp Theo</span>
+        </a-button>
       </h3>
 
-      <div class="mt-4 flex">
+      <div class="mt-5 flex">
         <div class="w-1/2 pr-3">
           <custom-project-step
             :value="projectData?.steps"
@@ -14,34 +26,7 @@
         </div>
 
         <div class="w-1/2 border-l border-gray-100 pl-5">
-          <h4 class="mb-0 text-[18px] font-semibold text-gray-600">
-            Phân quyền dự án
-          </h4>
-
-          <div style="width: 250px; height: 200px" class="mx-auto">
-            <vue-lottie-player
-              width="250px"
-              height="200px"
-              loop
-              path="https://assets8.lottiefiles.com/packages/lf20_7jnffdxl.json"
-            />
-          </div>
-
-          <div>
-            <div class="flex items-center justify-center">
-              <a-button type="primary"> Thêm Tiến Độ </a-button>
-
-              <a-button type="danger" class="ml-3">
-                <i-ph-magic-wand-bold />
-              </a-button>
-            </div>
-            <p class="mt-2 text-center text-[12px] text-gray-400">
-              Việc thiết lập đầy đủ các bước sẽ hỗ trợ bạn rất nhiều cho việc
-              quản lý dự án.
-              <br />
-              Nếu bạn thấy khó khăn có thể sử dụng các mẫu của chúng tôi.
-            </p>
-          </div>
+          <custom-project-roles />
         </div>
       </div>
     </div>
@@ -68,4 +53,8 @@ const { result, loading } = useQuery<
 })
 
 const projectData = computed(() => result?.value?.project)
+
+defineEmits<{
+  (e: 'next'): void
+}>()
 </script>

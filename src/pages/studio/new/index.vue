@@ -30,7 +30,9 @@
       style="height: calc(100vh - 70px - 22px - 16px - 16px - 24px - 60px)"
     >
       <project-form v-if="step === 1" @on-created="afterCreated" />
-      <project-advance v-else-if="step === 2" :project="form" />
+      <project-advance v-else-if="step === 2" :project="form" @next="step++" />
+      <project-invite v-else-if="step === 3" :project="form" @next="step++" />
+      <project-interview v-else-if="step === 4" :project="form" />
     </div>
   </div>
 </template>
@@ -38,7 +40,7 @@
 <script lang="ts" setup>
 import { CreateProject_createProject } from '#apollo/mutations/__generated__/CreateProject'
 
-const step = ref(2)
+const step = ref(4)
 
 const buildStep = (position: number) => {
   if (position > step.value) {

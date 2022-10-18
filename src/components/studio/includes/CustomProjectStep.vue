@@ -183,7 +183,6 @@
   <a-modal
     v-model:visible="visible2"
     title="Thêm Mới"
-    :form="form"
     @ok="addNewStep"
   >
     <a-form ref="formRef" :model="form" layout="vertical" autocomplete="off">
