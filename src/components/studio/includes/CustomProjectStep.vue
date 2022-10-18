@@ -45,7 +45,14 @@
           v-model="steps"
           item-key="id"
           group="people"
-          @end="afterDrag"
+          @end="
+            sortSteps({
+              input: {
+                project: project,
+                steps: steps.map((step) => step.id)
+              }
+            })
+          "
         >
           <template #item="{ element, index }">
             <div class="step-item">
@@ -69,14 +76,19 @@
                 </div>
                 <div>
                   <div
-                    class="name text-[16px] font-semibold text-gray-700 transition"
+                    class="name text-[16px] font-semibold text-gray-700 transition flex items-center"
                   >
                     {{ element.name }}
+                    <i-material-symbols-edit-rounded
+                        class="text-[12px] ml-2 invisible transition transform opacity-0 scale-0"
+                        @click.stop="openFormEdit(Object.assign({}, element))"
+                    />
+                    <i-ic-baseline-remove-circle-outline
+                        class="text-[12px] ml-2 invisible transition transform opacity-0 scale-0 delete"
+                    />
                   </div>
                   <div class="description text-[13px] text-gray-500 transition">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Atque corporis, cupiditate dolorem doloremque eum excepturi
-                    facilis laboriosam nesciunt.
+                    {{ element.content || '--' }}
                   </div>
                 </div>
               </div>
@@ -196,7 +208,11 @@
 
 <script lang="ts" setup>
 import { GetProjectAdvance_project_steps } from '#apollo/queries/__generated__/GetProjectAdvance'
-import { CHECK_STEP, CREATE_STEPS } from '#apollo/mutations/projects'
+import {
+  CHECK_STEP,
+  CREATE_STEPS,
+  SORT_STEPS
+} from '#apollo/mutations/projects'
 import {
   CreateSteps,
   CreateSteps_createSteps,
@@ -208,6 +224,10 @@ import {
   CheckStepVariables
 } from '#apollo/mutations/__generated__/CheckStep'
 import { FormInstance } from 'ant-design-vue/lib/form'
+import {
+  SortSteps,
+  SortStepsVariables
+} from '#apollo/mutations/__generated__/SortSteps'
 
 const props = defineProps<{
   project: string
@@ -218,7 +238,7 @@ const steps = ref<GetProjectAdvance_project_steps[]>([])
 watch(
   () => props.value,
   (_steps) => {
-    steps.value = [...(_steps || [])]
+    steps.value = [...(_steps || [])].sort((a, b) => a.order - b.order)
   }
 )
 
@@ -243,7 +263,7 @@ const buildStatus = (index: number): CustomStatus => {
 
 const {
   mutate: createSteps,
-  loading,
+  loading: isCreating,
   onDone
 } = useMutation<CreateSteps, CreateStepsVariables>(CREATE_STEPS)
 
@@ -324,20 +344,10 @@ afterCheckStep((data) => {
   }
 })
 
-const afterDrag = () =>
-  nextTick(() => {
-    /// Sau khi kéo thả
-    steps.value.forEach((step) => {
-      getoApp.cache.modify({
-        id: getoApp.cache.identify(step),
-        fields: {
-          status() {
-            return StepStatus.WAITING
-          }
-        }
-      })
-    })
-  })
+const { mutate: sortSteps, loading: isSorting } = useMutation<
+  SortSteps,
+  SortStepsVariables
+>(SORT_STEPS)
 
 const visible2 = ref<boolean>(false)
 const form = ref<Partial<CreateSteps_createSteps>>({})
@@ -361,6 +371,8 @@ const addNewStep = async () => {
     //
   }
 }
+
+const loading = computed(() => isCreating.value || isSorting.value)
 </script>
 
 <style scoped lang="scss">
@@ -368,6 +380,12 @@ const addNewStep = async () => {
   &:hover {
     .name {
       @apply text-primary-600;
+      svg {
+        @apply visible scale-100 opacity-100;
+        &.delete {
+          @apply text-red-500;
+        }
+      }
     }
     .description {
       @apply text-primary-500;

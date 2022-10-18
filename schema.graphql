@@ -113,6 +113,7 @@ type Mutation {
   removeRole(id: Int!): Role!
   removeStep(id: Int!): Step!
   removeTechnology(input: RemoveTechnologyInput!): Technology!
+  sortSteps(input: SortStepsInput!): [Step!]!
   updateCategory(input: UpdateCategoryInput!): Category!
   updateGridPlatform(input: UpdateGridPlatformInput!): [Platform!]!
   updatePlatform(input: UpdatePlatformInput!): Platform!
@@ -190,6 +191,11 @@ type Role {
   permissions: [PermissionEnum!]!
   project: Project!
   updatedAt: Float!
+}
+
+input SortStepsInput {
+  project: ID!
+  steps: [ID!]!
 }
 
 type Step {

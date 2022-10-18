@@ -63,6 +63,11 @@ export interface RemoveTechnologyInput {
   id: string;
 }
 
+export interface SortStepsInput {
+  project: string;
+  steps: string[];
+}
+
 export interface StepDocInput {
   content?: string | null;
   name: string;

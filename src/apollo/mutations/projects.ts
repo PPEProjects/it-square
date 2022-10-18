@@ -26,7 +26,19 @@ export const CHECK_STEP = gql`
     checkStep(input: $input) {
       id
       name
+      content
       status
+    }
+  }
+`
+
+export const SORT_STEPS = gql`
+  mutation SortSteps($input: SortStepsInput!) {
+    sortSteps(input: $input) {
+      id
+      name
+      content
+      order
     }
   }
 `

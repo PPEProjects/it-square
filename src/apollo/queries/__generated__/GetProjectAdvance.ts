@@ -15,6 +15,7 @@ export interface GetProjectAdvance_project_steps {
   name: string;
   status: StepStatus;
   order: number;
+  content: string;
 }
 
 export interface GetProjectAdvance_project_roles {

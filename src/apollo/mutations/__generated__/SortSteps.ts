@@ -3,24 +3,24 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { CheckStepInput, StepStatus } from "./../../__generated__/itTypes";
+import { SortStepsInput } from "./../../__generated__/itTypes";
 
 // ====================================================
-// GraphQL mutation operation: CheckStep
+// GraphQL mutation operation: SortSteps
 // ====================================================
 
-export interface CheckStep_checkStep {
+export interface SortSteps_sortSteps {
   __typename: "Step";
   id: string;
   name: string;
   content: string;
-  status: StepStatus;
+  order: number;
 }
 
-export interface CheckStep {
-  checkStep: CheckStep_checkStep;
+export interface SortSteps {
+  sortSteps: SortSteps_sortSteps[];
 }
 
-export interface CheckStepVariables {
-  input: CheckStepInput;
+export interface SortStepsVariables {
+  input: SortStepsInput;
 }

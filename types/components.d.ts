@@ -61,6 +61,7 @@ declare module '@vue/runtime-core' {
     IIcBaselineKeyboardArrowLeft: typeof import('~icons/ic/baseline-keyboard-arrow-left')['default']
     IIcBaselineKeyboardArrowRight: typeof import('~icons/ic/baseline-keyboard-arrow-right')['default']
     IIcBaselinePlus: typeof import('~icons/ic/baseline-plus')['default']
+    IIcBaselineRemoveCircleOutline: typeof import('~icons/ic/baseline-remove-circle-outline')['default']
     IIcBaselineRemoveRedEye: typeof import('~icons/ic/baseline-remove-red-eye')['default']
     IIcBaselineRotateLeft: typeof import('~icons/ic/baseline-rotate-left')['default']
     IIcBaselineRotateRight: typeof import('~icons/ic/baseline-rotate-right')['default']

@@ -10,6 +10,7 @@ export const GET_PROJECT_ADVANCE = gql`
                 name
                 status
                 order
+                content
             }
             roles {
                 id
