@@ -1,7 +1,7 @@
 <template>
   <div>
     <blank-layout v-if="$route.meta.layout === 'blank'" />
-    <default-layout v-else />
+    <default-layout v-if="useUser.auth" />
   </div>
   <vue-loading-indicator />
 </template>
@@ -52,8 +52,13 @@ const onAuthChange = async () => {
 }
 // Lắng nghe sự kiện đăng nhập
 watch(user, async () => onAuthChange())
-watch(() => useUser.auth, async () => {
-  console.log('auth change')
+
+watch(() => useUser.auth, async (value, oldValue) => {
+  if(value && !oldValue) {
+    await router.push('/projects')
+  } else {
+    await router.push('/')
+  }
 })
 // Init app
 const vueClientInit = async () => {

@@ -17,7 +17,7 @@ export default (app: App) => {
 
   const roundTripLink = new ApolloLink((operation, forward) => {
     // Called before operation is sent to server
-    operation.setContext({ start: Date.now() })
+    operation.setContext({ start: Date.now(), isStudio: true })
     $loading?.start()
 
     return forward(operation).map((data) => {
