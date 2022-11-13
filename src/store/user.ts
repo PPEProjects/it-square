@@ -1,28 +1,30 @@
 import { defineStore } from 'pinia'
+import {GetMe_me} from "#apollo/queries/__generated__/GetMe";
 
 interface IUserStore {
-  user: any
+  user?: GetMe_me
+  token: string
 }
 
 export const useUserStore = defineStore({
   id: 'user',
 
   state: (): IUserStore => ({
-    user: null
+    user: undefined,
+    token: ''
   }),
 
   getters: {
-    auth: (state) => state.user !== null,
-    token: (state) => state.user?.accessToken
+    auth: (state) => !!state.user
   },
 
   actions: {
-    setUser(payload: any) {
+    setUser(payload?: GetMe_me) {
       this.user = payload
     },
 
     logout() {
-      this.user = null
+      //
     }
   }
 })

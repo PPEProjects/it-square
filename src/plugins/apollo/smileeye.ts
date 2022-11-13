@@ -6,7 +6,7 @@ import {
 } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
-// import { useUserStore } from '@store/user'
+import { useUserStore } from '@store/user'
 import { App } from 'vue'
 import { VueLoadingIndicatorInstance } from '@nguyenshort/vue3-loading-indicator'
 // import { message as notify } from 'ant-design-vue'

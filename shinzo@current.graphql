@@ -1,0 +1,364 @@
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behavior of this scalar."""
+  url: String!
+) on SCALAR
+
+"""
+Direct the client to resolve this field locally, either from the cache or local resolvers.
+"""
+directive @client(
+  """
+  When true, the client will never use the cache for this value. See
+  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
+  """
+  always: Boolean
+) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
+
+"""
+Export this locally resolved field as a variable to be used in the remainder of this query. See
+https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
+"""
+directive @export(
+  """The variable name to export this field as."""
+  as: String!
+) on FIELD
+
+"""
+Specify a custom store key for this result. See
+https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
+"""
+directive @connection(
+  """Specify the store key."""
+  key: String!
+
+  """
+  An array of query argument names to include in the generated custom store key.
+  """
+  filter: [String!]
+) on FIELD
+
+type Bookmark {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Category {
+  content: String
+  id: ID!
+  name: String!
+  slug: String!
+}
+
+type Comment {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateBookmarkInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateCategoryInput {
+  content: String = ""
+  name: String!
+}
+
+input CreateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateProjectInput {
+  category: ID!
+  content: String = ""
+  cover: String!
+  estimate: [Float!]!
+  files: [ID!] = []
+  link: String = ""
+  logo: String = ""
+  name: String!
+  status: ProjectStatus = PREPARE
+  technologies: [ID!] = []
+}
+
+input CreateRoleInput {
+  name: String!
+
+  """Mảng các quyền...mảng giao động từ 1"""
+  permissions: [PermissionEnum!]!
+  project: ID!
+  user: ID
+}
+
+input CreateStepInput {
+  content: String = ""
+  name: String!
+  project: ID!
+  status: StepStatus = WAITING
+}
+
+input CreateTechnologyInput {
+  content: String!
+  name: String!
+}
+
+input DeleteCategoryInput {
+  id: ID!
+}
+
+input ExampleProjectsFilter {
+  category: ID
+  exclude: [ID!] = []
+  limit: Int!
+  name: String
+  status: ProjectStatus
+  technologies: [ID!]
+}
+
+input GetProjectsFilter {
+  category: ID
+  limit: Int!
+  name: String
+  offset: Int!
+
+  """Sắp xếp của bình luận"""
+  sort: String!
+  status: ProjectStatus
+  technologies: [ID!]
+}
+
+input GetRolesInput {
+  project: ID!
+}
+
+type Mutation {
+  createBookmark(createBookmarkInput: CreateBookmarkInput!): Bookmark!
+  createCategory(input: CreateCategoryInput!): Category!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  createProject(input: CreateProjectInput!): Project!
+  createRole(input: CreateRoleInput!): Role!
+  createStep(input: CreateStepInput!): Step!
+  createTechnology(input: CreateTechnologyInput!): Technology!
+  removeBookmark(id: Int!): Bookmark!
+  removeCategory(input: DeleteCategoryInput!): Category!
+  removeComment(id: Int!): Comment!
+  removeProject(input: RemoveProjectInput!): Project!
+  removeRole(input: RemoveRoleInput!): Role!
+  removeStep(input: RemoveStepInput!): Step!
+  removeTechnology(input: RemoveTechnologyInput!): Technology!
+  sortRoles(input: SortRolesInput!): [Role!]!
+  updateBookmark(updateBookmarkInput: UpdateBookmarkInput!): Bookmark!
+  updateCategory(input: UpdateCategoryInput!): Category!
+  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  updateProject(input: UpdateProjectInput!): Project!
+  updateRole(input: UpdateRoleInput!): Role!
+  updateStep(input: UpdateStepInput!): Step!
+  updateTechnology(input: UpdateTechnologyInput!): Technology!
+}
+
+type Notify {
+  """Thông báo lỗi hay không"""
+  error: Boolean!
+
+  """Nội dung tin nhắn"""
+  msg: String!
+
+  """Thành viên hiện tại"""
+  user: User!
+}
+
+enum PermissionEnum {
+  ACCEPT_MEMBER
+  CREATE_ROLE
+  REMOVE_MEMBER
+  REMOVE_PROJECT
+  REMOVE_ROLE
+  UPDATE_PROJECT
+  UPDATE_ROLE
+}
+
+type Project {
+  active: ProjectActive!
+  bookmarks: Float!
+  category: Category!
+  comments: Float!
+  content: String
+  cover: String!
+  createdAt: Float!
+  estimate: [Float!]!
+  files: [String!]!
+  id: ID!
+  link: String
+  logo: String
+  name: String!
+  owner: User!
+  roles: [Role!]!
+  slug: String!
+  status: ProjectStatus!
+  steps: [Step!]!
+  technologies: [Technology!]!
+  updatedAt: Float!
+}
+
+enum ProjectActive {
+  ACTIVE
+  DISABLED
+  DRAFT
+}
+
+enum ProjectStatus {
+  DONE
+  PREPARE
+  RUNNING
+  STUCK
+}
+
+type Query {
+  bookmark(id: Int!): Bookmark!
+  bookmarks: [Bookmark!]!
+  categories: [Category!]!
+  category(category: String!): Category!
+  comment(id: Int!): Comment!
+  comments: [Comment!]!
+  exampleProjects(filter: ExampleProjectsFilter!): [Project!]!
+  me: User!
+  project(project: String!): Project!
+  projects(filter: GetProjectsFilter!): [Project!]!
+  roles(filter: GetRolesInput!): [Role!]!
+  steps(input: UpdateStepInput!): [Step!]!
+  technologies: [Technology!]!
+  technology(id: Int!): Technology!
+}
+
+input RemoveProjectInput {
+  id: ID!
+}
+
+input RemoveRoleInput {
+  id: ID!
+}
+
+input RemoveStepInput {
+  id: ID!
+}
+
+input RemoveTechnologyInput {
+  id: ID!
+}
+
+type Role {
+  createdAt: Float!
+  id: ID!
+  name: String!
+  order: Float!
+  permissions: [PermissionEnum!]!
+  project: Project!
+  updatedAt: Float!
+  user: User
+}
+
+input SortRolesInput {
+  roles: [ID!]!
+}
+
+type Step {
+  content: String!
+  createdAt: Float!
+  id: ID!
+  name: String!
+  order: Float!
+  project: Project!
+  status: StepStatus!
+  updatedAt: Float!
+}
+
+enum StepStatus {
+  DONE
+  WAITING
+}
+
+type Subscription {
+  """Nhận thông báo"""
+  subNotify: Notify!
+}
+
+type Technology {
+  content: String
+  id: ID!
+  name: String!
+  slug: String!
+}
+
+input UpdateBookmarkInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateCategoryInput {
+  content: String = ""
+  id: ID!
+  name: String
+}
+
+input UpdateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateProjectInput {
+  category: ID
+  content: String = ""
+  cover: String
+  estimate: [Float!]
+  files: [ID!] = []
+  id: ID!
+  link: String = ""
+  logo: String = ""
+  name: String
+  status: ProjectStatus = PREPARE
+  technologies: [ID!] = []
+}
+
+input UpdateRoleInput {
+  id: ID!
+  name: String
+
+  """Mảng các quyền...mảng giao động từ 1"""
+  permissions: [PermissionEnum!]
+  user: ID
+}
+
+input UpdateStepInput {
+  content: String = ""
+  id: ID!
+  name: String
+  project: ID
+  status: StepStatus = WAITING
+}
+
+input UpdateTechnologyInput {
+  content: String!
+  id: ID!
+  name: String!
+}
+
+type User {
+  avatar: String
+  createdAt: Float!
+  id: ID!
+  name: String!
+  role: UserRole!
+  slug: String!
+
+  """Firebase ID"""
+  uid: String!
+}
+
+enum UserRole {
+  SP_ADMIN
+  USER
+}

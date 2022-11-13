@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import {webRoutes} from "./web";
-import {studioRoutes} from "./studio";
+import { authRoutes } from './auth'
 
-let routes: RouteRecordRaw[] = [...webRoutes, ...studioRoutes]
+let routes: RouteRecordRaw[] = [...authRoutes]
 
 // Tạo router name, deep loop
 const extendRoutes = (_routes: RouteRecordRaw[]) => {

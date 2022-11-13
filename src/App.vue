@@ -2,7 +2,7 @@
 
 <template>
   <suspense>
-    <master-layout />
+    <layout-wrapper />
   </suspense>
 </template>
 

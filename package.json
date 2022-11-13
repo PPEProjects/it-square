@@ -9,8 +9,8 @@
     "check:ts": "vue-tsc --noEmit && vite build",
     "build:env": "sed 's/=.*/=/' .env > .env.example",
     "lint:script": "eslint --ext .ts,vue --ignore-path .gitignore .",
-    "apollo:codegen": "npx apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --tagName=gql --includes=./src/apollo/**/*.ts --globalTypesFile=src/apollo/__generated__/itTypes.ts",
-    "apollo:download": "npx apollo client:download-schema --endpoint=http://localhost:5000/graphql schema.graphql",
+    "apollo:codegen": "npx apollo codegen:generate --localSchemaFile=shinzo@current.graphql --target=typescript --tagName=gql --includes=./src/apollo/**/*.ts --globalTypesFile=src/apollo/__generated__/types.ts",
+    "apollo:download": "npx apollo client:download-schema --endpoint=http://localhost:5001/graphql shinzo@current.graphql",
     "restart": "pm2 restart it-square",
     "stop": "pm2 stop it-square"
   },
