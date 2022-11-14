@@ -21,15 +21,20 @@
         </div>
       </a-button>
 
-      <a-button type="primary" class="ml-4">
-        <div class="flex items-center">
+      <a-button
+        type="primary"
+        class="ml-4"
+        :loading="loadingUpdate"
+        @click="updateInfo"
+      >
+        <template #icon>
           <i-ic-baseline-check />
-          <span class="ml-1">Cập Nhật</span>
-        </div>
+        </template>
+        <span class="ml-1">Cập Nhật</span>
       </a-button>
     </teleport-view>
 
-    <project-info v-if="$route.query.tab === 'info'" />
+    <project-info v-if="$route.query.tab === 'info'" ref="infoRef" />
   </div>
 </template>
 
@@ -40,6 +45,12 @@ import {
   VerifyProject,
   VerifyProjectVariables
 } from '#apollo/queries/__generated__/VerifyProject'
+import { CreateProjectInput } from '#apollo/__generated__/types'
+import { UPDATE_PROJECT_INFO } from '#apollo/mutations/project.mutate'
+import {
+  UpdateProjectInfo,
+  UpdateProjectInfoVariables
+} from '#apollo/mutations/__generated__/UpdateProjectInfo'
 
 const router = useRouter()
 const { result, loading } = useQuery<VerifyProject, VerifyProjectVariables>(
@@ -50,6 +61,7 @@ const { result, loading } = useQuery<VerifyProject, VerifyProjectVariables>(
     }
   }
 )
+// todo: tuyf chinhr logo
 
 const tabs = ref([
   {
@@ -92,6 +104,30 @@ watch(
   },
   { immediate: true }
 )
+
+// update info
+const infoRef = ref()
+const loadingUpdate = ref(false)
+const { mutate: updateInfoMutaion } = useMutation<
+  UpdateProjectInfo,
+  UpdateProjectInfoVariables
+>(UPDATE_PROJECT_INFO)
+const updateInfo = async () => {
+  loadingUpdate.value = true
+  try {
+    const input: CreateProjectInput = await infoRef.value?.update()
+    await updateInfoMutaion({
+      input: {
+        ...input,
+        id: router.currentRoute.value.params.id as string
+      }
+    })
+  } catch (e) {
+    console.log(e)
+    //
+  }
+  loadingUpdate.value = false
+}
 </script>
 
 <style scoped></style>

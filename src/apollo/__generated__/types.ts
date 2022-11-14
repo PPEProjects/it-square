@@ -75,6 +75,20 @@ export interface GetTechnologiesFilter {
   offset: number;
 }
 
+export interface UpdateProjectInput {
+  category?: string | null;
+  content?: string | null;
+  cover?: string | null;
+  estimate?: number[] | null;
+  files?: string[] | null;
+  id: string;
+  link?: string | null;
+  logo?: string | null;
+  name?: string | null;
+  status?: ProjectStatus | null;
+  technologies?: string[] | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

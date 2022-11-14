@@ -38,6 +38,12 @@ onResult((result) => {
   )
   formRef.value?.setForm(_form)
 })
+
+const forwardFunc = () => formRef.value?.submitForm()
+
+defineExpose({
+  update: forwardFunc
+})
 </script>
 
 <style scoped></style>
