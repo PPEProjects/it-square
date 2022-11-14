@@ -14,7 +14,30 @@
       </a-form-item>
 
       <div class="flex">
-        <div class="w-[400px] flex-shrink-0">
+        <div class="w-[450px] flex-shrink-0">
+          <a-form-item
+            label="Ảnh Bìa"
+            name="cover"
+            class="aspect-w-12 aspect-h-7 relative"
+          >
+            <div
+              class="aspect-w-12 aspect-h-7 relative w-full cursor-pointer overflow-hidden rounded-md bg-primary-50"
+              @click="open()"
+            >
+              <img
+                v-if="form.cover"
+                alt=""
+                :src="$cdn(form.cover)"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+              <div
+                class="absolute flex h-full w-full items-center justify-center bg-primary-600 text-[40px] text-white opacity-0 transition hover:opacity-100"
+              >
+                <i-ic-baseline-cloud-upload />
+              </div>
+            </div>
+          </a-form-item>
+
           <a-form-item label="Phân Loại" name="category">
             <a-select
               v-model:value="form.category"
@@ -28,6 +51,7 @@
             <a-select
               v-model:value="form.technologies"
               show-search
+              mode="tags"
               placeholder="Nhấn để thêm mới"
               :default-active-first-option="false"
               :show-arrow="false"
@@ -35,13 +59,26 @@
               :not-found-content="null"
               :options="searchTechnologiesData"
               @search="handleSearch"
-              @change="handleChange"
             >
             </a-select>
+          </a-form-item>
+
+          <a-form-item name="estimate" label="Thời gian dự kiến">
+            <a-range-picker class="w-full" @change="onChangeRangePicker" />
           </a-form-item>
         </div>
       </div>
     </a-form>
+
+    <a-modal
+      v-model:visible="showCropModal"
+      title="Cắt ảnh bìa"
+      @ok="onCropAvatar"
+    >
+      <div class="project-cover">
+        <image-cropper ref="cropRef" :config="{ aspectRatio: 12 / 7 }" />
+      </div>
+    </a-modal>
   </div>
 </template>
 
@@ -49,6 +86,12 @@
 import { GET_CATEGORIES } from '#apollo/queries/categories.query'
 import { GetCategories } from '#apollo/queries/__generated__/GetCategories'
 import { CreateProjectInput } from '#apollo/__generated__/types'
+import {
+  GetTechnologies,
+  GetTechnologiesVariables
+} from '#apollo/queries/__generated__/GetTechnologies'
+import { GET_TECHNOLOGIES } from '#apollo/queries/technology.query'
+import { Dayjs } from 'dayjs'
 
 const { result: queryCategories } = useQuery<GetCategories>(GET_CATEGORIES)
 const categories = computed(() =>
@@ -60,6 +103,7 @@ const categories = computed(() =>
 
 const form = reactive<CreateProjectInput>({
   category: '',
+  logo: '',
   content: '',
   cover: '',
   estimate: [],
@@ -117,14 +161,60 @@ const rules = ref({
 })
 
 // Search technologies
-const searchTechnologiesData = ref([])
-const handleChange = (val: string) => {
-  console.log(val)
-  //
-}
+const searchTechFilter = ref<GetTechnologiesVariables>({
+  filter: {
+    name: '',
+    limit: 10,
+    offset: 0
+  }
+})
+const { result: searchTechnologies } = useQuery<
+  GetTechnologies,
+  GetTechnologiesVariables
+>(GET_TECHNOLOGIES, searchTechFilter)
+const searchTechnologiesData = computed(() =>
+  (searchTechnologies.value?.technologies || []).map((e) => ({
+    label: e.name,
+    value: e.id
+  }))
+)
+
+const tempSearch = ref<string>('')
+const debounceSearch = useDebounceFn(() => {
+  searchTechFilter.value.filter.name = tempSearch.value
+}, 300)
 const handleSearch = (val: string) => {
-  console.log(val)
-  //
+  tempSearch.value = val
+  debounceSearch()
+}
+
+const onChangeRangePicker = (dates: [Dayjs, Dayjs]) => {
+  form.estimate = [dates[0].unix(), dates[1].unix()]
+}
+
+// avatar
+const showCropModal = ref(false)
+const cropRef = ref()
+const { files, open } = useFileDialog({
+  accept: 'image/*',
+  multiple: false
+})
+watch(files, (val) => {
+  if (val?.length) {
+    showCropModal.value = true
+    nextTick(() => cropRef.value?.buildCropper(val[0]))
+  }
+})
+const upload = useUpload()
+const onCropAvatar = async () => {
+  showCropModal.value = false
+  try {
+    const data = await cropRef.value?.cropImage()
+    const url = await upload.image(data, 'project')
+    if (url) form.cover = url
+  } catch (e) {
+    //
+  }
 }
 </script>
 

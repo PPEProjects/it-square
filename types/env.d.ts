@@ -8,6 +8,8 @@ interface ImportMetaEnv {
   readonly VITE_PORT: string
 
   readonly VITE_IT_GRAPHQL: string
+  readonly VITE_IT_SERVER: string
+  readonly VITE_IT_CDN: string
 
 }
 interface ImportMeta {

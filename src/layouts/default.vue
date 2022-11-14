@@ -84,6 +84,7 @@
       <a-layout style="padding: 24px">
         <a-layout-content
             :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+            class="overflow-y-auto scrollbar-hide"
         >
           <router-view />
         </a-layout-content>

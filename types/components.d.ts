@@ -66,6 +66,7 @@ declare module '@vue/runtime-core' {
     IFaSolidDraftingCompass: typeof import('~icons/fa-solid/drafting-compass')['default']
     IFluentPeopleTeam16Filled: typeof import('~icons/fluent/people-team16-filled')['default']
     IIcBaselineCheck: typeof import('~icons/ic/baseline-check')['default']
+    IIcBaselineCloudUpload: typeof import('~icons/ic/baseline-cloud-upload')['default']
     IIcBaselineDelete: typeof import('~icons/ic/baseline-delete')['default']
     IIcBaselineKeyboardArrowLeft: typeof import('~icons/ic/baseline-keyboard-arrow-left')['default']
     IIcBaselineKeyboardArrowRight: typeof import('~icons/ic/baseline-keyboard-arrow-right')['default']

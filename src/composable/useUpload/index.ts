@@ -9,7 +9,7 @@ export const useUpload = () => {
     Object.entries(data).forEach(([name, value]) => {
       formData.append(name, value)
     })
-    const res: any = await axios.post('/geto/upload/' + group, formData)
+    const res: any = await axios.post('/backend/upload/' + group, formData)
     return res.file
   }
 
@@ -18,7 +18,7 @@ export const useUpload = () => {
     formData.append('image', image)
     formData.append('endpoint', endpoint)
 
-    const res: any = await axios.post('/geto/upload/single', formData)
+    const res: any = await axios.post('/backend/upload/single', formData)
     message.success('Upload hình ảnh thành công')
     return res?.file
   }

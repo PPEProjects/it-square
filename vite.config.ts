@@ -140,12 +140,12 @@ export default ({ mode }) => {
     server: {
       port: Number(env.VITE_PORT) || 3000,
       proxy: {
-        '/geto': {
+        '/backend': {
           // @ts-ignore
           target: env.VITE_IT_SERVER,
           changeOrigin: true,
           secure: true,
-          rewrite: (path) => path.replace(/^\/geto/, '')
+          rewrite: (path) => path.replace(/^\/backend/, '')
         }
       },
     }

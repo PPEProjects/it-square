@@ -211,6 +211,7 @@
     "useRafFn": true,
     "useRefHistory": true,
     "useResizeObserver": true,
+    "useResult": true,
     "useRoute": true,
     "useRouter": true,
     "useScreenOrientation": true,
