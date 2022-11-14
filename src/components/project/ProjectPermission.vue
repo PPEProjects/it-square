@@ -21,6 +21,48 @@
     </template>
 
     <template #bodyCell="{ column, record }">
+      <template v-if="column.key === 'user'">
+        <div v-if="record.user" class="flex items-center">
+          <a-avatar :src="$cdn(record.user.avatar)" />
+          <h4 class="mb-0 ml-2">{{ record.user.name }}</h4>
+        </div>
+        <div v-else>--</div>
+      </template>
+
+      <template v-if="column.key === 'permissions'">
+        <span v-for="(premit, index) in record.permissions" :key="index">
+          <a-tag v-if="premit === PermissionEnum.REMOVE_PROJECT" color="#f50">
+            Xoá Dự Án
+          </a-tag>
+          <a-tag
+            v-else-if="premit === PermissionEnum.UPDATE_PROJECT"
+            color="#2db7f5"
+          >
+            Cập Nhật Dự Án
+          </a-tag>
+
+          <a-tag
+            v-else-if="premit === PermissionEnum.CREATE_ROLE"
+            color="#87d068"
+          >
+            Tạo Ví Trí
+          </a-tag>
+          <a-tag
+            v-else-if="premit === PermissionEnum.UPDATE_ROLE"
+            color="#108ee9"
+          >
+            Cập Nhật Ví Trí
+          </a-tag>
+          <a-tag v-else-if="premit === PermissionEnum.REMOVE_ROLE" color="#f50">
+            Xoá Vị Trí
+          </a-tag>
+        </span>
+      </template>
+
+      <template v-if="column.key === 'createdAt'">
+        {{ $dayjs(record.createdAt).format('DD/MM/YYYY hh:mm') }}
+      </template>
+
       <template v-if="column.key === 'action'">
         <div>
           <a-button type="danger" size="small">
@@ -96,6 +138,41 @@
           </p>
         </template>
       </a-form-item>
+
+      <a-form-item label="Thành Viên" name="user">
+        <div>
+          <a-select
+            v-if="!userInRole"
+            :value="form.user ? [form.user._id] : []"
+            show-search
+            placeholder="Nhap ten thanh vien"
+            :default-active-first-option="false"
+            :show-arrow="false"
+            :filter-option="false"
+            :not-found-content="null"
+            :options="users"
+            @search="searchUserHandle"
+            @change="changeUserHandle"
+          ></a-select>
+          <div v-else class="flex items-center">
+            <a-avatar :src="$cdn(userInRole.avatar)" />
+
+            <h4 class="mb-0 ml-2">{{ userInRole.name }}</h4>
+
+            <a-button
+              type="danger"
+              size="small"
+              class="ml-auto"
+              @click="removeUserInRole"
+            >
+              <template #icon>
+                <i-ic-baseline-delete />
+              </template>
+              <span class="text-[11px] font-bold">Delete</span>
+            </a-button>
+          </div>
+        </div>
+      </a-form-item>
     </a-form>
   </a-modal>
 
@@ -128,6 +205,12 @@ import {
   CreateRole,
   CreateRoleVariables
 } from '#apollo/mutations/__generated__/CreateRole'
+import { GET_USERS, USER_DOCUMENT } from '#apollo/queries/user.query'
+import {
+  GetUsers,
+  GetUsersVariables
+} from '#apollo/queries/__generated__/GetUsers'
+import { UserDoc } from '#apollo/queries/__generated__/UserDoc'
 
 const columns = [
   {
@@ -136,21 +219,15 @@ const columns = [
     key: 'name'
   },
   {
-    title: 'Phân Loại',
-    dataIndex: ['category', 'name'],
-    key: 'category',
+    title: 'Thành Viên',
+    dataIndex: 'user',
+    key: 'user',
     align: 'center'
   },
   {
-    title: 'Hoạt Động',
-    dataIndex: 'active',
-    key: 'active',
-    align: 'center'
-  },
-  {
-    title: 'Trạng Thái',
-    dataIndex: 'status',
-    key: 'status',
+    title: 'Quyền Hạn',
+    dataIndex: 'permissions',
+    key: 'permissions',
     align: 'center'
   },
   {
@@ -180,6 +257,8 @@ const form = ref<CreateRoleInput>({
   project: route.params.id as string,
   user: ''
 })
+const userInRole = ref<UserDoc>()
+
 const resetForm = () => {
   form.value = {
     name: '',
@@ -218,7 +297,7 @@ const apollo = useApollo()
 onDone((value) => {
   resetForm()
   try {
-    if(value.data?.createRole) {
+    if (value.data?.createRole) {
       apollo.writeQuery<GetRoles, GetRolesVariables>({
         query: GET_ROLES,
         variables: {
@@ -235,6 +314,54 @@ onDone((value) => {
     //
   }
 })
+
+// Tìm kiếm users
+const searchUserFilter = ref<GetUsersVariables>({
+  filter: {
+    name: '',
+    offset: 0,
+    limit: 10,
+    sort: 'createdAt'
+  }
+})
+
+const { result: searchUsersResult } = useQuery<GetUsers, GetUsersVariables>(
+  GET_USERS,
+  searchUserFilter,
+  {
+    debounce: 300
+  }
+)
+const users = computed<{ label: string; value: string }[]>(() =>
+  (searchUsersResult.value?.users || []).map((user) => ({
+    label: user.name,
+    value: user.id
+  }))
+)
+
+const searchUserHandle = (keyword: string) => {
+  searchUserFilter.value.filter.name = keyword
+}
+
+const changeUserHandle = (id: string) => {
+  // laays user tu cache
+  const cache = apollo.readFragment({
+    id: apollo.cache.identify({
+      __typename: 'User',
+      id
+    }),
+    fragment: USER_DOCUMENT
+  })
+  if (cache) {
+    form.value.user = id
+    userInRole.value = cache
+  }
+}
+
+const removeUserInRole = () => {
+  userInRole.value = undefined
+  form.value.user = ''
+}
 </script>
 
 <style scoped></style>

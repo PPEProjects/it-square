@@ -36,6 +36,7 @@ export const CREATE_ROLE = gql`
       id
       name
       permissions
+      createdAt
       user {
         id
         name

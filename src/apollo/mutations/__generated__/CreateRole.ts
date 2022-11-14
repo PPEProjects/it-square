@@ -21,6 +21,7 @@ export interface CreateRole_createRole {
   id: string;
   name: string;
   permissions: PermissionEnum[];
+  createdAt: number;
   user: CreateRole_createRole_user | null;
 }
 

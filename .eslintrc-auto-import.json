@@ -178,6 +178,7 @@
     "useItSquare": true,
     "useKeyModifier": true,
     "useLastChanged": true,
+    "useLazyQuery": true,
     "useLocalStorage": true,
     "useMagicKeys": true,
     "useManualRefHistory": true,

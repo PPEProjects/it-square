@@ -9,7 +9,6 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 import Inspect from 'vite-plugin-inspect'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
-
 // @ts-ignore
 import EnvGenerator from './src/plugins/vite/env'
 // @ts-ignore
@@ -37,7 +36,8 @@ export default ({ mode }) => {
             '@vue/apollo-composable': [
               'useSubscription',
               'useQuery',
-              'useMutation'
+              'useMutation',
+              'useLazyQuery'
             ],
             '@nguyenshort/vue3-mitt': ['useEmitter']
           },
@@ -47,32 +47,26 @@ export default ({ mode }) => {
           {
             'firebase/auth': ['getAuth'],
             'firebase/database': [
-                'getDatabase',
-                ['ref', 'dbRef'],
-                ['set', 'dbSet'],
-                ['onValue', 'dbOnValue'],
+              'getDatabase',
+              ['ref', 'dbRef'],
+              ['set', 'dbSet'],
+              ['onValue', 'dbOnValue']
             ],
-            'uuid': [
-                ['v4', 'uuidv4']
-            ]
+            uuid: [['v4', 'uuidv4']]
           }
         ],
-        include: [
-          /\.[tj]sx?$/,
-          /\.vue$/, /\.vue\?vue/,
-          /\.md$/
-        ],
+        include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/, /\.md$/],
         dirs: [
           'src/**/composable/*', // blob pattern
           'src/**/store',
           'src/**/dto',
-          'src/apollo/it/*',
+          'src/apollo/it/*'
         ],
         dts: path.resolve(__dirname, 'types/auto-imports.d.ts'),
         eslintrc: {
           enabled: true,
           globalsPropValue: true
-        },
+        }
       }),
       Components({
         resolvers: [
@@ -99,7 +93,7 @@ export default ({ mode }) => {
             // where `componentName` is always CapitalCase
             if (componentName === 'VueCropper')
               return { name: 'default', from: 'vue-cropperjs' }
-          },
+          }
         ],
         dts: path.resolve(__dirname, 'types/components.d.ts')
       }),
@@ -128,14 +122,14 @@ export default ({ mode }) => {
             'table-header-color': 'rgba(18,18,23,.6)',
             'table-selected-row-bg': '#fff',
             'font-family':
-            'Nunito Sans, SF Pro Text, SF Pro Icons, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif'
+              'Nunito Sans, SF Pro Text, SF Pro Icons, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif'
           },
           javascriptEnabled: true
         }
       }
     },
     preview: {
-      port: Number(env.VITE_PORT) || 3000,
+      port: Number(env.VITE_PORT) || 3000
     },
     server: {
       port: Number(env.VITE_PORT) || 3000,
@@ -147,7 +141,7 @@ export default ({ mode }) => {
           secure: true,
           rewrite: (path) => path.replace(/^\/backend/, '')
         }
-      },
+      }
     }
   })
 }

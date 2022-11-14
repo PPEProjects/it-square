@@ -150,6 +150,15 @@ input GetTechnologiesFilter {
   offset: Int!
 }
 
+input GetUsersFilter {
+  limit: Int!
+  name: String
+  offset: Int!
+
+  """Sắp xếp của bình luận"""
+  sort: String!
+}
+
 type Mutation {
   createBookmark(createBookmarkInput: CreateBookmarkInput!): Bookmark!
   createCategory(input: CreateCategoryInput!): Category!
@@ -187,9 +196,7 @@ type Notify {
 }
 
 enum PermissionEnum {
-  ACCEPT_MEMBER
   CREATE_ROLE
-  REMOVE_MEMBER
   REMOVE_PROJECT
   REMOVE_ROLE
   UPDATE_PROJECT
@@ -250,6 +257,7 @@ type Query {
   studioProjectsCount(filter: CountProjectsFilter!): Int!
   technologies(filter: GetTechnologiesFilter!): [Technology!]!
   technology(id: Int!): Technology!
+  users(filter: GetUsersFilter!): [User!]!
 }
 
 input RemoveProjectInput {

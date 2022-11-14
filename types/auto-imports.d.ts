@@ -179,6 +179,7 @@ declare global {
   const useItSquare: typeof import('../src/composable/useItSquare/index')['useItSquare']
   const useKeyModifier: typeof import('@vueuse/core')['useKeyModifier']
   const useLastChanged: typeof import('@vueuse/core')['useLastChanged']
+  const useLazyQuery: typeof import('@vue/apollo-composable')['useLazyQuery']
   const useLocalStorage: typeof import('@vueuse/core')['useLocalStorage']
   const useMagicKeys: typeof import('@vueuse/core')['useMagicKeys']
   const useManualRefHistory: typeof import('@vueuse/core')['useManualRefHistory']

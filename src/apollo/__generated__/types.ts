@@ -8,9 +8,7 @@
 //==============================================================
 
 export enum PermissionEnum {
-  ACCEPT_MEMBER = "ACCEPT_MEMBER",
   CREATE_ROLE = "CREATE_ROLE",
-  REMOVE_MEMBER = "REMOVE_MEMBER",
   REMOVE_PROJECT = "REMOVE_PROJECT",
   REMOVE_ROLE = "REMOVE_ROLE",
   UPDATE_PROJECT = "UPDATE_PROJECT",
@@ -84,6 +82,13 @@ export interface GetTechnologiesFilter {
   limit: number;
   name?: string | null;
   offset: number;
+}
+
+export interface GetUsersFilter {
+  limit: number;
+  name?: string | null;
+  offset: number;
+  sort: string;
 }
 
 export interface UpdateProjectInput {
