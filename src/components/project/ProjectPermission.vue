@@ -2,7 +2,7 @@
   <a-table
     :columns="columns"
     :data-source="roles"
-    :loading="loading || creattingRole"
+    :loading="loading || creattingRole || updatingRole"
   >
     <template #emptyText>
       <div class="py-10 pt-5 text-center">
@@ -186,8 +186,8 @@
       v-if="!loading"
       type="primary"
       class="ml-4"
-      :loading="creattingRole"
-      @click="isShowMofidyModal = true"
+      :loading="creattingRole || updatingRole"
+      @click="openAddNew()"
     >
       <template #icon>
         <i-ic-baseline-check />
@@ -206,7 +206,7 @@ import {
 } from '#apollo/queries/__generated__/GetRoles'
 import { CreateRoleInput, PermissionEnum } from '#apollo/__generated__/types'
 import { FormInstance } from 'ant-design-vue'
-import { CREATE_ROLE } from '#apollo/mutations/project.mutate'
+import {CREATE_ROLE, UPDATE_ROLE} from '#apollo/mutations/project.mutate'
 import {
   CreateRole,
   CreateRoleVariables
@@ -217,6 +217,7 @@ import {
   GetUsersVariables
 } from '#apollo/queries/__generated__/GetUsers'
 import { UserDoc } from '#apollo/queries/__generated__/UserDoc'
+import {UpdateRole, UpdateRoleVariables} from "#apollo/mutations/__generated__/UpdateRole";
 
 const columns = [
   {
@@ -283,45 +284,9 @@ const isShowMofidyModal = ref(false)
 const {
   mutate,
   loading: creattingRole,
-  onDone
 } = useMutation<CreateRole, CreateRoleVariables>(CREATE_ROLE)
-const submitRole = async () => {
-  isShowMofidyModal.value = false
-  try {
-    await formRef.value?.validate()
-
-    await mutate({
-      input: {
-        ...form.value,
-        user: form.value.user || null
-      }
-    })
-  } catch (e) {
-    //
-  }
-}
 
 const apollo = useApollo()
-onDone((value) => {
-  resetForm()
-  try {
-    if (value.data?.createRole) {
-      apollo.writeQuery<GetRoles, GetRolesVariables>({
-        query: GET_ROLES,
-        variables: {
-          filter: {
-            project: route.params.id as string
-          }
-        },
-        data: {
-          roles: [value.data.createRole, ...roles.value]
-        }
-      })
-    }
-  } catch (e) {
-    //
-  }
-})
 
 // Tìm kiếm users
 const searchUserFilter = ref<GetUsersVariables>({
@@ -381,6 +346,54 @@ const openEditRole = (role: GetRoles_roles) => {
   }
   userInRole.value = role.user || undefined
   isShowMofidyModal.value = true
+}
+
+const openAddNew = () => {
+  resetForm()
+  isShowMofidyModal.value = true
+}
+
+const { mutate: updateRoleHandle, loading: updatingRole } = useMutation<UpdateRole, UpdateRoleVariables>(UPDATE_ROLE)
+
+const submitRole = async () => {
+  isShowMofidyModal.value = false
+  try {
+    await formRef.value?.validate()
+
+    if(editID.value) {
+      await updateRoleHandle({
+        input: {
+          id: editID.value,
+          name: form.value.name,
+          permissions: form.value.permissions,
+          user: form.value.user || null
+        }
+      })
+    } else {
+      const res = await mutate({
+        input: {
+          ...form.value,
+          user: form.value.user || null
+        }
+      })
+
+      if (res?.data?.createRole) {
+        apollo.writeQuery<GetRoles, GetRolesVariables>({
+          query: GET_ROLES,
+          variables: {
+            filter: {
+              project: route.params.id as string
+            }
+          },
+          data: {
+            roles: [res.data.createRole, ...roles.value]
+          }
+        })
+      }
+    }
+  } catch (e) {
+    //
+  }
 }
 </script>
 
