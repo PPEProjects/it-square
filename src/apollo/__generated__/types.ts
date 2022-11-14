@@ -55,6 +55,10 @@ export interface CreateProjectInput {
   technologies?: string[] | null;
 }
 
+export interface GetProjectFilter {
+  id: string;
+}
+
 export interface GetProjectsFilter {
   category?: string | null;
   limit: number;

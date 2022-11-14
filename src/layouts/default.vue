@@ -11,27 +11,9 @@
         </h1>
       </div>
 
-      <div class="w-full">
-        <a-menu
-            v-model:selectedKeys="selectedKeys1"
-            theme="dark"
-            mode="horizontal"
-            :style="{ lineHeight: '64px' }"
-        >
-          <a-menu-item key="1">nav 1</a-menu-item>
-          <a-menu-item key="2">nav 2</a-menu-item>
-          <a-menu-item key="3">nav 3</a-menu-item>
-        </a-menu>
-      </div>
+      <div id="tabs" class="w-full"></div>
 
-      <div class="ml-auto flex-shrink-0">
-        <a-button type="primary">
-          <div class="flex items-center">
-            <i-material-symbols-add />
-            <span class="ml-1">Add New</span>
-          </div>
-        </a-button>
-      </div>
+      <div id="actions" class="ml-auto flex-shrink-0 flex items-center"></div>
     </a-layout-header>
     <a-layout>
       <a-layout-sider width="220" style="background: #fff">
@@ -112,7 +94,7 @@ export default defineComponent({
 </script>
 <style>
 .default-layout .logo {
-  width: 180px;
+  width: 193px;
   height: 31px;
 }
 .site-layout-background {

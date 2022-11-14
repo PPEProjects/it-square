@@ -124,6 +124,10 @@ input ExampleProjectsFilter {
   technologies: [ID!]
 }
 
+input GetProjectFilter {
+  id: ID!
+}
+
 input GetProjectsFilter {
   category: ID
   limit: Int!
@@ -241,6 +245,7 @@ type Query {
   projects(filter: GetProjectsFilter!): [Project!]!
   roles(filter: GetRolesInput!): [Role!]!
   steps(input: UpdateStepInput!): [Step!]!
+  studioProject(filter: GetProjectFilter!): Project!
   studioProjects(filter: GetProjectsFilter!): [Project!]!
   studioProjectsCount(filter: CountProjectsFilter!): Int!
   technologies(filter: GetTechnologiesFilter!): [Technology!]!

@@ -28,6 +28,38 @@ export const GET_PROJECTS = gql`
   }
 `
 
+export const VERIFY_PROJECT = gql`
+  query VerifyProject($filter: GetProjectFilter!) {
+    studioProject(filter: $filter) {
+      id
+      logo
+      name
+      active
+    }
+  }
+`
+
+export const GET_PROJECT_INFO = gql`
+  query GetProjectInfo($filter: GetProjectFilter!) {
+    studioProject(filter: $filter) {
+      id
+      category {
+        id
+      }
+      logo
+      content
+      cover
+      estimate
+      name
+      technologies {
+        id
+        name
+      }
+      files
+    }
+  }
+`
+
 export const COUNT_PROJECTS = gql`
   query CountProjects($filter: CountProjectsFilter!) {
     studioProjectsCount(filter: $filter)

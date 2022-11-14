@@ -12,6 +12,7 @@ import { CreateProjectInput } from "./../../__generated__/types";
 export interface CreateProject_createProject {
   __typename: "Project";
   id: string;
+  slug: string;
 }
 
 export interface CreateProject {

@@ -10,7 +10,7 @@ const $cdn = (path: string, location = CDNLocation.LOCAL) => {
     return ''
   }
 
-  if (/^http/.test(path)) {
+  if (/^(http|blob)/.test(path)) {
     return path
   }
 
