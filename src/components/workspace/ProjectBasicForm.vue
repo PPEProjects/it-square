@@ -15,6 +15,29 @@
 
       <div class="flex">
         <div class="w-[450px] flex-shrink-0">
+          <a-form-item label="Logo" name="logo">
+            <div
+              class="h-[60px] w-[60px] rounded-full relative overflow-hidden bg-primary-50 cursor-pointer"
+              @click="open()"
+            >
+              <img
+                v-if="form.cover"
+                alt=""
+                :src="$cdn(form.cover)"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+              <div
+                class="absolute flex h-full w-full items-center justify-center bg-primary-600 text-[20px] text-white opacity-0 transition hover:opacity-100"
+              >
+                <i-ic-baseline-cloud-upload />
+              </div>
+            </div>
+
+            <template #extra>
+              <p class="mb-0 text-[11px] mt-2 text-gray-400 opacity-75">- Ảnh sẽ tự động cắt về kích thước 100px.</p>
+            </template>
+          </a-form-item>
+
           <a-form-item
             label="Ảnh Bìa"
             name="cover"
@@ -68,6 +91,10 @@
           </a-form-item>
         </div>
       </div>
+
+      <a-form-item label="Mô Tả" name="content">
+        <novel-editor ref="editorRef" v-model:value="form.content" />
+      </a-form-item>
     </a-form>
 
     <a-modal
@@ -125,6 +152,12 @@ const rules = ref({
     }
   ],
   cover: [
+    {
+      message: 'Vui lòng chọn hình ảnh',
+      required: true
+    }
+  ],
+  logo: [
     {
       message: 'Vui lòng chọn hình ảnh',
       required: true

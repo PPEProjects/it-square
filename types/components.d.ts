@@ -162,6 +162,7 @@ declare module '@vue/runtime-core' {
     MagicEditor: typeof import('./../src/components/includes/MagicEditor.vue')['default']
     MasterLayout: typeof import('./../src/components/includes/MasterLayout.vue')['default']
     MessageModal: typeof import('./../src/components/modals/MessageModal.vue')['default']
+    NovelEditor: typeof import('./../src/components/includes/NovelEditor.vue')['default']
     OnBoard: typeof import('./../src/components/home/OnBoard.vue')['default']
     PaginationView: typeof import('./../src/components/includes/PaginationView.vue')['default']
     ProjectAdvance: typeof import('./../src/components/studio/includes/ProjectAdvance.vue')['default']
