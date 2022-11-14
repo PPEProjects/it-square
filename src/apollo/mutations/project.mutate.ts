@@ -45,3 +45,18 @@ export const CREATE_ROLE = gql`
     }
   }
 `
+
+export const UPDATE_ROLE = gql`
+  mutation UpdateRole($input: UpdateRoleInput!) {
+    updateRole(input: $input) {
+      id
+      name
+      permissions
+      user {
+        id
+        name
+        avatar
+      }
+    }
+  }
+`

@@ -105,6 +105,13 @@ export interface UpdateProjectInput {
   technologies?: string[] | null;
 }
 
+export interface UpdateRoleInput {
+  id: string;
+  name?: string | null;
+  permissions?: PermissionEnum[] | null;
+  user?: string | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

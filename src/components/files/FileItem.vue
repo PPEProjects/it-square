@@ -24,7 +24,8 @@ const props = defineProps<{
 
 const fileName = computed(() => {
   const file = props.file.split('/')
-  return file[file.length - 1]
+  const name = file[file.length - 1]
+  return name.length > 50 ? name.slice(0, 50) + '...' : name
 })
 
 const extention = computed(() => {

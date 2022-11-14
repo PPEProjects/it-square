@@ -70,7 +70,12 @@
               <i-ic-round-delete />
             </div>
           </a-button>
-          <a-button type="primary" size="small" class="ml-2">
+          <a-button
+            type="primary"
+            size="small"
+            class="ml-2"
+            @click="openEditRole(record)"
+          >
             <div class="flex items-center">
               <i-material-symbols-edit />
             </div>
@@ -82,8 +87,8 @@
 
   <a-modal
     v-model:visible="isShowMofidyModal"
-    title="Thêm Vị Trí"
-    @ok="createRole"
+    :title="editID ? 'Chỉnh Sửa Vị Trsi' : 'Thêm Vị Trí'"
+    @ok="submitRole"
   >
     <a-form layout="vertical" :model="form">
       <a-form-item
@@ -196,6 +201,7 @@
 import { GET_ROLES } from '#apollo/queries/role.query'
 import {
   GetRoles,
+  GetRoles_roles,
   GetRolesVariables
 } from '#apollo/queries/__generated__/GetRoles'
 import { CreateRoleInput, PermissionEnum } from '#apollo/__generated__/types'
@@ -251,6 +257,7 @@ const { result, loading } = useQuery<GetRoles, GetRolesVariables>(GET_ROLES, {
 })
 const roles = computed(() => result.value?.roles || [])
 
+const editID = ref('')
 const form = ref<CreateRoleInput>({
   name: '',
   permissions: [],
@@ -266,6 +273,7 @@ const resetForm = () => {
     project: route.params.id as string,
     user: ''
   }
+  editID.value = ''
   formRef.value?.resetFields()
 }
 const formRef = ref<FormInstance>()
@@ -277,7 +285,7 @@ const {
   loading: creattingRole,
   onDone
 } = useMutation<CreateRole, CreateRoleVariables>(CREATE_ROLE)
-const createRole = async () => {
+const submitRole = async () => {
   isShowMofidyModal.value = false
   try {
     await formRef.value?.validate()
@@ -361,6 +369,18 @@ const changeUserHandle = (id: string) => {
 const removeUserInRole = () => {
   userInRole.value = undefined
   form.value.user = ''
+}
+
+const openEditRole = (role: GetRoles_roles) => {
+  editID.value = role.id
+  form.value = {
+    name: role.name,
+    permissions: role.permissions,
+    project: route.params.id as string,
+    user: role.user?.id || ''
+  }
+  userInRole.value = role.user || undefined
+  isShowMofidyModal.value = true
 }
 </script>
 
