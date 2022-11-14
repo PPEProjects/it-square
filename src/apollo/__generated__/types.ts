@@ -55,6 +55,13 @@ export interface CreateProjectInput {
   technologies?: string[] | null;
 }
 
+export interface CreateRoleInput {
+  name: string;
+  permissions: PermissionEnum[];
+  project: string;
+  user?: string | null;
+}
+
 export interface GetProjectFilter {
   id: string;
 }
@@ -67,6 +74,10 @@ export interface GetProjectsFilter {
   sort: string;
   status?: ProjectStatus | null;
   technologies?: string[] | null;
+}
+
+export interface GetRolesInput {
+  project: string;
 }
 
 export interface GetTechnologiesFilter {

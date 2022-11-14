@@ -29,3 +29,18 @@ export const UPDATE_PROJECT_INFO = gql`
     }
   }
 `
+
+export const CREATE_ROLE = gql`
+  mutation CreateRole($input: CreateRoleInput!) {
+    createRole(input: $input) {
+      id
+      name
+      permissions
+      user {
+        id
+        name
+        avatar
+      }
+    }
+  }
+`
