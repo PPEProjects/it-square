@@ -1,7 +1,7 @@
 <template>
   <a-layout class="h-screen default-layout">
-    <a-layout-header class="header">
-      <div class="logo flex items-center">
+    <a-layout-header class="header flex items-center -mx-[23px]">
+      <div class="logo flex items-center flex-shrink-0">
         <img src="/images/logo.png" alt="" class="w-[32px]" />
         <h1
             class="mb-0 ml-2.5 text-[20px] font-bold text-white"
@@ -10,16 +10,28 @@
           IT Square
         </h1>
       </div>
-      <a-menu
-          v-model:selectedKeys="selectedKeys1"
-          theme="dark"
-          mode="horizontal"
-          :style="{ lineHeight: '64px' }"
-      >
-        <a-menu-item key="1">nav 1</a-menu-item>
-        <a-menu-item key="2">nav 2</a-menu-item>
-        <a-menu-item key="3">nav 3</a-menu-item>
-      </a-menu>
+
+      <div class="w-full">
+        <a-menu
+            v-model:selectedKeys="selectedKeys1"
+            theme="dark"
+            mode="horizontal"
+            :style="{ lineHeight: '64px' }"
+        >
+          <a-menu-item key="1">nav 1</a-menu-item>
+          <a-menu-item key="2">nav 2</a-menu-item>
+          <a-menu-item key="3">nav 3</a-menu-item>
+        </a-menu>
+      </div>
+
+      <div class="ml-auto flex-shrink-0">
+        <a-button type="primary">
+          <div class="flex items-center">
+            <i-material-symbols-add />
+            <span class="ml-1">Add New</span>
+          </div>
+        </a-button>
+      </div>
     </a-layout-header>
     <a-layout>
       <a-layout-sider width="200" style="background: #fff">
@@ -99,10 +111,8 @@ export default defineComponent({
 </script>
 <style>
 .default-layout .logo {
-  float: left;
   width: 150px;
   height: 31px;
-  margin: 16px 24px 16px -23px;
 }
 .site-layout-background {
   background: #fff;
