@@ -34,7 +34,7 @@
       </div>
     </a-layout-header>
     <a-layout>
-      <a-layout-sider width="200" style="background: #fff">
+      <a-layout-sider width="220" style="background: #fff">
         <a-menu
             v-model:selectedKeys="selectedKeys2"
             v-model:openKeys="openKeys"
@@ -111,7 +111,7 @@ export default defineComponent({
 </script>
 <style>
 .default-layout .logo {
-  width: 150px;
+  width: 180px;
   height: 31px;
 }
 .site-layout-background {

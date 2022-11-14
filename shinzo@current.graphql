@@ -140,6 +140,12 @@ input GetRolesInput {
   project: ID!
 }
 
+input GetTechnologiesFilter {
+  limit: Int!
+  name: String
+  offset: Int!
+}
+
 type Mutation {
   createBookmark(createBookmarkInput: CreateBookmarkInput!): Bookmark!
   createCategory(input: CreateCategoryInput!): Category!
@@ -237,7 +243,7 @@ type Query {
   steps(input: UpdateStepInput!): [Step!]!
   studioProjects(filter: GetProjectsFilter!): [Project!]!
   studioProjectsCount(filter: CountProjectsFilter!): Int!
-  technologies: [Technology!]!
+  technologies(filter: GetTechnologiesFilter!): [Technology!]!
   technology(id: Int!): Technology!
 }
 

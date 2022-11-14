@@ -47,6 +47,8 @@ app.use(utils)
 
 app.use(router)
 
-app.mount('#app')
+router.isReady().then(() => {
+  app.mount('#app')
+})
 
 window.$vue = app

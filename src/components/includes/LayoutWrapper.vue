@@ -24,6 +24,17 @@ const router = useRouter()
 const { user } = useAuth(getAuth(firebaseCtx))
 
 const apollo = useApollo()
+
+
+// Init app
+const initHref = ref('')
+const vueClientInit = async () => {
+  initHref.value = router.currentRoute.value.fullPath
+  // console.log('vueClientInit', initHref.value)
+}
+
+await vueClientInit()
+
 const queryUserData = async() => {
   try {
     const { data } = await apollo.query<GetMe>({
@@ -55,25 +66,12 @@ watch(user, async () => onAuthChange())
 
 watch(() => useUser.auth, async (value, oldValue) => {
   if(value && !oldValue) {
-    await router.push('/projects')
+    await router.push(initHref.value || '/projects')
+    initHref.value = '/'
   } else {
     await router.push('/')
   }
 })
-// Init app
-const vueClientInit = async () => {
-  router.beforeEach((to, from, next) => {
-    if (to.meta.private && !useUser.auth) {
-      sessionStorage.setItem('returnTo', to.fullPath)
-      next('/auth/signin')
-    } else {
-      next()
-    }
-  })
-}
-
-await vueClientInit()
-
 // setup progress bar
 const $loading = useLoadingIndicator()
 const setupProgressLoading = () => {

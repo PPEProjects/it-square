@@ -42,6 +42,19 @@ export interface CountProjectsFilter {
   technologies?: string[] | null;
 }
 
+export interface CreateProjectInput {
+  category: string;
+  content?: string | null;
+  cover: string;
+  estimate: number[];
+  files?: string[] | null;
+  link?: string | null;
+  logo?: string | null;
+  name: string;
+  status?: ProjectStatus | null;
+  technologies?: string[] | null;
+}
+
 export interface GetProjectsFilter {
   category?: string | null;
   limit: number;
@@ -50,6 +63,12 @@ export interface GetProjectsFilter {
   sort: string;
   status?: ProjectStatus | null;
   technologies?: string[] | null;
+}
+
+export interface GetTechnologiesFilter {
+  limit: number;
+  name?: string | null;
+  offset: number;
 }
 
 //==============================================================
