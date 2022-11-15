@@ -15,7 +15,11 @@
           "
         >
           <template #item="{ element }">
-            <step-item :step="element" class="mb-5 last:mb-0" />
+            <step-item
+              :step="element"
+              class="mb-5 last:mb-0"
+              @edit="openEditStep(element)"
+            />
           </template>
         </draggable>
       </div>
@@ -107,25 +111,33 @@ import {
   GetStepsVariables
 } from '#apollo/queries/__generated__/GetSteps'
 import { GET_STEPS } from '#apollo/queries/step.query'
-import { CreateStepInput, StepStatus } from '#apollo/__generated__/types'
+import {
+  CreateStepInput,
+  StepStatus,
+  UpdateStepInput
+} from '#apollo/__generated__/types'
 import { FormInstance } from 'ant-design-vue'
 import {
   CreateStep,
   CreateStepVariables
 } from '#apollo/mutations/__generated__/CreateStep'
-import { CREATE_STEP, SORT_STEPS } from '#apollo/mutations/step.mutate'
+import {CREATE_STEP, SORT_STEPS, UPDATE_STEP} from '#apollo/mutations/step.mutate'
 import {
   SortSteps,
   SortStepsVariables
 } from '#apollo/mutations/__generated__/SortSteps'
+import {UpdateStep, UpdateStepVariables} from "#apollo/mutations/__generated__/UpdateStep";
 
 const router = useRouter()
+const apollo = useApollo()
+
+const steps = ref<GetSteps_steps[]>([])
+
 const { result } = useQuery<GetSteps, GetStepsVariables>(GET_STEPS, {
   filter: {
     project: router.currentRoute.value.params.id as string
   }
 })
-const steps = ref<GetSteps_steps[]>([])
 watch(
   result,
   (val) => {
@@ -140,43 +152,77 @@ watch(
 const isVisiable = ref(false)
 
 // Form thêm / edit step
-const form = ref<CreateStepInput>({
-  content: '',
-  name: '',
-  project: '',
-  status: StepStatus.WAITING
+const formRef = ref<FormInstance>()
+
+const form = ref<Partial<CreateStepInput&UpdateStepInput>>({})
+
+const {
+  mutate: createStep,
+  loading: creatingStep,
+  onDone: afterCreated
+} = useMutation<CreateStep, CreateStepVariables>(CREATE_STEP)
+
+afterCreated((val) => {
+  if (val.data?.createStep) {
+    apollo.writeQuery({
+      query: GET_STEPS,
+      variables: {
+        filter: {
+          project: router.currentRoute.value.params.id as string
+        }
+      },
+      data: {
+        steps: [...steps.value, val.data.createStep]
+      }
+    })
+  }
 })
 
-const { mutate: createStep, loading: creatingStep } = useMutation<
-  CreateStep,
-  CreateStepVariables
->(CREATE_STEP)
+// Edit step
+const openEditStep = (step: GetSteps_steps) => {
+  form.value = Object.assign({}, step)
+  isVisiable.value = true
+}
 
-const formRef = ref<FormInstance>()
+const { mutate: updateStepHandle, loading: updating } = useMutation<UpdateStep, UpdateStepVariables>(UPDATE_STEP)
+
 const submitForm = async () => {
   isVisiable.value = false
   try {
     await formRef.value?.validate()
-    await createStep({
-      input: {
-        name: form.value.name,
-        content: form.value.content,
-        status: form.value.status,
-        project: router.currentRoute.value.params.id as string
-      }
-    })
+    if (form.value.id) {
+      // Update step
+      await updateStepHandle({
+        input: {
+          id: form.value.id,
+          name: form.value.name,
+          status: form.value.status,
+          content: form.value.content
+        }
+      })
+    } else {
+      // Create step
+      await createStep({
+        input: {
+          name: form.value.name!,
+          content: form.value.content,
+          status: form.value.status,
+          project: router.currentRoute.value.params.id as string
+        }
+      })
+    }
   } catch (e) {
     console.log(e)
     //
   }
 }
 
+// Sort
 const { mutate: sortSteps, onDone: afterSort } = useMutation<
   SortSteps,
   SortStepsVariables
 >(SORT_STEPS)
 
-const apollo = useApollo()
 afterSort((res) => {
   if (res.data?.sortSteps) {
     apollo.writeQuery<GetSteps, GetStepsVariables>({

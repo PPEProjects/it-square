@@ -142,6 +142,7 @@ declare module '@vue/runtime-core' {
     IMdiFileDocument: typeof import('~icons/mdi/file-document')['default']
     IMdiHomeLightningBolt: typeof import('~icons/mdi/home-lightning-bolt')['default']
     IMdiLeadPencil: typeof import('~icons/mdi/lead-pencil')['default']
+    IMdiPencil: typeof import('~icons/mdi/pencil')['default']
     IMdiPencilCircle: typeof import('~icons/mdi/pencil-circle')['default']
     IMdiTwitter: typeof import('~icons/mdi/twitter')['default']
     IMingcutePaintBrushFill: typeof import('~icons/mi/ngcute-paint-brush-fill')['default']

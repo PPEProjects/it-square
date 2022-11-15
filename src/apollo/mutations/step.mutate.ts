@@ -20,6 +20,17 @@ export const CHECK_STEP = gql`
   }
 `
 
+export const UPDATE_STEP = gql`
+    mutation UpdateStep($input: UpdateStepInput!) {
+        updateStep(input: $input) {
+            id
+            name
+            content
+            status
+        }
+    }
+`
+
 export const SORT_STEPS = gql`
   mutation SortSteps($input: SortStepsInput!) {
     sortSteps(input: $input) {

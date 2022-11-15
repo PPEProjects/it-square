@@ -33,6 +33,14 @@
       </p>
     </div>
 
+    <button
+      class="delete-btn absolute right-[50px] top-3 flex h-[22px] w-[22px] items-center justify-center rounded-md bg-primary-500 text-white shadow-lg shadow-primary-200"
+      :disabled="deleting"
+      @click="emitter('edit')"
+    >
+      <i-mdi-pencil />
+    </button>
+
     <a-popconfirm
       title="Are you sure delete this task?"
       ok-text="Yes"
@@ -76,13 +84,19 @@ const props = defineProps<{
   step: GetSteps_steps
 }>()
 
+const router = useRouter()
+const apollo = useApollo()
+
+const emitter = defineEmits<{
+  (event: 'edit'): void
+}>()
+
+// Check Step
 const { mutate: checkStep, onDone } = useMutation<
   CheckStep,
   CheckStepVariables
 >(CHECK_STEP)
 
-const router = useRouter()
-const apollo = useApollo()
 onDone((val) => {
   if (val.data?.updateStep) {
     const cache = apollo.readQuery<GetSteps>({
@@ -115,10 +129,11 @@ onDone((val) => {
 })
 
 // delete step
-const { mutate: deleteHandle, loading: deleting, onDone: afterDelete } = useMutation<
-  RemoveRole,
-  RemoveRoleVariables
->(REMOVE_STEP)
+const {
+  mutate: deleteHandle,
+  loading: deleting,
+  onDone: afterDelete
+} = useMutation<RemoveRole, RemoveRoleVariables>(REMOVE_STEP)
 afterDelete(() => {
   apollo.cache.evict({
     id: apollo.cache.identify({
