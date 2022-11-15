@@ -15,6 +15,7 @@ export interface GetSteps_steps {
   name: string;
   content: string;
   status: StepStatus;
+  order: number;
 }
 
 export interface GetSteps {

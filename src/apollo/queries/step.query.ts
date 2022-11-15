@@ -7,6 +7,7 @@ export const GET_STEPS = gql`
       name
       content
       status
+      order
     }
   }
 `

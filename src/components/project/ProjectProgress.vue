@@ -1,6 +1,31 @@
 <template>
   <div>
-    <div v-if="steps.length"></div>
+    <div v-if="steps.length" class="flex">
+      <div class="max-w-[600px] flex-shrink-0">
+        <draggable
+          v-model="steps"
+          item-key="id"
+          group="people"
+          @end="
+            sortSteps({
+              input: {
+                steps: steps.map((step) => step.id)
+              }
+            })
+          "
+        >
+          <template #item="{ element }">
+            <step-item :step="element" class="mb-5 last:mb-0" />
+          </template>
+        </draggable>
+      </div>
+
+      <div class="ml-12 w-full text-xs text-gray-500">
+        <h4 class="text-[18px]">Note:</h4>
+        <p class="mb-0">- Tien do the hien cac buoc cua du an</p>
+        <p class="mb-0 mt-1">- Ban co the keo tha de thay doi tien do du an</p>
+      </div>
+    </div>
 
     <div v-else class="py-10 pt-10 text-center">
       <div style="width: 300px; height: 250px" class="mx-auto">
@@ -16,7 +41,11 @@
       </div>
     </div>
 
-    <a-modal title="Tuỳ Biến Tiến Độ" :visible="true" @ok="submitForm">
+    <a-modal
+      v-model:visible="isVisiable"
+      title="Tuỳ Biến Tiến Độ"
+      @ok="submitForm"
+    >
       <a-form ref="formRef" layout="vertical" :model="form">
         <a-form-item
           label="Tên Tiến Độ"
@@ -61,7 +90,7 @@
     </a-modal>
 
     <teleport-view to="#actions">
-      <a-button type="primary" class="ml-4">
+      <a-button type="primary" class="ml-4" @click="isVisiable = true">
         <template #icon>
           <i-ic-baseline-check />
         </template>
@@ -74,17 +103,21 @@
 <script lang="ts" setup>
 import {
   GetSteps,
+  GetSteps_steps,
   GetStepsVariables
 } from '#apollo/queries/__generated__/GetSteps'
 import { GET_STEPS } from '#apollo/queries/step.query'
-import { Steps_steps } from '#apollo/queries/__generated__/Steps'
 import { CreateStepInput, StepStatus } from '#apollo/__generated__/types'
 import { FormInstance } from 'ant-design-vue'
 import {
   CreateStep,
   CreateStepVariables
 } from '#apollo/mutations/__generated__/CreateStep'
-import {CREATE_STEP} from "#apollo/mutations/step.mutate";
+import { CREATE_STEP, SORT_STEPS } from '#apollo/mutations/step.mutate'
+import {
+  SortSteps,
+  SortStepsVariables
+} from '#apollo/mutations/__generated__/SortSteps'
 
 const router = useRouter()
 const { result } = useQuery<GetSteps, GetStepsVariables>(GET_STEPS, {
@@ -92,7 +125,16 @@ const { result } = useQuery<GetSteps, GetStepsVariables>(GET_STEPS, {
     project: router.currentRoute.value.params.id as string
   }
 })
-const steps = computed<Steps_steps[]>(() => result.value?.steps || [])
+const steps = ref<GetSteps_steps[]>([])
+watch(
+  result,
+  (val) => {
+    if (val?.steps) {
+      steps.value = JSON.parse(JSON.stringify(val.steps))
+    }
+  },
+  { immediate: true }
+)
 
 // Modal
 const isVisiable = ref(false)
@@ -112,6 +154,7 @@ const { mutate: createStep, loading: creatingStep } = useMutation<
 
 const formRef = ref<FormInstance>()
 const submitForm = async () => {
+  isVisiable.value = false
   try {
     await formRef.value?.validate()
     await createStep({
@@ -127,6 +170,30 @@ const submitForm = async () => {
     //
   }
 }
+
+const { mutate: sortSteps, onDone: afterSort } = useMutation<
+  SortSteps,
+  SortStepsVariables
+>(SORT_STEPS)
+
+const apollo = useApollo()
+afterSort((res) => {
+  if (res.data?.sortSteps) {
+    apollo.writeQuery<GetSteps, GetStepsVariables>({
+      query: GET_STEPS,
+      variables: {
+        filter: {
+          project: router.currentRoute.value.params.id as string
+        }
+      },
+      data: {
+        steps: steps.value.sort((a, b) => {
+          return a.order - b.order
+        })
+      }
+    })
+  }
+})
 </script>
 
 <style scoped></style>

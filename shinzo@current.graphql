@@ -180,6 +180,7 @@ type Mutation {
   removeStep(input: RemoveStepInput!): Step!
   removeTechnology(input: RemoveTechnologyInput!): Technology!
   sortRoles(input: SortRolesInput!): [Role!]!
+  sortSteps(input: SortStepsInput!): [Step!]!
   updateBookmark(updateBookmarkInput: UpdateBookmarkInput!): Bookmark!
   updateCategory(input: UpdateCategoryInput!): Category!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
@@ -296,6 +297,10 @@ input SortRolesInput {
   roles: [ID!]!
 }
 
+input SortStepsInput {
+  steps: [ID!]!
+}
+
 type Step {
   content: String!
   createdAt: Float!
@@ -366,11 +371,10 @@ input UpdateRoleInput {
 }
 
 input UpdateStepInput {
-  content: String = ""
+  content: String
   id: ID!
   name: String
-  project: ID
-  status: StepStatus = WAITING
+  status: StepStatus
 }
 
 input UpdateTechnologyInput {

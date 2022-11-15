@@ -112,6 +112,10 @@ export interface RemoveRoleInput {
   id: string;
 }
 
+export interface SortStepsInput {
+  steps: string[];
+}
+
 export interface UpdateProjectInput {
   category?: string | null;
   content?: string | null;
@@ -131,6 +135,13 @@ export interface UpdateRoleInput {
   name?: string | null;
   permissions?: PermissionEnum[] | null;
   user?: string | null;
+}
+
+export interface UpdateStepInput {
+  content?: string | null;
+  id: string;
+  name?: string | null;
+  status?: StepStatus | null;
 }
 
 //==============================================================
