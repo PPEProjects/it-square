@@ -61,7 +61,7 @@ export const GET_PROJECT_INFO = gql`
 `
 
 export const COUNT_PROJECTS = gql`
-  query CountProjects($filter: CountProjectsFilter!) {
+  query CountProjects($filter: StudioCountProjectsFilter!) {
     studioProjectsCount(filter: $filter)
   }
 `

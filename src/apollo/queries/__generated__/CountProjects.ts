@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { CountProjectsFilter } from "./../../__generated__/types";
+import { StudioCountProjectsFilter } from "./../../__generated__/types";
 
 // ====================================================
 // GraphQL query operation: CountProjects
@@ -14,5 +14,5 @@ export interface CountProjects {
 }
 
 export interface CountProjectsVariables {
-  filter: CountProjectsFilter;
+  filter: StudioCountProjectsFilter;
 }

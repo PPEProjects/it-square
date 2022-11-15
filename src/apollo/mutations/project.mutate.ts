@@ -68,3 +68,11 @@ export const REMOVE_ROLE = gql`
     }
   }
 `
+
+export const REMOVE_PROJECT = gql`
+  mutation RemoveProject($input: RemoveProjectInput!) {
+    removeProject(input: $input) {
+      id
+    }
+  }
+`

@@ -38,13 +38,6 @@ export enum UserRole {
   USER = "USER",
 }
 
-export interface CountProjectsFilter {
-  category?: string | null;
-  name?: string | null;
-  status?: ProjectStatus | null;
-  technologies?: string[] | null;
-}
-
 export interface CreateProjectInput {
   category: string;
   content?: string | null;
@@ -109,6 +102,10 @@ export interface GetUsersFilter {
   sort: string;
 }
 
+export interface RemoveProjectInput {
+  id: string;
+}
+
 export interface RemoveRoleInput {
   id: string;
 }
@@ -119,6 +116,14 @@ export interface RemoveStepInput {
 
 export interface SortStepsInput {
   steps: string[];
+}
+
+export interface StudioCountProjectsFilter {
+  active?: ProjectActive[] | null;
+  category?: string | null;
+  name?: string | null;
+  status?: ProjectStatus | null;
+  technologies?: string[] | null;
 }
 
 export interface UpdateProjectInput {

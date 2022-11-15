@@ -7,7 +7,7 @@
       <a-menu>
         <a-menu-item key="1">
           <a-input-group compact>
-            <a-select v-model:value="formSearch.field" style="width: 40%">
+            <a-select v-model:value="_field" style="width: 40%">
               <a-select-option
                   v-for="option in options"
                   :key="option.value"
@@ -17,7 +17,7 @@
               </a-select-option>
             </a-select>
             <a-input
-                v-model:value="formSearch.keyword"
+                v-model:value="_keyword"
                 style="width: 60%"
                 placeholder="Keyword..."
                 @press-enter="enterSearch"
@@ -32,7 +32,7 @@
 
         <a-menu-item key="2">
           <div class="flex items-center">
-            <a-button type="primary" size="small" block @click="emit('search', formSearch)">
+            <a-button type="primary" size="small" block @click="emit('search')">
               Search
             </a-button>
             <div class="w-1 flex-shrink-0"></div>
@@ -48,45 +48,43 @@
 
 <script lang="ts" setup>
 import { SearchOutlined } from '@ant-design/icons-vue'
-import { reactive, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
+import {SearchTableOption} from "@composable/useSearchTable";
 
 const props = defineProps<{
-  options: {
-    label: string
-    value: string
-  }[]
-  value: {
-    field: string
-    keyword: string
-  }
+  options: SearchTableOption[]
+  field: string
+  keyword: string
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:value', value: typeof props.value): void
-  (e: 'change', value: typeof props.value): void
-  (e: 'search', value: typeof props.value): void
+  (e: 'update:field', value: typeof props.field): void
+  (e: 'update:keyword', value: typeof props.keyword): void
+
+  (e: 'change'): void
+  (e: 'search'): void
   (e: 'cancel'): void
 }>()
 
-const formSearch = reactive<typeof props.value>(props.value)
+const _keyword = ref<typeof props.keyword>(props.keyword)
+const _field = ref<typeof props.field>(props.field)
 
 const openSearch = ref<boolean>(false)
 
-watch(formSearch, () => {
-  emit('update:value', formSearch)
-  emit('change', formSearch)
+watch([_keyword, _field], () => {
+  emit('change')
+  emit('update:keyword', _keyword.value)
+  emit('update:field', _field.value)
 })
 
 const enterSearch = () => {
-  emit('search', formSearch)
+  emit('search')
   openSearch.value = false
 }
 const cancelSearch = () => {
   openSearch.value = false
-  Object.assign(formSearch, {
-    field: props.options[0].value,
-    keyword: ''
-  })
+  _keyword.value = ''
+  _field.value = ''
   emit('cancel')
 }
 </script>

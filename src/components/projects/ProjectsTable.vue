@@ -1,10 +1,10 @@
 <template>
   <a-table
     :columns="columns"
-    :data-source="projects"
-    :loading="loading"
+    :data-source="projectsResult?.studioProjects || []"
+    :loading="loading || deleting"
     :pagination="{
-      total: countProjects,
+      total: countResult?.studioProjectsCount || 0,
       showLessItems: true,
       defaultPageSize: 7
     }"
@@ -13,8 +13,9 @@
     <template #headerCell="{ column }">
       <template v-if="column.key === 'action'">
         <search-table
-          v-model:value="formSearch"
-          :options="searchOptions"
+          v-model:keyword="keyword"
+          v-model:field="field"
+          :options="options"
           @change="onSearch"
         />
       </template>
@@ -75,11 +76,24 @@
 
       <template v-else-if="column.key === 'action'">
         <div>
-          <a-button type="danger" size="small">
-            <div class="flex items-center">
-              <i-ic-round-delete />
-            </div>
-          </a-button>
+          <a-popconfirm
+            title="Are you sure delete this task?"
+            ok-text="Yes"
+            cancel-text="No"
+            @confirm="
+              removeProjectHandle({
+                input: {
+                  id: record.id
+                }
+              })
+            "
+          >
+            <a-button type="danger" size="small">
+              <div class="flex items-center">
+                <i-ic-round-delete />
+              </div>
+            </a-button>
+          </a-popconfirm>
           <a-button type="primary" size="small" class="ml-2">
             <div class="flex items-center">
               <i-material-symbols-edit />
@@ -94,7 +108,6 @@
 <script lang="ts" setup>
 import {
   GetProjects,
-  GetProjects_studioProjects,
   GetProjectsVariables
 } from '#apollo/queries/__generated__/GetProjects'
 import { COUNT_PROJECTS, GET_PROJECTS } from '#apollo/queries/project.query'
@@ -103,6 +116,12 @@ import {
   CountProjectsVariables
 } from '#apollo/queries/__generated__/CountProjects'
 import { ProjectActive, ProjectStatus } from '#apollo/__generated__/types'
+import { useSearchTable } from '@composable/useSearchTable'
+import { REMOVE_PROJECT } from '#apollo/mutations/project.mutate'
+import {
+  RemoveProject,
+  RemoveProjectVariables
+} from '#apollo/mutations/__generated__/RemoveProject'
 
 const columns = [
   {
@@ -142,7 +161,16 @@ const columns = [
 ]
 
 const route = useRoute()
+const apollo = useApollo()
 
+const { options, keyword, field } = useSearchTable({
+  options: ref([
+    {
+      label: 'Name',
+      value: 'goal_name'
+    }
+  ])
+})
 // Raw filter projects
 const rawFilter = reactive<GetProjectsVariables>({
   filter: {
@@ -170,6 +198,7 @@ const filterActive = computed(() => {
 const filter = computed<GetProjectsVariables>(() => {
   return {
     filter: {
+      name: keyword.value,
       limit: rawFilter.filter.limit,
       offset: rawFilter.filter.offset,
       sort: rawFilter.filter.sort,
@@ -178,29 +207,20 @@ const filter = computed<GetProjectsVariables>(() => {
   }
 })
 
-const { result, loading } = useQuery<GetProjects, GetProjectsVariables>(
-  GET_PROJECTS,
-  filter.value,
-  {
-    debounce: 300
-  }
-)
-const projects = computed<GetProjects_studioProjects[]>(
-  () => result.value?.studioProjects || []
-)
+const { result: projectsResult, loading } = useQuery<
+  GetProjects,
+  GetProjectsVariables
+>(GET_PROJECTS, filter, {
+  debounce: 300
+})
 
 // filter count projects
-const countFilter = reactive<CountProjectsVariables>({
-  filter: {}
-})
-watch(rawFilter, () => {
-  const _filter: any = Object.assign({}, rawFilter.filter)
-  delete _filter.limit
-  delete _filter.offset
-  delete _filter.sort
-  Object.assign(countFilter.filter, _filter)
-})
-
+const countFilter = computed<CountProjectsVariables>(() => ({
+  filter: {
+    active: filterActive.value,
+    name: keyword.value
+  }
+}))
 const { result: countResult } = useQuery<CountProjects, CountProjectsVariables>(
   COUNT_PROJECTS,
   countFilter,
@@ -209,43 +229,28 @@ const { result: countResult } = useQuery<CountProjects, CountProjectsVariables>(
   }
 )
 
-const countProjects = computed<number>(
-  () => countResult.value?.studioProjectsCount || 0
-)
-
-/**
- * Các fild sẽ dùng để tìm kiếm
- * Mỗi số field đều phải có key và label
- * @type {Array<{key: string, label: string}>}
- * Sẽ search thoe value của field đó
- */
-const searchOptions = [
-  {
-    label: 'Name',
-    value: 'goal_name'
-  }
-]
-
-const formSearch = reactive<{
-  field: string
-  keyword: string
-}>({
-  field: 'Name',
-  keyword: ''
-})
-
 const onSearch = () => {
-  Object.assign(rawFilter.filter, {
-    name: formSearch.keyword,
-    offset: 0
-  })
+  rawFilter.filter.offset = 0
+  rawFilter.filter.name = keyword.value
 }
 
 const onChangePage = (page: number) => {
-  Object.assign(rawFilter.filter, {
-    offset: (page - 1) * rawFilter.filter.limit
-  })
+  rawFilter.filter.offset = (page - 1) * rawFilter.filter.limit
 }
+
+// Xoá dự án
+const {
+  mutate: removeProjectHandle,
+  loading: deleting,
+  onDone: afterDelete
+} = useMutation<RemoveProject, RemoveProjectVariables>(REMOVE_PROJECT)
+afterDelete((val) => {
+  if (val.data?.removeProject) {
+    apollo.cache.evict({
+      id: `Project:${val.data.removeProject.id}`
+    })
+  }
+})
 </script>
 
 <style scoped></style>
