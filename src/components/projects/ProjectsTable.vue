@@ -94,7 +94,14 @@
               </div>
             </a-button>
           </a-popconfirm>
-          <a-button type="primary" size="small" class="ml-2">
+          <a-button
+            type="primary"
+            size="small"
+            class="ml-2"
+            @click="
+              $router.push('/projects/' + record.id)
+            "
+          >
             <div class="flex items-center">
               <i-material-symbols-edit />
             </div>
