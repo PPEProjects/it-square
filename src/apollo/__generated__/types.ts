@@ -38,6 +38,11 @@ export enum UserRole {
   USER = "USER",
 }
 
+export interface ApproveProjectInput {
+  active: ProjectActive;
+  id: string;
+}
+
 export interface CreateProjectInput {
   category: string;
   content?: string | null;

@@ -102,6 +102,7 @@ declare module '@vue/runtime-core' {
     IIonChatbubbleEllipses: typeof import('~icons/ion/chatbubble-ellipses')['default']
     IIonHeart: typeof import('~icons/ion/heart')['default']
     IIonIosCloseCircleOutline: typeof import('~icons/ion/ios-close-circle-outline')['default']
+    IIonLogoAppleAr: typeof import('~icons/ion/logo-apple-ar')['default']
     IIonMdCheckmarkCircleOutline: typeof import('~icons/ion/md-checkmark-circle-outline')['default']
     IIonMdCreate: typeof import('~icons/ion/md-create')['default']
     IIonMdDocument: typeof import('~icons/ion/md-document')['default']

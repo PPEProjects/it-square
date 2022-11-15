@@ -1,10 +1,10 @@
 <template>
   <a-table
     :columns="columns"
-    :data-source="projectsResult?.studioProjects || []"
-    :loading="loading || deleting"
+    :data-source="projects"
+    :loading="loading"
     :pagination="{
-      total: countResult?.studioProjectsCount || 0,
+      total: count,
       showLessItems: true,
       defaultPageSize: 7
     }"
@@ -76,17 +76,22 @@
 
       <template v-else-if="column.key === 'action'">
         <div>
+          <a-button
+            type="primary"
+            size="small"
+            class="mr-2"
+            @click="openApprove(record)"
+          >
+            <div class="flex items-center">
+              <i-ion-logo-apple-ar />
+            </div>
+          </a-button>
+
           <a-popconfirm
             title="Are you sure delete this task?"
             ok-text="Yes"
             cancel-text="No"
-            @confirm="
-              removeProjectHandle({
-                input: {
-                  id: record.id
-                }
-              })
-            "
+            @confirm="removeProjectHandle(record.id)"
           >
             <a-button type="danger" size="small">
               <div class="flex items-center">
@@ -98,9 +103,7 @@
             type="primary"
             size="small"
             class="ml-2"
-            @click="
-              $router.push('/projects/' + record.id)
-            "
+            @click="$router.push('/projects/' + record.id)"
           >
             <div class="flex items-center">
               <i-material-symbols-edit />
@@ -110,25 +113,66 @@
       </template>
     </template>
   </a-table>
+
+  <a-modal
+    v-model:visible="showApprove"
+    title="Thay Đổi Trạng Thái"
+    @ok="approveProjectHandle()"
+  >
+    <ul class="flex flex-wrap">
+      <li
+        v-for="(item, index) in approveOptions"
+        :key="index"
+        class="mr-5 transform transition"
+        :class="{
+          'scale-95': approveForm.active !== item.value
+        }"
+      >
+        <div
+          class="flex cursor-pointer items-center rounded-lg border-[2px] px-3 py-1.5 transition"
+          :class="{
+            'border-primary-500 bg-primary-100 text-white':
+              approveForm.active === item.value
+          }"
+          @click="approveForm.active = item.value"
+        >
+          <span
+            class="flex h-4 w-4 items-center justify-center rounded-full border"
+          >
+            <span
+              class="h-2 w-2 transform rounded-full bg-primary-500 transition"
+              :class="{
+                'scale-0': approveForm.active !== item.value
+              }"
+            ></span>
+          </span>
+
+          <span
+            class="ml-2 transition"
+            :class="[
+              approveForm.active === item.value
+                ? 'font-semibold text-primary-600'
+                : 'font-normal text-gray-600'
+            ]"
+          >
+            {{ item.label }}
+          </span>
+        </div>
+      </li>
+    </ul>
+  </a-modal>
 </template>
 
 <script lang="ts" setup>
-import {
-  GetProjects,
-  GetProjectsVariables
-} from '#apollo/queries/__generated__/GetProjects'
-import { COUNT_PROJECTS, GET_PROJECTS } from '#apollo/queries/project.query'
-import {
-  CountProjects,
-  CountProjectsVariables
-} from '#apollo/queries/__generated__/CountProjects'
+import { GetProjectsVariables } from '#apollo/queries/__generated__/GetProjects'
 import { ProjectActive, ProjectStatus } from '#apollo/__generated__/types'
 import { useSearchTable } from '@composable/useSearchTable'
-import { REMOVE_PROJECT } from '#apollo/mutations/project.mutate'
-import {
-  RemoveProject,
-  RemoveProjectVariables
-} from '#apollo/mutations/__generated__/RemoveProject'
+import { useApprove } from '@composable/useApprove'
+import { useRemoveProject } from '@composable/useRemoveProject'
+import { useProjects } from '@composable/useProjects'
+import { useProjectCounter } from '@composable/useProjectsCounter'
+
+const route = useRoute()
 
 const columns = [
   {
@@ -167,17 +211,6 @@ const columns = [
   }
 ]
 
-const route = useRoute()
-const apollo = useApollo()
-
-const { options, keyword, field } = useSearchTable({
-  options: ref([
-    {
-      label: 'Name',
-      value: 'goal_name'
-    }
-  ])
-})
 // Raw filter projects
 const rawFilter = reactive<GetProjectsVariables>({
   filter: {
@@ -187,6 +220,24 @@ const rawFilter = reactive<GetProjectsVariables>({
     active: []
   }
 })
+
+const { options, keyword, field } = useSearchTable({
+  options: ref([
+    {
+      label: 'Name',
+      value: 'goal_name'
+    }
+  ])
+})
+
+const onSearch = () => {
+  rawFilter.filter.offset = 0
+  rawFilter.filter.name = keyword.value
+}
+
+const onChangePage = (page: number) => {
+  rawFilter.filter.offset = (page - 1) * rawFilter.filter.limit
+}
 
 const filterActive = computed(() => {
   if (
@@ -202,62 +253,50 @@ const filterActive = computed(() => {
 })
 
 // Filter projects
-const filter = computed<GetProjectsVariables>(() => {
-  return {
-    filter: {
-      name: keyword.value,
-      limit: rawFilter.filter.limit,
-      offset: rawFilter.filter.offset,
-      sort: rawFilter.filter.sort,
-      active: filterActive.value
-    }
-  }
-})
-
-const { result: projectsResult, loading } = useQuery<
-  GetProjects,
-  GetProjectsVariables
->(GET_PROJECTS, filter, {
-  debounce: 300
-})
-
-// filter count projects
-const countFilter = computed<CountProjectsVariables>(() => ({
+const {
+  projects,
+  loading: projectsLoading,
+  filter: projectsFilter
+} = useProjects({
+  fetchPolicy: 'network-only',
   filter: {
-    active: filterActive.value,
-    name: keyword.value
+    active: filterActive.value
   }
-}))
-const { result: countResult } = useQuery<CountProjects, CountProjectsVariables>(
-  COUNT_PROJECTS,
-  countFilter,
-  {
-    debounce: 300
-  }
-)
+})
 
-const onSearch = () => {
-  rawFilter.filter.offset = 0
+// count projects
+const { count, filter: countFilter, loading: countLoading } = useProjectCounter({
+  fetchPolicy: 'network-only',
+  filter: {
+    active: filterActive.value
+  }
+})
+
+// Quan sats keyword va field => resset
+watch([keyword, field], () => {
   rawFilter.filter.name = keyword.value
-}
+  rawFilter.filter.offset = 0
+})
 
-const onChangePage = (page: number) => {
-  rawFilter.filter.offset = (page - 1) * rawFilter.filter.limit
-}
+// Quan sats rawfilter
+watch(rawFilter, () => {
+  projectsFilter.name = rawFilter.filter.name
+  countFilter.name = rawFilter.filter.name
+  projectsFilter.offset = rawFilter.filter.offset
+})
 
 // Xoá dự án
+const { loading: deleteLoading, handle: removeProjectHandle } = useRemoveProject()
+
 const {
-  mutate: removeProjectHandle,
-  loading: deleting,
-  onDone: afterDelete
-} = useMutation<RemoveProject, RemoveProjectVariables>(REMOVE_PROJECT)
-afterDelete((val) => {
-  if (val.data?.removeProject) {
-    apollo.cache.evict({
-      id: `Project:${val.data.removeProject.id}`
-    })
-  }
-})
+  options: approveOptions,
+  form: approveForm,
+  open: openApprove,
+  show: showApprove,
+  handle: approveProjectHandle
+} = useApprove()
+
+const loading = computed(()=> projectsLoading.value || countLoading.value || deleteLoading.value)
 </script>
 
 <style scoped></style>

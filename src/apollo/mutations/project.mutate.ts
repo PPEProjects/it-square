@@ -76,3 +76,12 @@ export const REMOVE_PROJECT = gql`
     }
   }
 `
+
+export const APPROVE_PROJECT = gql`
+  mutation ApproveProject($input: ApproveProjectInput!) {
+    studioProjectApprove(input: $input) {
+      id
+      active
+    }
+  }
+`

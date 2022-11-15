@@ -38,6 +38,11 @@ directive @connection(
   filter: [String!]
 ) on FIELD
 
+input ApproveProjectInput {
+  active: ProjectActive!
+  id: ID!
+}
+
 type Bookmark {
   """Example field (placeholder)"""
   exampleField: Int!
@@ -187,6 +192,7 @@ type Mutation {
   removeTechnology(input: RemoveTechnologyInput!): Technology!
   sortRoles(input: SortRolesInput!): [Role!]!
   sortSteps(input: SortStepsInput!): [Step!]!
+  studioProjectApprove(input: ApproveProjectInput!): Project!
   updateBookmark(updateBookmarkInput: UpdateBookmarkInput!): Bookmark!
   updateCategory(input: UpdateCategoryInput!): Category!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
