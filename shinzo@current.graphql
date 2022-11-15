@@ -151,6 +151,7 @@ input GetTechnologiesFilter {
 }
 
 input GetUsersFilter {
+  exclude: [ID!] = []
   limit: Int!
   name: String
   offset: Int!

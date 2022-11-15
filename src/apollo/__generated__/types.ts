@@ -85,10 +85,15 @@ export interface GetTechnologiesFilter {
 }
 
 export interface GetUsersFilter {
+  exclude?: string[] | null;
   limit: number;
   name?: string | null;
   offset: number;
   sort: string;
+}
+
+export interface RemoveRoleInput {
+  id: string;
 }
 
 export interface UpdateProjectInput {

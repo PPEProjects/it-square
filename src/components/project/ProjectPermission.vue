@@ -2,7 +2,7 @@
   <a-table
     :columns="columns"
     :data-source="roles"
-    :loading="loading || creattingRole || updatingRole"
+    :loading="loading || creattingRole || updatingRole || deletingRole"
   >
     <template #emptyText>
       <div class="py-10 pt-5 text-center">
@@ -65,11 +65,20 @@
 
       <template v-if="column.key === 'action'">
         <div>
-          <a-button type="danger" size="small">
-            <div class="flex items-center">
-              <i-ic-round-delete />
-            </div>
-          </a-button>
+          <a-popconfirm
+            title="Are you sure delete this position?"
+            ok-text="Yes"
+            cancel-text="No"
+            placement="bottomLeft"
+            @confirm="removeRoleHandle({ input: { id: record.id } })"
+          >
+            <a-button type="danger" size="small">
+              <div class="flex items-center">
+                <i-ic-round-delete />
+              </div>
+            </a-button>
+          </a-popconfirm>
+
           <a-button
             type="primary"
             size="small"
@@ -206,7 +215,11 @@ import {
 } from '#apollo/queries/__generated__/GetRoles'
 import { CreateRoleInput, PermissionEnum } from '#apollo/__generated__/types'
 import { FormInstance } from 'ant-design-vue'
-import {CREATE_ROLE, UPDATE_ROLE} from '#apollo/mutations/project.mutate'
+import {
+  CREATE_ROLE,
+  REMOVE_ROLE,
+  UPDATE_ROLE
+} from '#apollo/mutations/project.mutate'
 import {
   CreateRole,
   CreateRoleVariables
@@ -217,7 +230,14 @@ import {
   GetUsersVariables
 } from '#apollo/queries/__generated__/GetUsers'
 import { UserDoc } from '#apollo/queries/__generated__/UserDoc'
-import {UpdateRole, UpdateRoleVariables} from "#apollo/mutations/__generated__/UpdateRole";
+import {
+  UpdateRole,
+  UpdateRoleVariables
+} from '#apollo/mutations/__generated__/UpdateRole'
+import {
+  RemoveRole,
+  RemoveRoleVariables
+} from '#apollo/mutations/__generated__/RemoveRole'
 
 const columns = [
   {
@@ -281,10 +301,10 @@ const formRef = ref<FormInstance>()
 
 const isShowMofidyModal = ref(false)
 
-const {
-  mutate,
-  loading: creattingRole,
-} = useMutation<CreateRole, CreateRoleVariables>(CREATE_ROLE)
+const { mutate, loading: creattingRole } = useMutation<
+  CreateRole,
+  CreateRoleVariables
+>(CREATE_ROLE)
 
 const apollo = useApollo()
 
@@ -294,8 +314,14 @@ const searchUserFilter = ref<GetUsersVariables>({
     name: '',
     offset: 0,
     limit: 10,
-    sort: 'createdAt'
+    sort: 'createdAt',
+    exclude: []
   }
+})
+watch(roles, (val) => {
+  searchUserFilter.value.filter.exclude = val
+    .filter((item) => item.user)
+    .map((item) => item.user!.id)
 })
 
 const { result: searchUsersResult } = useQuery<GetUsers, GetUsersVariables>(
@@ -353,14 +379,17 @@ const openAddNew = () => {
   isShowMofidyModal.value = true
 }
 
-const { mutate: updateRoleHandle, loading: updatingRole } = useMutation<UpdateRole, UpdateRoleVariables>(UPDATE_ROLE)
+const { mutate: updateRoleHandle, loading: updatingRole } = useMutation<
+  UpdateRole,
+  UpdateRoleVariables
+>(UPDATE_ROLE)
 
 const submitRole = async () => {
   isShowMofidyModal.value = false
   try {
     await formRef.value?.validate()
 
-    if(editID.value) {
+    if (editID.value) {
       await updateRoleHandle({
         input: {
           id: editID.value,
@@ -395,6 +424,23 @@ const submitRole = async () => {
     //
   }
 }
+
+const {
+  mutate: removeRoleHandle,
+  loading: deletingRole,
+  onDone: afterDelete
+} = useMutation<RemoveRole, RemoveRoleVariables>(REMOVE_ROLE)
+
+afterDelete((val) => {
+  if (val.data?.removeRole) {
+    apollo.cache.evict({
+      id: apollo.cache.identify({
+        __typename: 'Role',
+        id: val.data.removeRole.id
+      })
+    })
+  }
+})
 </script>
 
 <style scoped></style>

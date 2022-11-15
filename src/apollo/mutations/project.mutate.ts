@@ -60,3 +60,11 @@ export const UPDATE_ROLE = gql`
     }
   }
 `
+
+export const REMOVE_ROLE = gql`
+  mutation RemoveRole($input: RemoveRoleInput!) {
+    removeRole(input: $input) {
+      id
+    }
+  }
+`
