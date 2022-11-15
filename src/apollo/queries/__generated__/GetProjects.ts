@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { GetProjectsFilter, ProjectActive, ProjectStatus, PermissionEnum } from "./../../__generated__/types";
+import { GetMyProjectsFilter, ProjectActive, ProjectStatus, PermissionEnum } from "./../../__generated__/types";
 
 // ====================================================
 // GraphQL query operation: GetProjects
@@ -48,5 +48,5 @@ export interface GetProjects {
 }
 
 export interface GetProjectsVariables {
-  filter: GetProjectsFilter;
+  filter: GetMyProjectsFilter;
 }

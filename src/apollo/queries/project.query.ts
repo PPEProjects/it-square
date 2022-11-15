@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const GET_PROJECTS = gql`
-  query GetProjects($filter: GetProjectsFilter!) {
+  query GetProjects($filter: GetMyProjectsFilter!) {
     studioProjects(filter: $filter) {
       id
       name

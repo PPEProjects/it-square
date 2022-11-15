@@ -72,11 +72,8 @@ export interface CreateStepInput {
   status?: StepStatus | null;
 }
 
-export interface GetProjectFilter {
-  id: string;
-}
-
-export interface GetProjectsFilter {
+export interface GetMyProjectsFilter {
+  active?: ProjectActive[] | null;
   category?: string | null;
   limit: number;
   name?: string | null;
@@ -84,6 +81,10 @@ export interface GetProjectsFilter {
   sort: string;
   status?: ProjectStatus | null;
   technologies?: string[] | null;
+}
+
+export interface GetProjectFilter {
+  id: string;
 }
 
 export interface GetRolesInput {
