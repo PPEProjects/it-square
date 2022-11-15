@@ -1,10 +1,13 @@
 <template>
-  <div class="cutsom-shadow flex items-start rounded-lg bg-white py-3 px-5">
+  <div
+    class="cutsom-shadow step-item relative flex cursor-pointer items-start rounded-lg bg-white py-3 px-5"
+  >
     <div
-      class="border-lg mr-2 flex h-[30px] w-[30px] flex-shrink-0 cursor-pointer items-center justify-center rounded-full border text-[18px] transition transform"
+      class="border-lg mr-2 flex h-[30px] w-[30px] flex-shrink-0 transform cursor-pointer items-center justify-center rounded-full border text-[18px] transition"
       :class="{
-        'bg-gray-100 scale-90': StepStatus.WAITING === step.status,
-        'bg-primary-500 text-white border-primary-500': StepStatus.DONE === step.status
+        'scale-90 bg-gray-100': StepStatus.WAITING === step.status,
+        'border-primary-500 bg-primary-500 text-white':
+          StepStatus.DONE === step.status
       }"
       @click="
         checkStep({
@@ -16,10 +19,10 @@
       "
     >
       <i-material-symbols-check-small
-          class="transform transition"
-          :class="{
-            'opacity-0 scale-0': step.status === StepStatus.WAITING,
-          }"
+        class="transform transition"
+        :class="{
+          'scale-0 opacity-0': step.status === StepStatus.WAITING
+        }"
       />
     </div>
 
@@ -29,6 +32,26 @@
         {{ step.content }}
       </p>
     </div>
+
+    <a-popconfirm
+      title="Are you sure delete this task?"
+      ok-text="Yes"
+      cancel-text="No"
+      @confirm="
+        deleteHandle({
+          input: {
+            id: step.id
+          }
+        })
+      "
+    >
+      <button
+        class="delete-btn absolute right-5 top-3 flex h-[22px] w-[22px] items-center justify-center rounded-md bg-rose-500 text-white shadow-lg shadow-rose-200"
+        :disabled="deleting"
+      >
+        <i-material-symbols-close />
+      </button>
+    </a-popconfirm>
   </div>
 </template>
 
@@ -37,13 +60,17 @@ import {
   GetSteps,
   GetSteps_steps
 } from '#apollo/queries/__generated__/GetSteps'
-import { CHECK_STEP } from '#apollo/mutations/step.mutate'
+import { CHECK_STEP, REMOVE_STEP } from '#apollo/mutations/step.mutate'
 import {
   CheckStep,
   CheckStepVariables
 } from '#apollo/mutations/__generated__/CheckStep'
 import { StepStatus } from '#apollo/__generated__/types'
 import { GET_STEPS } from '#apollo/queries/step.query'
+import {
+  RemoveRole,
+  RemoveRoleVariables
+} from '#apollo/mutations/__generated__/RemoveRole'
 
 const props = defineProps<{
   step: GetSteps_steps
@@ -86,6 +113,34 @@ onDone((val) => {
     }
   }
 })
+
+// delete step
+const { mutate: deleteHandle, loading: deleting, onDone: afterDelete } = useMutation<
+  RemoveRole,
+  RemoveRoleVariables
+>(REMOVE_STEP)
+afterDelete(() => {
+  apollo.cache.evict({
+    id: apollo.cache.identify({
+      __typename: 'Step',
+      id: props.step.id
+    })
+  })
+})
 </script>
 
-<style scoped></style>
+<style scoped>
+.step-item:hover .delete-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+.step-item .delete-btn {
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+.step-item .delete-btn:hover {
+  transform: scale(1.1);
+}
+</style>
