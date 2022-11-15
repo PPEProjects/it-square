@@ -28,6 +28,11 @@ export enum ProjectStatus {
   STUCK = "STUCK",
 }
 
+export enum StepStatus {
+  DONE = "DONE",
+  WAITING = "WAITING",
+}
+
 export enum UserRole {
   SP_ADMIN = "SP_ADMIN",
   USER = "USER",
@@ -60,6 +65,13 @@ export interface CreateRoleInput {
   user?: string | null;
 }
 
+export interface CreateStepInput {
+  content?: string | null;
+  name: string;
+  project: string;
+  status?: StepStatus | null;
+}
+
 export interface GetProjectFilter {
   id: string;
 }
@@ -75,6 +87,10 @@ export interface GetProjectsFilter {
 }
 
 export interface GetRolesInput {
+  project: string;
+}
+
+export interface GetStepsFilter {
   project: string;
 }
 

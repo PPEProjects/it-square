@@ -15,6 +15,7 @@
 
     <project-info v-if="$route.query.tab === 'info'" ref="infoRef" />
     <project-permission v-else-if="$route.query.tab === 'permission'" />
+    <project-progress v-else-if="$route.query.tab === 'progress'" />
   </div>
 </template>
 

@@ -144,6 +144,10 @@ input GetRolesInput {
   project: ID!
 }
 
+input GetStepsFilter {
+  project: ID!
+}
+
 input GetTechnologiesFilter {
   limit: Int!
   name: String
@@ -252,7 +256,7 @@ type Query {
   project(project: String!): Project!
   projects(filter: GetProjectsFilter!): [Project!]!
   roles(filter: GetRolesInput!): [Role!]!
-  steps(input: UpdateStepInput!): [Step!]!
+  steps(filter: GetStepsFilter!): [Step!]!
   studioProject(filter: GetProjectFilter!): Project!
   studioProjects(filter: GetProjectsFilter!): [Project!]!
   studioProjectsCount(filter: CountProjectsFilter!): Int!

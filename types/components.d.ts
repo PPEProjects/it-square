@@ -186,7 +186,7 @@ declare module '@vue/runtime-core' {
     ProjectMembers: typeof import('./../src/components/projects/ProjectMembers.vue')['default']
     ProjectOther: typeof import('./../src/components/projects/ProjectOther.vue')['default']
     ProjectPermission: typeof import('./../src/components/project/ProjectPermission.vue')['default']
-    ProjectProgress: typeof import('./../src/components/projects/ProjectProgress.vue')['default']
+    ProjectProgress: typeof import('./../src/components/project/ProjectProgress.vue')['default']
     ProjectsBanners: typeof import('./../src/components/projects/ProjectsBanners.vue')['default']
     RequireGrantModal: typeof import('./../src/components/modals/RequireGrantModal.vue')['default']
     ReviewMagicInput: typeof import('./../src/components/review/ReviewMagicInput.vue')['default']
