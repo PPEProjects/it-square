@@ -42,7 +42,7 @@
           <a-form-item>
             <div class="flex items-center justify-between">
               <div class="flex items-center justify-center">
-                <button class="scale-95 transform" @click="googleSignIn">
+                <button class="scale-95 transform" @click.prevent.stop="googleSignIn">
                   <img width="25" height="25" src="/images/logo/gg.png" alt="" />
                 </button>
                 <button class="ml-5 -translate-y-0.5 transform">
