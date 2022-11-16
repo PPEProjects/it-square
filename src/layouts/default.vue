@@ -1,11 +1,11 @@
 <template>
-  <a-layout class="h-screen default-layout">
-    <a-layout-header class="header flex items-center -mx-[23px]">
-      <div class="logo flex items-center flex-shrink-0">
+  <a-layout class="default-layout h-screen">
+    <a-layout-header class="header -mx-[23px] flex items-center">
+      <div class="logo flex flex-shrink-0 items-center">
         <img src="/images/logo.png" alt="" class="w-[32px]" />
         <h1
-            class="mb-0 ml-2.5 text-[20px] font-bold text-white"
-            style="font-family: Dancing Script, cursive"
+          class="mb-0 ml-2.5 text-[20px] font-bold text-white"
+          style="font-family: Dancing Script, cursive"
         >
           IT Square
         </h1>
@@ -13,60 +13,42 @@
 
       <div id="tabs" class="w-full"></div>
 
-      <div id="actions" class="ml-auto flex-shrink-0 flex items-center"></div>
+      <div id="actions" class="ml-auto flex flex-shrink-0 items-center"></div>
     </a-layout-header>
     <a-layout>
       <a-layout-sider width="220" style="background: #fff">
         <a-menu
-            v-model:selectedKeys="selectedKeys2"
-            v-model:openKeys="openKeys"
-            mode="inline"
-            :style="{ height: '100%', borderRight: 0 }"
+          v-model:selectedKeys="selectedKeys2"
+          v-model:openKeys="openKeys"
+          mode="inline"
+          :style="{ height: '100%', borderRight: 0 }"
         >
-          <a-sub-menu key="sub1">
+          <a-sub-menu key="sub1" @click="$router.push('/projects')">
             <template #title>
               <span class="flex items-center">
                 <i-material-symbols-space-dashboard-rounded />
                 <span class="ml-1.5">Projects</span>
               </span>
             </template>
-            <a-menu-item key="1">
-              Danh Sách
-            </a-menu-item>
-            <a-menu-item key="2">option2</a-menu-item>
-            <a-menu-item key="3">option3</a-menu-item>
-            <a-menu-item key="4">option4</a-menu-item>
+            <a-menu-item key="1"> Danh Sách </a-menu-item>
           </a-sub-menu>
-          <a-sub-menu key="sub2">
-            <template #title>
-              <span>
-                <laptop-outlined />
-                subnav 2
-              </span>
-            </template>
-            <a-menu-item key="5">option5</a-menu-item>
-            <a-menu-item key="6">option6</a-menu-item>
-            <a-menu-item key="7">option7</a-menu-item>
-            <a-menu-item key="8">option8</a-menu-item>
-          </a-sub-menu>
-          <a-sub-menu key="sub3">
-            <template #title>
-              <span>
-                <notification-outlined />
-                subnav 3
-              </span>
-            </template>
-            <a-menu-item key="9">option9</a-menu-item>
-            <a-menu-item key="10">option10</a-menu-item>
-            <a-menu-item key="11">option11</a-menu-item>
-            <a-menu-item key="12">option12</a-menu-item>
-          </a-sub-menu>
+          <a-menu-item key="sub2" @click="$router.push('/applications')">
+            <span class="flex items-center">
+              <i-fluent-document-footer-24-filled />
+              <span class="ml-1.5">Applications</span>
+            </span>
+          </a-menu-item>
         </a-menu>
       </a-layout-sider>
       <a-layout style="padding: 24px">
         <a-layout-content
-            :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
-            class="overflow-y-auto scrollbar-hide"
+          :style="{
+            background: '#fff',
+            padding: '24px',
+            margin: 0,
+            minHeight: '280px'
+          }"
+          class="overflow-y-auto scrollbar-hide"
         >
           <router-view />
         </a-layout-content>
@@ -75,22 +57,22 @@
   </a-layout>
 </template>
 <script lang="ts">
-import { LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue';
-import { defineComponent, ref } from 'vue';
+import { LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue'
+import { defineComponent, ref } from 'vue'
 export default defineComponent({
   components: {
     LaptopOutlined,
-    NotificationOutlined,
+    NotificationOutlined
   },
   setup() {
     return {
       selectedKeys1: ref<string[]>(['2']),
       selectedKeys2: ref<string[]>(['1']),
       collapsed: ref<boolean>(false),
-      openKeys: ref<string[]>(['sub1']),
-    };
-  },
-});
+      openKeys: ref<string[]>(['sub1'])
+    }
+  }
+})
 </script>
 <style>
 .default-layout .logo {

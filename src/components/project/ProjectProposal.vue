@@ -17,6 +17,12 @@
         <div v-else>--</div>
       </template>
 
+      <template v-if="column.key === 'resume'">
+        <a v-if="record.resume" :href="$cdn(record.resume)" target="_blank">
+          <a-tag color="#87d068"> Download </a-tag>
+        </a>
+      </template>
+
       <template v-if="column.key === 'createdAt'">
         {{ $dayjs(record.createdAt).format('DD/MM/YYYY hh:mm') }}
       </template>
@@ -36,15 +42,15 @@
       <template v-if="column.key === 'action'">
         <div>
           <a-button
-              type="danger"
-              size="small"
-              @click="
-                openCheckForm({
-                  id: record.id,
-                  note: record.note,
-                  status: ProposalStatus.REJECTED
-                })
-              "
+            type="danger"
+            size="small"
+            @click="
+              openCheckForm({
+                id: record.id,
+                note: record.note,
+                status: ProposalStatus.REJECTED
+              })
+            "
           >
             <div class="flex items-center">
               <i-material-symbols-close-rounded />
@@ -183,14 +189,14 @@ const columns = [
   }
 ]
 
-const { result, loading: getting } = useQuery<GetProposals, GetProposalsVariables>(
-  GET_PROPOSALS,
-  {
-    filter: {
-      project: route.params.id as string
-    }
+const { result, loading: getting } = useQuery<
+  GetProposals,
+  GetProposalsVariables
+>(GET_PROPOSALS, {
+  filter: {
+    project: route.params.id as string
   }
-)
+})
 const proposals = computed(() => result.value?.proposals || [])
 
 const showModal = ref(false)
