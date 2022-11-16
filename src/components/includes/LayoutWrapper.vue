@@ -25,7 +25,6 @@ const { user } = useAuth(getAuth(firebaseCtx))
 
 const apollo = useApollo()
 
-
 // Init app
 const initHref = ref('')
 const vueClientInit = async () => {
@@ -35,7 +34,10 @@ const vueClientInit = async () => {
 
 await vueClientInit()
 
-const queryUserData = async() => {
+const loading = ref(false)
+
+const queryUserData = async () => {
+  loading.value = true
   try {
     const { data } = await apollo.query<GetMe>({
       query: GET_ME
@@ -48,7 +50,10 @@ const queryUserData = async() => {
   } catch (e) {
     useUser.logout()
   }
+  loading.value = false
 }
+
+provide('loadingAuth', loading)
 
 const onAuthChange = async () => {
   if (!user.value) {
@@ -64,14 +69,22 @@ const onAuthChange = async () => {
 // Lắng nghe sự kiện đăng nhập
 watch(user, async () => onAuthChange())
 
-watch(() => useUser.auth, async (value, oldValue) => {
-  if(value && !oldValue) {
-    await router.push(initHref.value || '/projects')
-    initHref.value = '/'
-  } else {
-    await router.push('/')
-  }
-})
+watch(
+  () => useUser.auth,
+  async (value, oldValue) => {
+    if (value && !oldValue) {
+      if (initHref.value !== '/') {
+        await router.push(initHref.value)
+      } else {
+        await router.push('/projects')
+      }
+      initHref.value = '/'
+    } else {
+      await router.push('/')
+    }
+  },
+  { immediate: true }
+)
 // setup progress bar
 const $loading = useLoadingIndicator()
 const setupProgressLoading = () => {

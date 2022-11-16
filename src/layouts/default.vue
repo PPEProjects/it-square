@@ -38,6 +38,14 @@
               <span class="ml-1.5">Applications</span>
             </span>
           </a-menu-item>
+
+          <a-menu-item key="sub3" @click.prevent.stop="logOut">
+            <span class="flex items-center">
+              <i-majesticons-logout-half-circle />
+              <span class="ml-1.5">Log Out</span>
+            </span>
+          </a-menu-item>
+
         </a-menu>
       </a-layout-sider>
       <a-layout style="padding: 24px">
@@ -56,23 +64,18 @@
     </a-layout>
   </a-layout>
 </template>
-<script lang="ts">
-import { LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue'
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
-  components: {
-    LaptopOutlined,
-    NotificationOutlined
-  },
-  setup() {
-    return {
-      selectedKeys1: ref<string[]>(['2']),
-      selectedKeys2: ref<string[]>(['1']),
-      collapsed: ref<boolean>(false),
-      openKeys: ref<string[]>(['sub1'])
-    }
-  }
-})
+<script lang="ts" setup>
+import {ref} from "vue";
+
+const selectedKeys2 = ref<string[]>(['1'])
+const openKeys = ref<string[]>(['sub1'])
+
+import { signOut, getAuth } from "firebase/auth"
+
+const logOut = async () => {
+  await signOut(getAuth())
+}
+
 </script>
 <style>
 .default-layout .logo {

@@ -14,53 +14,56 @@
         </h1>
       </div>
 
-      <a-form
-        :model="formState"
-        name="basic"
-        layout="vertical"
-        autocomplete="off"
-        @finish="onFinish"
-        @finish-failed="onFinishFailed"
-      >
-        <a-form-item
-          label="Username"
-          name="username"
-          :rules="[{ required: true, message: 'Please input your username!' }]"
+      <a-spin :spinning="loading">
+        <a-form
+            :model="formState"
+            name="basic"
+            layout="vertical"
+            autocomplete="off"
+            @finish="onFinish"
+            @finish-failed="onFinishFailed"
         >
-          <a-input v-model:value="formState.username" />
-        </a-form-item>
+          <a-form-item
+              label="Username"
+              name="username"
+              :rules="[{ required: true, message: 'Please input your username!' }]"
+          >
+            <a-input v-model:value="formState.username" />
+          </a-form-item>
 
-        <a-form-item
-          label="Password"
-          name="password"
-          :rules="[{ required: true, message: 'Please input your password!' }]"
-        >
-          <a-input-password v-model:value="formState.password" />
-        </a-form-item>
+          <a-form-item
+              label="Password"
+              name="password"
+              :rules="[{ required: true, message: 'Please input your password!' }]"
+          >
+            <a-input-password v-model:value="formState.password" />
+          </a-form-item>
 
-        <a-form-item>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center justify-center">
-              <button class="scale-95 transform" @click="googleSignIn">
-                <img width="25" height="25" src="/images/logo/gg.png" alt="" />
-              </button>
-              <button class="ml-5 -translate-y-0.5 transform">
-                <img
-                  src="/images/logo/apple.png"
-                  alt=""
-                  class="h-[25px] w-auto object-cover"
-                />
-              </button>
+          <a-form-item>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center justify-center">
+                <button class="scale-95 transform" @click="googleSignIn">
+                  <img width="25" height="25" src="/images/logo/gg.png" alt="" />
+                </button>
+                <button class="ml-5 -translate-y-0.5 transform">
+                  <img
+                      src="/images/logo/apple.png"
+                      alt=""
+                      class="h-[25px] w-auto object-cover"
+                  />
+                </button>
+              </div>
+              <a-button type="primary" html-type="submit">Submit</a-button>
             </div>
-            <a-button type="primary" html-type="submit">Submit</a-button>
-          </div>
-        </a-form-item>
-      </a-form>
+          </a-form-item>
+        </a-form>
+      </a-spin>
+
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { AuthErrorCodes, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 
 interface FormState {
   username: string
@@ -82,4 +85,6 @@ const onFinishFailed = (errorInfo: any) => {
 }
 
 const googleSignIn = () => signInWithPopup(getAuth(), new GoogleAuthProvider())
+
+const loading = inject('loadingAuth')
 </script>

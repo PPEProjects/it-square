@@ -22,9 +22,8 @@ export const useUserStore = defineStore({
     setUser(payload?: GetMe_me) {
       this.user = payload
     },
-
     logout() {
-      //
+      window.location.href = '/'
     }
   }
 })
