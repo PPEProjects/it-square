@@ -55,6 +55,12 @@ type Category {
   slug: String!
 }
 
+input CheckProposalInput {
+  id: ID!
+  note: String!
+  status: ProposalStatus!
+}
+
 type Comment {
   """Example field (placeholder)"""
   exampleField: Int!
@@ -86,6 +92,12 @@ input CreateProjectInput {
   name: String!
   status: ProjectStatus = PREPARE
   technologies: [ID!] = []
+}
+
+input CreateProposalInput {
+  letter: String
+  resume: String
+  role: ID!
 }
 
 input CreateRoleInput {
@@ -151,6 +163,10 @@ input GetProjectsFilter {
   technologies: [ID!]
 }
 
+input GetProposalsFilter {
+  project: ID!
+}
+
 input GetRolesInput {
   project: ID!
 }
@@ -176,10 +192,12 @@ input GetUsersFilter {
 }
 
 type Mutation {
+  checkProposal(input: CheckProposalInput!): Proposal!
   createBookmark(createBookmarkInput: CreateBookmarkInput!): Bookmark!
   createCategory(input: CreateCategoryInput!): Category!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   createProject(input: CreateProjectInput!): Project!
+  createProposal(input: CreateProposalInput!): Proposal!
   createRole(input: CreateRoleInput!): Role!
   createStep(input: CreateStepInput!): Step!
   createTechnology(input: CreateTechnologyInput!): Technology!
@@ -187,6 +205,7 @@ type Mutation {
   removeCategory(input: DeleteCategoryInput!): Category!
   removeComment(id: Int!): Comment!
   removeProject(input: RemoveProjectInput!): Project!
+  removeProposal(input: RemoveProposalInput!): Proposal!
   removeRole(input: RemoveRoleInput!): Role!
   removeStep(input: RemoveStepInput!): Step!
   removeTechnology(input: RemoveTechnologyInput!): Technology!
@@ -197,6 +216,7 @@ type Mutation {
   updateCategory(input: UpdateCategoryInput!): Category!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
   updateProject(input: UpdateProjectInput!): Project!
+  updateProposal(input: UpdateProposalInput!): Proposal!
   updateRole(input: UpdateRoleInput!): Role!
   updateStep(input: UpdateStepInput!): Step!
   updateTechnology(input: UpdateTechnologyInput!): Technology!
@@ -257,6 +277,25 @@ enum ProjectStatus {
   STUCK
 }
 
+type Proposal {
+  createdAt: Float!
+  id: ID!
+  letter: String!
+  note: String!
+  project: Project!
+  resume: String!
+  role: Role!
+  status: ProposalStatus!
+  updatedAt: Float!
+  user: User
+}
+
+enum ProposalStatus {
+  APPROVED
+  REJECTED
+  WAITING
+}
+
 type Query {
   bookmark(id: Int!): Bookmark!
   bookmarks: [Bookmark!]!
@@ -268,6 +307,8 @@ type Query {
   me: User!
   project(project: String!): Project!
   projects(filter: GetProjectsFilter!): [Project!]!
+  proposal(id: Int!): Proposal!
+  proposals(filter: GetProposalsFilter!): [Proposal!]!
   roles(filter: GetRolesInput!): [Role!]!
   steps(filter: GetStepsFilter!): [Step!]!
   studioProject(filter: GetProjectFilter!): Project!
@@ -279,6 +320,10 @@ type Query {
 }
 
 input RemoveProjectInput {
+  id: ID!
+}
+
+input RemoveProposalInput {
   id: ID!
 }
 
@@ -379,6 +424,13 @@ input UpdateProjectInput {
   name: String
   status: ProjectStatus = PREPARE
   technologies: [ID!] = []
+}
+
+input UpdateProposalInput {
+  id: ID!
+  letter: String
+  resume: String
+  role: ID
 }
 
 input UpdateRoleInput {

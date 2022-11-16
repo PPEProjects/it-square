@@ -16,6 +16,7 @@
     <project-info v-if="$route.query.tab === 'info'" ref="infoRef" />
     <project-permission v-else-if="$route.query.tab === 'permission'" />
     <project-progress v-else-if="$route.query.tab === 'progress'" />
+    <project-proposal v-else-if="$route.query.tab === 'proposal'" />
   </div>
 </template>
 
@@ -50,6 +51,10 @@ const tabs = ref([
   {
     key: 'progress',
     tab: 'Tiến Độ'
+  },
+  {
+    key: 'proposal',
+    tab: 'Đơn Xin Ứng Tuyển'
   }
 ])
 

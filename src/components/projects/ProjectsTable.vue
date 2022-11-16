@@ -23,9 +23,9 @@
 
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'name'">
-        <a>
+        <router-link :to="'/projects/' + record.id">
           {{ record.name }}
-        </a>
+        </router-link>
       </template>
 
       <template v-if="column.key === 'active'">
