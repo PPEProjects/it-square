@@ -5,6 +5,21 @@
 
   <projects-table :key="$route.query.tab" />
 
+
+  <teleport-view to="#actions">
+    <a-button
+        type="primary"
+        @click="$router.push('/workspace/new')"
+    >
+      <template #icon>
+        <i-ic-baseline-check />
+      </template>
+      <span class="ml-1">
+        Add New
+      </span>
+    </a-button>
+  </teleport-view>
+
 </template>
 <script lang="ts" setup>
 import {ProjectActive} from "#apollo/__generated__/types";
@@ -12,19 +27,19 @@ import {ProjectActive} from "#apollo/__generated__/types";
 const tabs = ref([
   {
     key: '',
-    tab: 'Tất Cả'
+    tab: 'All'
   },
   {
     key: ProjectActive.ACTIVE.toLowerCase(),
-    tab: 'Hoạt Động'
+    tab: 'Active'
   },
   {
     key: ProjectActive.DRAFT.toLowerCase(),
-    tab: 'Bản Nháp'
+    tab: 'Draft'
   },
   {
     key: ProjectActive.DISABLED.toLowerCase(),
-    tab: 'Bị Khóa'
+    tab: 'Blocked'
   }
 ])
 </script>

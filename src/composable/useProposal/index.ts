@@ -15,15 +15,15 @@ export const useCheckProposal = () => {
   const options = ref([
     {
       value: ProposalStatus.WAITING,
-      label: 'Đang Chờ'
+      label: 'Waiting'
     },
     {
       value: ProposalStatus.APPROVED,
-      label: 'Đã Duyệt'
+      label: 'Approved'
     },
     {
       value: ProposalStatus.REJECTED,
-      label: 'Đã Từ Chối'
+      label: 'Rejected'
     }
   ])
 

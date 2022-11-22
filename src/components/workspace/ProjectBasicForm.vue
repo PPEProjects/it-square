@@ -10,7 +10,7 @@
       :rules="rules"
     >
       <a-form-item name="name" class="chapter-name" has-feedback>
-        <a-input v-model:value="form.name" placeholder="Nhập tên dự án" />
+        <a-input v-model:value="form.name" placeholder="Enter project name" />
       </a-form-item>
 
       <div class="flex">
@@ -39,13 +39,13 @@
 
             <template #extra>
               <p class="mb-0 mt-2 text-[11px] text-gray-400 opacity-75">
-                - Ảnh sẽ tự động cắt về kích thước 100px.
+                - You picture will be resized when uploading to server.
               </p>
             </template>
           </a-form-item>
 
           <a-form-item
-            label="Ảnh Bìa"
+            label="Cover"
             name="cover"
             class="aspect-w-12 aspect-h-7 relative"
           >
@@ -69,7 +69,7 @@
             </a-spin>
           </a-form-item>
 
-          <a-form-item label="Phân Loại" name="category">
+          <a-form-item label="Category" name="category">
             <a-select
               v-model:value="form.category"
               placeholder="Phân loại dự án"
@@ -94,13 +94,13 @@
             </a-select>
           </a-form-item>
 
-          <a-form-item name="estimate" label="Thời gian dự kiến">
+          <a-form-item name="estimate" label="Estimate">
             <a-range-picker class="w-full" @change="onChangeRangePicker" />
           </a-form-item>
         </div>
 
         <div class="ml-16 w-full">
-          <a-form-item label="Tài Liệu" name="files">
+          <a-form-item label="Documents" name="files">
             <draggable
               v-model="form.files"
               item-key="id"
@@ -116,23 +116,25 @@
               <a-button type="primary" size="small" @click="pickFiles">
                 <div class="flex items-center">
                   <i-ic-cloud-upload />
-                  <span class="ml-2 text-xs"> Tải Lên </span>
+                  <span class="ml-2 text-xs">
+                    Upload
+                  </span>
                 </div>
               </a-button>
             </div>
 
             <template #extra>
               <small>
-                - Tải lên tệp đính kèm của bạn.
+                - Click button to pick your pictures.
                 <br />
-                - Có thể thay đổi thứ tự tệp đính kèm bằng cách kéo thả.
+                - You can arrange your documents by dragging later.
               </small>
             </template>
           </a-form-item>
         </div>
       </div>
 
-      <a-form-item label="Mô Tả" name="content">
+      <a-form-item label="Detail" name="content">
         <novel-editor ref="editorRef" v-model:value="form.content" />
       </a-form-item>
     </a-form>

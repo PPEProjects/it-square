@@ -15,6 +15,7 @@ import { useFirebaseContext } from '@composable/useFirebase'
 import { useApollo } from '@composable/useApollo'
 import { GetMe } from '#apollo/queries/__generated__/GetMe'
 import { GET_ME } from '#apollo/queries/auth.query'
+import {AxiosInstance} from "axios";
 
 const firebaseCtx = useFirebaseContext()
 
@@ -35,6 +36,16 @@ const vueClientInit = async () => {
 await vueClientInit()
 
 const loading = ref(false)
+
+const $axios = inject<AxiosInstance>('$axios')!
+const getUserToken = async () => {
+  try {
+    const data = await $axios.post('/backend/users/auth', {})
+    return (data as any).token
+  } catch (e) {
+    //
+  }
+}
 
 const queryUserData = async () => {
   loading.value = true
@@ -60,10 +71,18 @@ const onAuthChange = async () => {
     useUser.logout()
   } else {
     const token = await user.value.getIdToken()
-    if (token) {
+    if(token) {
       useUser.token = token
-      await queryUserData()
+      const _token = await getUserToken()
+      if(_token) {
+        useUser.token = _token
+        await queryUserData()
+      }
     }
+    // if (token) {
+    //   useUser.token = token
+    //   await queryUserData()
+    // }
   }
 }
 // Lắng nghe sự kiện đăng nhập

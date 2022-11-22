@@ -124,6 +124,7 @@
     "useBroadcastChannel": true,
     "useBrowserLocation": true,
     "useCached": true,
+    "useCheckProposal": true,
     "useClipboard": true,
     "useCloned": true,
     "useColorMode": true,

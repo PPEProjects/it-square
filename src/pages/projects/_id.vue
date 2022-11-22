@@ -42,19 +42,19 @@ const { result, loading } = useQuery<VerifyProject, VerifyProjectVariables>(
 const tabs = ref([
   {
     key: 'info',
-    tab: 'Thông Tin'
+    tab: 'Info'
   },
   {
     key: 'permission',
-    tab: 'Phân Quyền'
+    tab: 'Permission'
   },
   {
     key: 'progress',
-    tab: 'Tiến Độ'
+    tab: 'Progress'
   },
   {
     key: 'proposal',
-    tab: 'Đơn Xin Ứng Tuyển'
+    tab: 'Proposal'
   }
 ])
 

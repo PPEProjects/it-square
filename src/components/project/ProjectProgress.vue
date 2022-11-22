@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="steps.length" class="flex">
-      <div class="max-w-[600px] flex-shrink-0">
+      <div class="max-w-[600px] w-full flex-shrink-0">
         <draggable
           v-model="steps"
           item-key="id"
@@ -24,11 +24,11 @@
         </draggable>
       </div>
 
-      <div class="ml-12 w-full text-xs text-gray-500">
-        <h4 class="text-[18px]">Note:</h4>
-        <p class="mb-0">- Tien do the hien cac buoc cua du an</p>
-        <p class="mb-0 mt-1">- Ban co the keo tha de thay doi tien do du an</p>
-      </div>
+<!--      <div class="ml-12 w-full text-xs text-gray-500">-->
+<!--        <h4 class="text-[18px]">Note:</h4>-->
+<!--        <p class="mb-0">- Tien do the hien cac buoc cua du an</p>-->
+<!--        <p class="mb-0 mt-1">- Ban co the keo tha de thay doi tien do du an</p>-->
+<!--      </div>-->
     </div>
 
     <div v-else class="py-10 pt-10 text-center">
@@ -40,7 +40,7 @@
           path="https://assets5.lottiefiles.com/packages/lf20_dsxct2el.json"
         />
         <div class="text-[11px] text-gray-400">
-          Dự án hiện không có bất kì bước nào...
+          ...
         </div>
       </div>
     </div>
@@ -98,7 +98,7 @@
         <template #icon>
           <i-ic-baseline-check />
         </template>
-        <span class="ml-1">Them Moi</span>
+        <span class="ml-1">Add New</span>
       </a-button>
     </teleport-view>
   </div>

@@ -7,7 +7,7 @@
     <a-button type="danger">
       <div class="flex items-center">
         <i-material-symbols-delete-rounded />
-        <span class="ml-1">Xoá</span>
+        <span class="ml-1">Remove</span>
       </div>
     </a-button>
 
@@ -20,7 +20,9 @@
       <template #icon>
         <i-ic-baseline-check />
       </template>
-      <span class="ml-1">Cập Nhật</span>
+      <span class="ml-1">
+        Update
+      </span>
     </a-button>
   </teleport-view>
 </template>

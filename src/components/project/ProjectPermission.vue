@@ -14,7 +14,7 @@
             path="https://assets4.lottiefiles.com/packages/lf20_ij2ngolf.json"
           />
           <div class="text-[11px] text-gray-400">
-            Dựán hiện không có bất kì vị trí nào...
+            This project have no roles now...
           </div>
         </div>
       </div>
@@ -32,29 +32,29 @@
       <template v-if="column.key === 'permissions'">
         <span v-for="(premit, index) in record.permissions" :key="index">
           <a-tag v-if="premit === PermissionEnum.REMOVE_PROJECT" color="#f50">
-            Xoá Dự Án
+            Delete Project
           </a-tag>
           <a-tag
             v-else-if="premit === PermissionEnum.UPDATE_PROJECT"
             color="#2db7f5"
           >
-            Cập Nhật Dự Án
+            Update Project
           </a-tag>
 
           <a-tag
             v-else-if="premit === PermissionEnum.CREATE_ROLE"
             color="#87d068"
           >
-            Tạo Ví Trí
+            Create Role
           </a-tag>
           <a-tag
             v-else-if="premit === PermissionEnum.UPDATE_ROLE"
             color="#108ee9"
           >
-            Cập Nhật Ví Trí
+            Update Role
           </a-tag>
           <a-tag v-else-if="premit === PermissionEnum.REMOVE_ROLE" color="#f50">
-            Xoá Vị Trí
+            Remove Role
           </a-tag>
         </span>
       </template>
@@ -96,70 +96,70 @@
 
   <a-modal
     v-model:visible="isShowMofidyModal"
-    :title="editID ? 'Chỉnh Sửa Vị Trsi' : 'Thêm Vị Trí'"
+    :title="editID ? 'Modify a Position' : 'Add New'"
     @ok="submitRole"
   >
     <a-form layout="vertical" :model="form">
       <a-form-item
         name="name"
-        label="Tên vị trí"
+        label="Role Name"
         :rules="[
           {
             required: true,
-            message: 'Vui lòng nhập tên vị trí',
+            message: 'Can not be empty',
             trigger: 'blur'
           }
         ]"
       >
-        <a-input v-model:value="form.name" placeholder="Tên vị trí" />
+        <a-input v-model:value="form.name" placeholder="Name..." />
       </a-form-item>
 
-      <a-form-item name="permissions" label="Phân Quyền">
+      <a-form-item name="permissions" label="Permissions">
         <a-checkbox-group v-model:value="form.permissions" style="width: 100%">
           <a-row>
             <a-col :span="8" class="mb-1.5">
               <a-checkbox :value="PermissionEnum.UPDATE_PROJECT">
-                <span>Cập Nhật Dự Án</span>
+                <span>Update Project</span>
               </a-checkbox>
             </a-col>
             <a-col :span="8" class="mb-1.5">
               <a-checkbox :value="PermissionEnum.REMOVE_PROJECT">
-                <span>Xóa Dự Án</span>
+                <span>Remove Project</span>
               </a-checkbox>
             </a-col>
 
             <a-col :span="8" class="mb-1.5">
               <a-checkbox :value="PermissionEnum.CREATE_ROLE">
-                <span>Tạo Vị Trí</span>
+                <span>Create Role</span>
               </a-checkbox>
             </a-col>
             <a-col :span="8" class="mb-1.5">
               <a-checkbox :value="PermissionEnum.UPDATE_ROLE">
-                <span>Cập Nhật Vị Trí</span>
+                <span>Update Role</span>
               </a-checkbox>
             </a-col>
             <a-col :span="8" class="mb-1.5">
               <a-checkbox :value="PermissionEnum.REMOVE_ROLE">
-                <span>Xóa Vị Trí</span>
+                <span>Delete Role</span>
               </a-checkbox>
             </a-col>
           </a-row>
         </a-checkbox-group>
 
-        <template #extra>
-          <p class="mb-0 mt-1 text-[11px] text-gray-500 opacity-75">
-            - Nếu bạn muốn tao vij tri ma ko co phan
-          </p>
-        </template>
+<!--        <template #extra>-->
+<!--          <p class="mb-0 mt-1 text-[11px] text-gray-500 opacity-75">-->
+<!--            - Nếu bạn muốn tao vij tri ma ko co phan-->
+<!--          </p>-->
+<!--        </template>-->
       </a-form-item>
 
-      <a-form-item label="Thành Viên" name="user">
+      <a-form-item label="User" name="user">
         <div>
           <a-select
             v-if="!userInRole"
             :value="form.user ? [form.user._id] : []"
             show-search
-            placeholder="Nhap ten thanh vien"
+            placeholder="Enter user name"
             :default-active-first-option="false"
             :show-arrow="false"
             :filter-option="false"
@@ -201,7 +201,7 @@
       <template #icon>
         <i-ic-baseline-check />
       </template>
-      <span class="ml-1">Them Moi</span>
+      <span class="ml-1">Add New</span>
     </a-button>
   </teleport-view>
 </template>
@@ -241,24 +241,24 @@ import {
 
 const columns = [
   {
-    title: 'Tên',
+    title: 'Name',
     dataIndex: 'name',
     key: 'name'
   },
   {
-    title: 'Thành Viên',
+    title: 'User',
     dataIndex: 'user',
     key: 'user',
     align: 'center'
   },
   {
-    title: 'Quyền Hạn',
+    title: 'Permissions',
     dataIndex: 'permissions',
     key: 'permissions',
     align: 'center'
   },
   {
-    title: 'Ngày Tạo',
+    title: 'Created At',
     key: 'createdAt',
     dataIndex: 'createdAt',
     align: 'center'

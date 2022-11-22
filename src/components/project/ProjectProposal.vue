@@ -145,37 +145,37 @@ const route = useRoute()
 
 const columns = [
   {
-    title: 'Ứng Viên',
+    title: 'Cendidate',
     dataIndex: 'user',
     key: 'user',
     width: 230
   },
   {
-    title: 'Vị Trí',
+    title: 'Position',
     dataIndex: ['role', 'name'],
     key: 'role.name',
     align: 'center'
   },
   {
-    title: 'status',
+    title: 'Status',
     dataIndex: 'status',
     key: 'status',
     align: 'center'
   },
   {
-    title: 'resume',
+    title: 'Resume',
     dataIndex: 'resume',
     key: 'resume',
     align: 'center'
   },
   {
-    title: 'note',
+    title: 'Note',
     dataIndex: 'note',
     key: 'note',
     align: 'center'
   },
   {
-    title: 'Ngày Tạo',
+    title: 'Created At',
     key: 'createdAt',
     dataIndex: 'createdAt',
     align: 'center',

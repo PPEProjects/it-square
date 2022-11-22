@@ -30,14 +30,14 @@
                 <span class="ml-1.5">Projects</span>
               </span>
             </template>
-            <a-menu-item key="1"> Danh Sách </a-menu-item>
+            <a-menu-item key="1"> List </a-menu-item>
           </a-sub-menu>
-          <a-menu-item key="sub2" @click="$router.push('/applications')">
-            <span class="flex items-center">
-              <i-fluent-document-footer-24-filled />
-              <span class="ml-1.5">Applications</span>
-            </span>
-          </a-menu-item>
+<!--          <a-menu-item key="sub2" @click="$router.push('/applications')">-->
+<!--            <span class="flex items-center">-->
+<!--              <i-fluent-document-footer-24-filled />-->
+<!--              <span class="ml-1.5">Applications</span>-->
+<!--            </span>-->
+<!--          </a-menu-item>-->
 
           <a-menu-item key="sub3" @click.prevent.stop="logOut">
             <span class="flex items-center">

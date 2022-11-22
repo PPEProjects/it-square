@@ -176,30 +176,30 @@ const route = useRoute()
 
 const columns = [
   {
-    title: 'Tên',
+    title: 'Name',
     dataIndex: 'name',
     key: 'name'
   },
   {
-    title: 'Phân Loại',
+    title: 'Category',
     dataIndex: ['category', 'name'],
     key: 'category',
     align: 'center'
   },
   {
-    title: 'Hoạt Động',
+    title: 'Active',
     dataIndex: 'active',
     key: 'active',
     align: 'center'
   },
   {
-    title: 'Trạng Thái',
+    title: 'Status',
     dataIndex: 'status',
     key: 'status',
     align: 'center'
   },
   {
-    title: 'Ngày Tạo',
+    title: 'Created At',
     key: 'createdAt',
     dataIndex: 'createdAt',
     align: 'center'
